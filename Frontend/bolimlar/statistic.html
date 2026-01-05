@@ -174,7 +174,7 @@
               return false;
           }
 
-          const response = await fetch('https://api.riseuply.uz/api/auth/refresh/', {
+          const response = await fetch('https://riseup-back-production.up.railway.app/api/auth/refresh/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ refresh })
@@ -205,10 +205,10 @@
 
         console.log("=== MAKING API REQUEST ===");
         console.log("Token exists:", !!token);
-        console.log("Request URL: https://api.riseuply.uz/api/stats/");
+        console.log("Request URL: https://riseup-back-production.up.railway.app/api/stats/");
         
         const startTime = Date.now();
-        const response = await fetch('https://api.riseuply.uz/api/stats/', {
+        const response = await fetch('https://riseup-back-production.up.railway.app/api/stats/', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',

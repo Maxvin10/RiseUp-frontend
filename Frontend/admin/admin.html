@@ -517,7 +517,7 @@
 const isLocalPreview = /:(5500|5501)$/.test(window.location.origin || '');
 const API_ORIGIN = (window.location.origin || '').startsWith('http') && !isLocalPreview
   ? window.location.origin
-  : 'https://api.riseuply.uz';
+  : 'https://riseup-back-production.up.railway.app';
 const API_ROOT = `${API_ORIGIN}/api`;
 const API_BASE = `${API_ROOT}/admin`;
 let dashboardInterval = null;
