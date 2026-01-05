@@ -475,6 +475,7 @@
       function toast(msg) {
         const wrap = $("toastWrap");
         const text = $("toastText");
+        if (!wrap || !text) return;
         text.textContent = msg;
         wrap.classList.remove("hidden");
         clearTimeout(toastTimer);
@@ -510,29 +511,31 @@
       // API LOADERS
       // =========================
       async function loadCoursesRaw() {
-        const url = `${API_BASE}/courses/`;
-        const res = await authFetch(url);
-
+        const res = await authFetch(`${API_BASE}/courses/`);
+        if (!res.ok) throw new Error("COURSES_BAD");
         const data = await res.json();
 
-        // DRF pagination bo‘lsa: data.results
-        const list = Array.isArray(data)
-          ? data
-          : Array.isArray(data?.results)
-          ? data.results
-          : null;
+        // ✅ DRF pagination bo'lsa
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data.results)) return data.results;
 
-        if (!res.ok) {
-          console.error("COURSES HTTP ERROR", res.status, url, data);
-          throw new Error("COURSES_BAD");
-        }
+        console.log("COURSES RAW:", data);
+        throw new Error("COURSES_NOT_ARRAY");
+      }
 
-        if (!list) {
-          console.error("COURSES FORMAT ERROR", url, data);
-          throw new Error("COURSES_NOT_ARRAY");
-        }
+      // ✅ PROGRESS LOADER (SENDA YO'Q EDI — SHU ASOSIY BUG!)
+      async function loadProgressRaw() {
+        const res = await authFetch(`${API_BASE}/lesson-progress/`, {
+          method: "GET",
+        });
+        if (!res.ok) throw new Error("PROGRESS_BAD");
+        const data = await res.json();
 
-        return list;
+        if (Array.isArray(data)) return data;
+        if (data && Array.isArray(data.results)) return data.results;
+
+        console.log("PROGRESS RAW:", data);
+        return [];
       }
 
       // =========================
@@ -551,8 +554,8 @@
             : lesson.video_url || "",
           bullets: Array.isArray(lesson.bullets) ? lesson.bullets : [],
           task: lesson.task ?? lesson.content ?? "—",
-          is_completed: false, // keyin progressdan qo'yamiz
-          is_locked: false, // keyin computeLocks bilan qo'yamiz
+          is_completed: false,
+          is_locked: false,
         };
       }
 
@@ -579,7 +582,6 @@
 
       // ✅ progressni lessonsga yopishtirish
       function applyProgressToCourses(progressList) {
-        // progressList: [{lesson: <id>, completed: true}, ...] yoki serializerdan kelgan format
         const completedSet = new Set(
           (progressList || [])
             .filter(
@@ -659,10 +661,12 @@
       }
 
       function viewKorsat(viewId) {
-        ["viewYonalishlar", "viewDarslar", "viewPlayer"].forEach((v) =>
-          $(v).classList.add("hidden")
-        );
-        $(viewId).classList.remove("hidden");
+        ["viewYonalishlar", "viewDarslar", "viewPlayer"].forEach((v) => {
+          const el = $(v);
+          if (el) el.classList.add("hidden");
+        });
+        const el = $(viewId);
+        if (el) el.classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
@@ -1061,7 +1065,6 @@
           try {
             await saveProgress(dars.id, true);
 
-            // ✅ progressni backenddan qayta olib kelamiz
             const [rawCourses, rawProgress] = await Promise.all([
               loadCoursesRaw(),
               loadProgressRaw(),
@@ -1099,10 +1102,11 @@
         const h = location.hash || "#/";
         if (h === "#/" || h === "#") return viewKorsat("viewYonalishlar");
 
-        const m1 = h.match(/^#\/yonalish\/([a-z0-9-]+)$/i);
+        // ✅ universal: id ichida number/string/uuid bo'lsa ham ishlaydi
+        const m1 = h.match(/^#\/yonalish\/([^/]+)$/i);
         if (m1) return darslarRender(m1[1]);
 
-        const m2 = h.match(/^#\/dars\/([a-z0-9-]+)$/i);
+        const m2 = h.match(/^#\/dars\/([^/]+)$/i);
         if (m2) return playerRender(m2[1]);
 
         viewKorsat("viewYonalishlar");
@@ -1148,13 +1152,16 @@
             loadCoursesRaw(),
             loadProgressRaw(),
           ]);
+
+          console.log("RAW COURSES:", rawCourses);
+          console.log("RAW PROGRESS:", rawProgress);
+
           DATA = { directions: rawCourses.map(mapCourseToUi) };
 
-          // ✅ progressni qo'sh
           applyProgressToCourses(rawProgress);
-          // ✅ lock va percentni hisobla
           computeLocksAndProgress();
         } catch (e) {
+          console.error("INIT ERROR:", e);
           if (
             String(e.message) === "NO_TOKEN" ||
             String(e.message) === "UNAUTHORIZED"
