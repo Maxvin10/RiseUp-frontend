@@ -39,28 +39,49 @@
     </style>
   </head>
 
-  <body class="min-h-screen bg-slate-950 text-slate-50 font-sans antialiased selection:bg-sky-500/30 selection:text-white">
+  <body
+    class="min-h-screen bg-slate-950 text-slate-50 font-sans antialiased selection:bg-sky-500/30 selection:text-white"
+  >
     <!-- FON -->
     <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
     <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-      <div class="absolute -top-32 -left-10 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl"></div>
-      <div class="absolute -bottom-40 -right-10 h-80 w-80 rounded-full bg-fuchsia-500/30 blur-3xl"></div>
-      <div class="absolute inset-0 opacity-[0.08] bg-grid bg-[length:24px_24px]"></div>
+      <div
+        class="absolute -top-32 -left-10 h-72 w-72 rounded-full bg-indigo-500/30 blur-3xl"
+      ></div>
+      <div
+        class="absolute -bottom-40 -right-10 h-80 w-80 rounded-full bg-fuchsia-500/30 blur-3xl"
+      ></div>
+      <div
+        class="absolute inset-0 opacity-[0.08] bg-grid bg-[length:24px_24px]"
+      ></div>
     </div>
-    <div class="pointer-events-none fixed inset-x-0 top-24 -z-10 flex justify-center">
-      <div class="h-64 w-[720px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-500/40 blur-3xl opacity-80"></div>
+    <div
+      class="pointer-events-none fixed inset-x-0 top-24 -z-10 flex justify-center"
+    >
+      <div
+        class="h-64 w-[720px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-500/40 blur-3xl opacity-80"
+      ></div>
     </div>
 
     <div class="relative p-5 md:p-8">
       <div class="max-w-7xl mx-auto space-y-6">
         <!-- HEADER -->
-        <header class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        <header
+          class="flex flex-col md:flex-row md:items-center md:justify-between gap-4"
+        >
           <div class="space-y-1">
             <div class="flex items-center gap-3">
-              <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">Kurslar</h1>
-              <span id="userNameLabel" class="text-base md:text-lg text-slate-300"></span>
+              <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
+                Kurslar
+              </h1>
+              <span
+                id="userNameLabel"
+                class="text-base md:text-lg text-slate-300"
+              ></span>
             </div>
-            <p class="text-sm text-slate-400">Yo‘nalishni tanlang, darslarni ko‘ring va progressni saqlang.</p>
+            <p class="text-sm text-slate-400">
+              Yo‘nalishni tanlang, darslarni ko‘ring va progressni saqlang.
+            </p>
           </div>
 
           <div class="flex items-center gap-2">
@@ -82,32 +103,71 @@
 
         <!-- STATISTIKA -->
         <section class="grid grid-cols-1 lg:grid-cols-4 gap-5">
-          <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 lg:col-span-4">
-            <div class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between">
+          <div
+            class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-3 gap-4 lg:col-span-4"
+          >
+            <div
+              class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between"
+            >
               <div>
                 <p class="text-sm text-slate-300/90 mb-1">Yo'nalishlar soni</p>
-                <p class="text-3xl md:text-4xl font-extrabold text-sky-300 leading-none" id="jamiYonalishlar">0</p>
-                <p class="text-xs md:text-sm text-slate-400 mt-2">Jami yo'nalish</p>
+                <p
+                  class="text-3xl md:text-4xl font-extrabold text-sky-300 leading-none"
+                  id="jamiYonalishlar"
+                >
+                  0
+                </p>
+                <p class="text-xs md:text-sm text-slate-400 mt-2">
+                  Jami yo'nalish
+                </p>
               </div>
-              <div class="h-12 w-12 rounded-2xl bg-sky-500/20 border border-sky-400/70 flex items-center justify-center text-2xl">🧭</div>
+              <div
+                class="h-12 w-12 rounded-2xl bg-sky-500/20 border border-sky-400/70 flex items-center justify-center text-2xl"
+              >
+                🧭
+              </div>
             </div>
 
-            <div class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between">
+            <div
+              class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between"
+            >
               <div>
                 <p class="text-sm text-slate-300/90 mb-1">Darslar soni</p>
-                <p class="text-3xl md:text-4xl font-extrabold text-emerald-300 leading-none" id="jamiDarslar">0</p>
+                <p
+                  class="text-3xl md:text-4xl font-extrabold text-emerald-300 leading-none"
+                  id="jamiDarslar"
+                >
+                  0
+                </p>
                 <p class="text-xs md:text-sm text-slate-400 mt-2">Jami dars</p>
               </div>
-              <div class="h-12 w-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/70 flex items-center justify-center text-2xl">✅</div>
+              <div
+                class="h-12 w-12 rounded-2xl bg-emerald-500/20 border border-emerald-400/70 flex items-center justify-center text-2xl"
+              >
+                ✅
+              </div>
             </div>
 
-            <div class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between">
+            <div
+              class="bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/70 backdrop-blur-xl flex items-center justify-between"
+            >
               <div class="min-w-0">
                 <p class="text-sm text-slate-300/90 mb-1">Oxirgi ochilgan</p>
-                <p class="text-xl md:text-2xl font-extrabold text-fuchsia-300 truncate max-w-[240px]" id="oxirgiOchildi">—</p>
-                <p class="text-xs md:text-sm text-slate-400 mt-2">Oxirgi dars</p>
+                <p
+                  class="text-xl md:text-2xl font-extrabold text-fuchsia-300 truncate max-w-[240px]"
+                  id="oxirgiOchildi"
+                >
+                  —
+                </p>
+                <p class="text-xs md:text-sm text-slate-400 mt-2">
+                  Oxirgi dars
+                </p>
               </div>
-              <div class="h-12 w-12 rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/70 flex items-center justify-center text-2xl">🕒</div>
+              <div
+                class="h-12 w-12 rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/70 flex items-center justify-center text-2xl"
+              >
+                🕒
+              </div>
             </div>
           </div>
         </section>
@@ -116,10 +176,16 @@
           <!-- 1) YO'NALISHLAR -->
           <section id="viewYonalishlar" class="space-y-4">
             <div class="space-y-3">
-              <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
+              <div
+                class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3"
+              >
                 <div class="space-y-1">
-                  <p class="text-sm font-semibold text-slate-200">Yo‘nalishlar</p>
-                  <p class="text-sm text-slate-400">Filter yoki qidiruv orqali tez toping.</p>
+                  <p class="text-sm font-semibold text-slate-200">
+                    Yo‘nalishlar
+                  </p>
+                  <p class="text-sm text-slate-400">
+                    Filter yoki qidiruv orqali tez toping.
+                  </p>
                 </div>
 
                 <input
@@ -132,28 +198,49 @@
               <div id="filterBar" class="flex flex-wrap gap-2"></div>
             </div>
 
-            <div id="yonalishlarGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+            <div
+              id="yonalishlarGrid"
+              class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5"
+            ></div>
           </section>
 
           <!-- 2) YO'NALISH ICHIDAGI DARSLAR -->
           <section id="viewDarslar" class="hidden space-y-4">
             <div class="flex items-start justify-between gap-4">
               <div class="space-y-1">
-                <p class="text-xs text-slate-400 uppercase tracking-[0.16em]">Yo'nalish</p>
-                <h2 id="yonalishTitle" class="text-2xl md:text-3xl font-extrabold text-white">—</h2>
-                <p id="yonalishDesc" class="text-sm md:text-base text-slate-300 max-w-3xl">—</p>
+                <p class="text-xs text-slate-400 uppercase tracking-[0.16em]">
+                  Yo'nalish
+                </p>
+                <h2
+                  id="yonalishTitle"
+                  class="text-2xl md:text-3xl font-extrabold text-white"
+                >
+                  —
+                </h2>
+                <p
+                  id="yonalishDesc"
+                  class="text-sm md:text-base text-slate-300 max-w-3xl"
+                >
+                  —
+                </p>
               </div>
 
               <div class="flex items-center gap-2">
                 <span class="text-sm text-slate-400">Darslar:</span>
-                <span id="yonalishCount" class="text-sm font-extrabold text-sky-300">0</span>
+                <span
+                  id="yonalishCount"
+                  class="text-sm font-extrabold text-sky-300"
+                  >0</span
+                >
               </div>
             </div>
 
             <div class="grid grid-cols-1 lg:grid-cols-3 gap-5 items-start">
               <div class="lg:col-span-2 space-y-3" id="darslarList"></div>
 
-              <aside class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl space-y-4">
+              <aside
+                class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl space-y-4"
+              >
                 <div class="flex items-center justify-between">
                   <p class="text-base font-extrabold text-white">Tezkor</p>
                   <span class="text-xl">⚡</span>
@@ -166,9 +253,14 @@
                   Davom ettirish ▶️
                 </button>
 
-                <div class="pt-3 border-t border-slate-700/60 text-sm text-slate-300 space-y-1">
+                <div
+                  class="pt-3 border-t border-slate-700/60 text-sm text-slate-300 space-y-1"
+                >
                   <p class="text-slate-400">Maslahat:</p>
-                  <p>Ko‘rib bo‘lgach darsni “✅ Ko‘rildi” deb belgilang — progress saqlanadi.</p>
+                  <p>
+                    Ko‘rib bo‘lgach darsni “✅ Ko‘rildi” deb belgilang —
+                    progress saqlanadi.
+                  </p>
                 </div>
               </aside>
             </div>
@@ -176,11 +268,25 @@
 
           <!-- 3) PLAYER -->
           <section id="viewPlayer" class="hidden space-y-4">
-            <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3">
+            <div
+              class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-3"
+            >
               <div class="space-y-1 min-w-0">
-                <p class="text-xs text-slate-400 uppercase tracking-[0.16em]" id="playerBreadcrumb">—</p>
-                <h2 id="darsTitle" class="text-2xl md:text-3xl font-extrabold text-white truncate">—</h2>
-                <p id="darsMeta" class="text-sm md:text-base text-slate-300">—</p>
+                <p
+                  class="text-xs text-slate-400 uppercase tracking-[0.16em]"
+                  id="playerBreadcrumb"
+                >
+                  —
+                </p>
+                <h2
+                  id="darsTitle"
+                  class="text-2xl md:text-3xl font-extrabold text-white truncate"
+                >
+                  —
+                </h2>
+                <p id="darsMeta" class="text-sm md:text-base text-slate-300">
+                  —
+                </p>
               </div>
 
               <div class="flex items-center gap-2">
@@ -201,11 +307,24 @@
 
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
               <!-- SIDEBAR -->
-              <aside class="lg:col-span-4 bg-slate-900/70 border border-slate-700/80 rounded-2xl shadow-lg shadow-slate-950/80 backdrop-blur-xl overflow-hidden">
-                <div class="p-4 border-b border-slate-700/60 flex items-center justify-between">
+              <aside
+                class="lg:col-span-4 bg-slate-900/70 border border-slate-700/80 rounded-2xl shadow-lg shadow-slate-950/80 backdrop-blur-xl overflow-hidden"
+              >
+                <div
+                  class="p-4 border-b border-slate-700/60 flex items-center justify-between"
+                >
                   <div class="space-y-0.5 min-w-0">
-                    <p class="text-xs text-slate-400 uppercase tracking-[0.16em]">Darslar</p>
-                    <p id="sidebarYonalishTitle" class="text-base font-extrabold text-white truncate">—</p>
+                    <p
+                      class="text-xs text-slate-400 uppercase tracking-[0.16em]"
+                    >
+                      Darslar
+                    </p>
+                    <p
+                      id="sidebarYonalishTitle"
+                      class="text-base font-extrabold text-white truncate"
+                    >
+                      —
+                    </p>
                   </div>
                   <span class="text-xl">📚</span>
                 </div>
@@ -218,18 +337,32 @@
                   />
                 </div>
 
-                <div id="sidebarDarslar" class="px-3 pb-3 space-y-2 max-h-[560px] overflow-auto"></div>
+                <div
+                  id="sidebarDarslar"
+                  class="px-3 pb-3 space-y-2 max-h-[560px] overflow-auto"
+                ></div>
               </aside>
 
               <!-- VIDEO + INFO -->
               <div class="lg:col-span-8 space-y-5">
-                <div class="bg-slate-900/70 border border-slate-700/80 rounded-2xl overflow-hidden shadow-lg shadow-slate-950/80 backdrop-blur-xl">
-                  <div class="p-4 border-b border-slate-700/60 flex items-center justify-between">
-                    <p class="text-base md:text-lg font-extrabold text-white">Dars videosi</p>
+                <div
+                  class="bg-slate-900/70 border border-slate-700/80 rounded-2xl overflow-hidden shadow-lg shadow-slate-950/80 backdrop-blur-xl"
+                >
+                  <div
+                    class="p-4 border-b border-slate-700/60 flex items-center justify-between"
+                  >
+                    <p class="text-base md:text-lg font-extrabold text-white">
+                      Dars videosi
+                    </p>
                   </div>
 
                   <div class="aspect-video bg-black/40">
-                    <video id="videoPlayer" class="w-full h-full hidden" controls playsinline></video>
+                    <video
+                      id="videoPlayer"
+                      class="w-full h-full hidden"
+                      controls
+                      playsinline
+                    ></video>
                     <iframe
                       id="ytFrame"
                       class="w-full h-full"
@@ -241,8 +374,13 @@
                     ></iframe>
                   </div>
 
-                  <div class="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-                    <div class="text-sm text-slate-300"><span class="text-slate-400">Maslahat:</span> ko‘rib bo‘lgach “Ko‘rildi” deb belgilang.</div>
+                  <div
+                    class="p-4 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3"
+                  >
+                    <div class="text-sm text-slate-300">
+                      <span class="text-slate-400">Maslahat:</span> ko‘rib
+                      bo‘lgach “Ko‘rildi” deb belgilang.
+                    </div>
                     <button
                       id="btnKorildi"
                       class="inline-flex items-center justify-center gap-2 rounded-2xl bg-gradient-to-r from-emerald-500 to-teal-500 px-5 py-3 text-sm font-extrabold text-slate-950 hover:from-emerald-400 hover:to-teal-400 transition shadow shadow-emerald-500/40"
@@ -253,20 +391,34 @@
                 </div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-                  <div class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl">
+                  <div
+                    class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl"
+                  >
                     <div class="flex items-center justify-between mb-3">
-                      <p class="text-base font-extrabold text-white">Nimani o'rganasiz</p>
+                      <p class="text-base font-extrabold text-white">
+                        Nimani o'rganasiz
+                      </p>
                       <span class="text-xl">🧠</span>
                     </div>
-                    <ul id="darsBullets" class="text-sm text-slate-200 space-y-2 list-disc pl-5"></ul>
+                    <ul
+                      id="darsBullets"
+                      class="text-sm text-slate-200 space-y-2 list-disc pl-5"
+                    ></ul>
                   </div>
 
-                  <div class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl">
+                  <div
+                    class="bg-slate-900/70 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 backdrop-blur-xl"
+                  >
                     <div class="flex items-center justify-between mb-3">
-                      <p class="text-base font-extrabold text-white">Mini topshiriq</p>
+                      <p class="text-base font-extrabold text-white">
+                        Mini topshiriq
+                      </p>
                       <span class="text-xl">🧩</span>
                     </div>
-                    <div id="darsTask" class="text-sm text-slate-100 bg-slate-950/40 border border-slate-700/60 rounded-2xl p-4"></div>
+                    <div
+                      id="darsTask"
+                      class="text-sm text-slate-100 bg-slate-950/40 border border-slate-700/60 rounded-2xl p-4"
+                    ></div>
                   </div>
                 </div>
               </div>
@@ -277,8 +429,13 @@
     </div>
 
     <!-- TOAST -->
-    <div id="toastWrap" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[9999] hidden">
-      <div class="rounded-2xl border border-slate-700/70 bg-slate-900/80 px-4 py-3 shadow-lg shadow-slate-950/80 backdrop-blur-xl">
+    <div
+      id="toastWrap"
+      class="fixed bottom-5 left-1/2 -translate-x-1/2 z-[9999] hidden"
+    >
+      <div
+        class="rounded-2xl border border-slate-700/70 bg-slate-900/80 px-4 py-3 shadow-lg shadow-slate-950/80 backdrop-blur-xl"
+      >
         <p id="toastText" class="text-sm text-slate-100"></p>
       </div>
     </div>
@@ -287,9 +444,10 @@
       // =========================
       // CONFIG
       // =========================
-      const isLocalPreview = /:(5500|5501)$/.test(window.location.origin || "");
-      const API_ORIGIN = (window.location.origin || "").startsWith("http") && !isLocalPreview
-        ? window.location.origin
+      const isLocal =
+        location.hostname === "127.0.0.1" || location.hostname === "localhost";
+      const API_ORIGIN = isLocal
+        ? "http://127.0.0.1:8000"
         : "https://riseup-back-production.up.railway.app";
       const API_BASE = `${API_ORIGIN}/api`;
       const $ = (id) => document.getElementById(id);
@@ -343,7 +501,8 @@
           },
         });
 
-        if (res.status === 401 || res.status === 403) throw new Error("UNAUTHORIZED");
+        if (res.status === 401 || res.status === 403)
+          throw new Error("UNAUTHORIZED");
         return res;
       }
 
@@ -351,20 +510,29 @@
       // API LOADERS
       // =========================
       async function loadCoursesRaw() {
-        const res = await authFetch(`${API_BASE}/courses/`);
-        if (!res.ok) throw new Error("COURSES_BAD");
-        const data = await res.json();
-        if (!Array.isArray(data)) throw new Error("COURSES_NOT_ARRAY");
-        return data;
-      }
+        const url = `${API_BASE}/courses/`;
+        const res = await authFetch(url);
 
-      // ✅ progressni alohida olib kelamiz
-      async function loadProgressRaw() {
-        const res = await authFetch(`${API_BASE}/lesson-progress/`, { method: "GET" });
-        if (!res.ok) throw new Error("PROGRESS_BAD");
         const data = await res.json();
-        if (!Array.isArray(data)) return [];
-        return data;
+
+        // DRF pagination bo‘lsa: data.results
+        const list = Array.isArray(data)
+          ? data
+          : Array.isArray(data?.results)
+          ? data.results
+          : null;
+
+        if (!res.ok) {
+          console.error("COURSES HTTP ERROR", res.status, url, data);
+          throw new Error("COURSES_BAD");
+        }
+
+        if (!list) {
+          console.error("COURSES FORMAT ERROR", url, data);
+          throw new Error("COURSES_NOT_ARRAY");
+        }
+
+        return list;
       }
 
       // =========================
@@ -378,11 +546,13 @@
           level: lesson.level ?? "—",
           duration: lesson.duration ?? "—",
           videoId: lesson.videoId ?? lesson.video_id ?? "",
-          videoUrl: firstVideo ? firstVideo.video_url || firstVideo.video || "" : lesson.video_url || "",
+          videoUrl: firstVideo
+            ? firstVideo.video_url || firstVideo.video || ""
+            : lesson.video_url || "",
           bullets: Array.isArray(lesson.bullets) ? lesson.bullets : [],
           task: lesson.task ?? lesson.content ?? "—",
           is_completed: false, // keyin progressdan qo'yamiz
-          is_locked: false,    // keyin computeLocks bilan qo'yamiz
+          is_locked: false, // keyin computeLocks bilan qo'yamiz
         };
       }
 
@@ -392,7 +562,8 @@
           title: course.title ?? "—",
           badge: course.badge ?? "📚",
           cover: course.cover ?? course.cover_url ?? course.cover_image ?? "",
-          gradient: course.gradient ?? "from-slate-700 via-slate-800 to-slate-900",
+          gradient:
+            course.gradient ?? "from-slate-700 via-slate-800 to-slate-900",
           desc: course.desc ?? course.description ?? "—",
           tags: Array.isArray(course.tags) ? course.tags : [],
           progress_percent: 0,
@@ -400,7 +571,9 @@
           students: course.students ?? null,
           isFree: course.is_free ?? course.isFree ?? true,
           price: course.price ?? "",
-          lessons: Array.isArray(course.lessons) ? course.lessons.map(mapLessonToUi) : [],
+          lessons: Array.isArray(course.lessons)
+            ? course.lessons.map(mapLessonToUi)
+            : [],
         };
       }
 
@@ -409,7 +582,13 @@
         // progressList: [{lesson: <id>, completed: true}, ...] yoki serializerdan kelgan format
         const completedSet = new Set(
           (progressList || [])
-            .filter((p) => p && (p.completed === true || p.completed === "true" || p.completed === 1))
+            .filter(
+              (p) =>
+                p &&
+                (p.completed === true ||
+                  p.completed === "true" ||
+                  p.completed === 1)
+            )
             .map((p) => String(p.lesson))
         );
 
@@ -435,7 +614,9 @@
             if (l.is_completed) completedCount++;
           }
 
-          c.progress_percent = lessons.length ? Math.round((completedCount / lessons.length) * 100) : 0;
+          c.progress_percent = lessons.length
+            ? Math.round((completedCount / lessons.length) * 100)
+            : 0;
         }
       }
 
@@ -454,7 +635,10 @@
       // HELPERS UI
       // =========================
       function jamiDarslarSoni() {
-        return (DATA.directions || []).reduce((sum, d) => sum + ((d.lessons || []).length || 0), 0);
+        return (DATA.directions || []).reduce(
+          (sum, d) => sum + ((d.lessons || []).length || 0),
+          0
+        );
       }
 
       function yonalishTop(id) {
@@ -464,7 +648,8 @@
       function darsTop(darsId) {
         for (const d of DATA.directions || []) {
           const idx = (d.lessons || []).findIndex((l) => l.id === darsId);
-          if (idx !== -1) return { yonalish: d, index: idx, dars: d.lessons[idx] };
+          if (idx !== -1)
+            return { yonalish: d, index: idx, dars: d.lessons[idx] };
         }
         return null;
       }
@@ -474,13 +659,17 @@
       }
 
       function viewKorsat(viewId) {
-        ["viewYonalishlar", "viewDarslar", "viewPlayer"].forEach((v) => $(v).classList.add("hidden"));
+        ["viewYonalishlar", "viewDarslar", "viewPlayer"].forEach((v) =>
+          $(v).classList.add("hidden")
+        );
         $(viewId).classList.remove("hidden");
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
 
       function headerSync() {
-        $("jamiYonalishlar").textContent = String((DATA.directions || []).length);
+        $("jamiYonalishlar").textContent = String(
+          (DATA.directions || []).length
+        );
         $("jamiDarslar").textContent = String(jamiDarslarSoni());
         $("oxirgiOchildi").textContent = lastOpenedText || "—";
       }
@@ -517,7 +706,9 @@
         ).join("");
 
         bar.querySelectorAll("button[data-filter]").forEach((btn) => {
-          btn.addEventListener("click", () => setActiveFilter(btn.dataset.filter));
+          btn.addEventListener("click", () =>
+            setActiveFilter(btn.dataset.filter)
+          );
         });
       }
 
@@ -545,9 +736,12 @@
         const q = ($("qidiruvInput").value || "").trim().toLowerCase();
 
         const list = (DATA.directions || []).filter((d) => {
-          const matchFilter = filter === "all" ? true : (d.tags || []).includes(filter);
-          const matchSearch =
-            !q ? true : (d.title || "").toLowerCase().includes(q) || (d.desc || "").toLowerCase().includes(q);
+          const matchFilter =
+            filter === "all" ? true : (d.tags || []).includes(filter);
+          const matchSearch = !q
+            ? true
+            : (d.title || "").toLowerCase().includes(q) ||
+              (d.desc || "").toLowerCase().includes(q);
           return matchFilter && matchSearch;
         });
 
@@ -559,15 +753,23 @@
             const isFree = d.isFree ?? true;
             const priceText = isFree ? "Bepul" : d.price || "Premium";
 
-            const cover = d.cover && String(d.cover).trim().length > 0 ? d.cover : null;
-            const gradient = d.gradient || "from-slate-700 via-slate-800 to-slate-900";
+            const cover =
+              d.cover && String(d.cover).trim().length > 0 ? d.cover : null;
+            const gradient =
+              d.gradient || "from-slate-700 via-slate-800 to-slate-900";
 
             return `
               <button onclick="app.yonalishOch('${d.id}')"
                 class="group text-left rounded-2xl border border-slate-700/70 bg-slate-900/55 overflow-hidden shadow-lg shadow-slate-950/70 hover:border-sky-400/60 hover:-translate-y-[2px] transition-all duration-200">
                 <div class="relative h-44 overflow-hidden">
-                  ${cover ? `<img src="${cover}" alt="${d.title}" class="absolute inset-0 w-full h-full object-cover scale-[1.03] group-hover:scale-[1.07] transition duration-300" onerror="this.style.display='none'">` : ``}
-                  <div class="absolute inset-0 bg-gradient-to-br ${gradient} ${cover ? "opacity-55" : "opacity-95"}"></div>
+                  ${
+                    cover
+                      ? `<img src="${cover}" alt="${d.title}" class="absolute inset-0 w-full h-full object-cover scale-[1.03] group-hover:scale-[1.07] transition duration-300" onerror="this.style.display='none'">`
+                      : ``
+                  }
+                  <div class="absolute inset-0 bg-gradient-to-br ${gradient} ${
+              cover ? "opacity-55" : "opacity-95"
+            }"></div>
                   <div class="absolute inset-0 opacity-[0.10] bg-grid bg-[length:22px_22px]"></div>
                   <div class="absolute inset-0 bg-slate-950/35"></div>
                   <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/45 to-transparent"></div>
@@ -576,30 +778,44 @@
                     <span class="inline-flex items-center rounded-full border border-slate-200/10 bg-slate-950/35 px-3 py-1 text-[11px] font-bold text-slate-100">${priceText}</span>
                   </div>
                   <div class="relative px-4 pb-4 mt-6">
-                    <h3 class="text-xl md:text-2xl font-extrabold text-white leading-tight">${d.title}</h3>
+                    <h3 class="text-xl md:text-2xl font-extrabold text-white leading-tight">${
+                      d.title
+                    }</h3>
                     <div class="mt-2 flex items-center justify-between">
                       <p class="text-sm text-slate-200/90">${lessonsCount} ta dars</p>
-                      <div class="text-2xl opacity-90 drop-shadow">${d.badge || "📚"}</div>
+                      <div class="text-2xl opacity-90 drop-shadow">${
+                        d.badge || "📚"
+                      }</div>
                     </div>
                   </div>
                 </div>
 
                 <div class="p-5 space-y-4">
-                  <p class="text-sm text-slate-200/85 leading-relaxed">${d.desc || "—"}</p>
+                  <p class="text-sm text-slate-200/85 leading-relaxed">${
+                    d.desc || "—"
+                  }</p>
                   <div class="flex items-center justify-between text-sm">
                     <div class="text-slate-400">
                       <span class="text-slate-300 font-semibold">${teacher}</span>
-                      ${students ? `<span class="text-slate-500"> · ${students} o‘quvchi</span>` : ``}
+                      ${
+                        students
+                          ? `<span class="text-slate-500"> · ${students} o‘quvchi</span>`
+                          : ``
+                      }
                     </div>
                     <span class="text-slate-400">Progress</span>
                   </div>
                   <div class="space-y-2">
                     <div class="flex items-center justify-between text-sm">
                       <span class="text-slate-300">Tugallangan</span>
-                      <span class="font-extrabold text-sky-300">${d.progress_percent ?? 0}%</span>
+                      <span class="font-extrabold text-sky-300">${
+                        d.progress_percent ?? 0
+                      }%</span>
                     </div>
                     <div class="h-2.5 rounded-full bg-slate-800/80 overflow-hidden">
-                      <div class="h-full bg-gradient-to-r from-sky-400 to-indigo-500" style="width:${d.progress_percent ?? 0}%"></div>
+                      <div class="h-full bg-gradient-to-r from-sky-400 to-indigo-500" style="width:${
+                        d.progress_percent ?? 0
+                      }%"></div>
                     </div>
                   </div>
                 </div>
@@ -634,27 +850,50 @@
         };
 
         $("darslarList").innerHTML = (d.lessons || [])
-          .map((l, i) => `
+          .map(
+            (l, i) => `
               <button onclick="app.darsOch('${l.id}')"
                 class="w-full text-left bg-slate-900/80 border border-slate-700/80 rounded-2xl p-5 shadow-lg shadow-slate-950/80 transition
                 ${l.is_locked ? "opacity-70" : "hover:border-emerald-400/70"}">
                 <div class="flex items-start justify-between gap-3">
                   <div class="space-y-1">
-                    <p class="text-xs text-slate-400 uppercase tracking-[0.16em]">${i + 1}-dars</p>
-                    <p class="text-lg font-extrabold text-white leading-snug">${l.title}</p>
+                    <p class="text-xs text-slate-400 uppercase tracking-[0.16em]">${
+                      i + 1
+                    }-dars</p>
+                    <p class="text-lg font-extrabold text-white leading-snug">${
+                      l.title
+                    }</p>
                     <p class="text-sm text-slate-300">
-                      Daraja: <span class="text-slate-100 font-semibold">${l.level}</span> · ${l.duration}
+                      Daraja: <span class="text-slate-100 font-semibold">${
+                        l.level
+                      }</span> · ${l.duration}
                     </p>
                   </div>
                   <div class="flex flex-col items-end gap-2">
-                    ${l.is_locked ? `<span class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>` : ``}
-                    ${l.is_completed ? `<span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>` : ``}
-                    <div class="text-2xl ${l.is_locked ? "opacity-40" : ""}">▶️</div>
+                    ${
+                      l.is_locked
+                        ? `<span class="text-xs font-extrabold px-3 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>`
+                        : ``
+                    }
+                    ${
+                      l.is_completed
+                        ? `<span class="text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>`
+                        : ``
+                    }
+                    <div class="text-2xl ${
+                      l.is_locked ? "opacity-40" : ""
+                    }">▶️</div>
                   </div>
                 </div>
-                ${l.is_locked ? `<p class="mt-4 text-sm text-slate-400">Avvalgi darsni ✅ ko‘rildi deb belgilang — keyingi dars ochiladi.</p>` : ``}
+                ${
+                  l.is_locked
+                    ? `<p class="mt-4 text-sm text-slate-400">Avvalgi darsni ✅ ko‘rildi deb belgilang — keyingi dars ochiladi.</p>`
+                    : ``
+                }
               </button>
-          `).join("");
+          `
+          )
+          .join("");
 
         viewKorsat("viewDarslar");
       }
@@ -662,36 +901,60 @@
       function sidebarDarslarRender(yonalish, activeLessonId) {
         $("sidebarYonalishTitle").textContent = yonalish.title;
         const q = ($("darsQidiruv").value || "").trim().toLowerCase();
-        const list = (yonalish.lessons || []).filter((l) => (!q ? true : (l.title || "").toLowerCase().includes(q)));
+        const list = (yonalish.lessons || []).filter((l) =>
+          !q ? true : (l.title || "").toLowerCase().includes(q)
+        );
 
         $("sidebarDarslar").innerHTML = list
           .map((l, i) => {
             const active = l.id === activeLessonId;
-            const base = "w-full text-left rounded-2xl border px-4 py-3 transition";
+            const base =
+              "w-full text-left rounded-2xl border px-4 py-3 transition";
             const state = active
               ? "border-sky-400/70 bg-sky-500/10"
               : "border-slate-700/70 bg-slate-950/30 hover:bg-slate-900/70 hover:border-slate-600";
 
             return `
-              <button onclick="app.darsOch('${l.id}')" class="${base} ${state} ${l.is_locked ? "opacity-60" : ""}">
+              <button onclick="app.darsOch('${
+                l.id
+              }')" class="${base} ${state} ${l.is_locked ? "opacity-60" : ""}">
                 <div class="flex items-start justify-between gap-3">
                   <div class="min-w-0">
-                    <p class="text-xs uppercase tracking-[0.16em] ${active ? "text-sky-200" : "text-slate-400"}">${i + 1}-dars</p>
-                    <p class="text-sm font-extrabold ${active ? "text-white" : "text-slate-200"} truncate">${l.title}</p>
-                    <p class="text-xs ${active ? "text-sky-100/80" : "text-slate-400"}">${l.level} · ${l.duration}</p>
+                    <p class="text-xs uppercase tracking-[0.16em] ${
+                      active ? "text-sky-200" : "text-slate-400"
+                    }">${i + 1}-dars</p>
+                    <p class="text-sm font-extrabold ${
+                      active ? "text-white" : "text-slate-200"
+                    } truncate">${l.title}</p>
+                    <p class="text-xs ${
+                      active ? "text-sky-100/80" : "text-slate-400"
+                    }">${l.level} · ${l.duration}</p>
                     <div class="mt-2 flex flex-wrap gap-2">
-                      ${l.is_locked ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>` : ``}
-                      ${l.is_completed ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>` : ``}
+                      ${
+                        l.is_locked
+                          ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>`
+                          : ``
+                      }
+                      ${
+                        l.is_completed
+                          ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>`
+                          : ``
+                      }
                     </div>
                   </div>
-                  <span class="text-lg ${active ? "text-sky-200" : "text-slate-400"} ${l.is_locked ? "opacity-40" : ""}">▶</span>
+                  <span class="text-lg ${
+                    active ? "text-sky-200" : "text-slate-400"
+                  } ${l.is_locked ? "opacity-40" : ""}">▶</span>
                 </div>
               </button>
             `;
           })
           .join("");
 
-        if (list.length === 0) $("sidebarDarslar").innerHTML = `<div class="text-sm text-slate-400 px-3 py-4">Hech qanday dars topilmadi.</div>`;
+        if (list.length === 0)
+          $(
+            "sidebarDarslar"
+          ).innerHTML = `<div class="text-sm text-slate-400 px-3 py-4">Hech qanday dars topilmadi.</div>`;
       }
 
       function updateKorildiButtonState(isCompleted) {
@@ -700,14 +963,24 @@
 
         if (isCompleted) {
           btn.textContent = "Saqlangan ✅";
-          btn.classList.remove("from-emerald-500", "to-teal-500", "hover:from-emerald-400", "hover:to-teal-400");
+          btn.classList.remove(
+            "from-emerald-500",
+            "to-teal-500",
+            "hover:from-emerald-400",
+            "hover:to-teal-400"
+          );
           btn.classList.add("from-slate-600", "to-slate-500");
           btn.disabled = true;
         } else {
           btn.textContent = "✅ Ko'rildi deb belgilash";
           btn.disabled = false;
           btn.classList.remove("from-slate-600", "to-slate-500");
-          btn.classList.add("from-emerald-500", "to-teal-500", "hover:from-emerald-400", "hover:to-teal-400");
+          btn.classList.add(
+            "from-emerald-500",
+            "to-teal-500",
+            "hover:from-emerald-400",
+            "hover:to-teal-400"
+          );
         }
       }
 
@@ -736,9 +1009,13 @@
           return;
         }
 
-        $("playerBreadcrumb").textContent = `Yo'nalish: ${yonalish.title} · ${index + 1}/${(yonalish.lessons || []).length}`;
+        $("playerBreadcrumb").textContent = `Yo'nalish: ${yonalish.title} · ${
+          index + 1
+        }/${(yonalish.lessons || []).length}`;
         $("darsTitle").textContent = dars.title;
-        $("darsMeta").textContent = `Daraja: ${dars.level} · Davomiyligi: ${dars.duration}`;
+        $(
+          "darsMeta"
+        ).textContent = `Daraja: ${dars.level} · Davomiyligi: ${dars.duration}`;
 
         lastOpenedText = `${yonalish.title}: ${dars.title}`;
         headerSync();
@@ -754,28 +1031,41 @@
           videoPlayer.classList.remove("hidden");
           videoPlayer.src = dars.videoUrl;
         } else {
-          try { videoPlayer.pause(); } catch {}
+          try {
+            videoPlayer.pause();
+          } catch {}
           videoPlayer.removeAttribute("src");
           videoPlayer.classList.add("hidden");
           ytFrame.classList.remove("hidden");
           ytFrame.src = `https://www.youtube-nocookie.com/embed/${dars.videoId}?rel=0&modestbranding=1`;
         }
 
-        $("darsBullets").innerHTML = (dars.bullets || []).map((x) => `<li>${x}</li>`).join("");
+        $("darsBullets").innerHTML = (dars.bullets || [])
+          .map((x) => `<li>${x}</li>`)
+          .join("");
         $("darsTask").textContent = dars.task || "—";
 
         $("btnOldingi").disabled = index === 0;
-        $("btnKeyingi").disabled = index === (yonalish.lessons || []).length - 1;
+        $("btnKeyingi").disabled =
+          index === (yonalish.lessons || []).length - 1;
 
-        $("btnOldingi").onclick = () => { if (index > 0) setHash(`#/dars/${yonalish.lessons[index - 1].id}`); };
-        $("btnKeyingi").onclick = () => { if (index < (yonalish.lessons || []).length - 1) setHash(`#/dars/${yonalish.lessons[index + 1].id}`); };
+        $("btnOldingi").onclick = () => {
+          if (index > 0) setHash(`#/dars/${yonalish.lessons[index - 1].id}`);
+        };
+        $("btnKeyingi").onclick = () => {
+          if (index < (yonalish.lessons || []).length - 1)
+            setHash(`#/dars/${yonalish.lessons[index + 1].id}`);
+        };
 
         $("btnKorildi").onclick = async () => {
           try {
             await saveProgress(dars.id, true);
 
             // ✅ progressni backenddan qayta olib kelamiz
-            const [rawCourses, rawProgress] = await Promise.all([loadCoursesRaw(), loadProgressRaw()]);
+            const [rawCourses, rawProgress] = await Promise.all([
+              loadCoursesRaw(),
+              loadProgressRaw(),
+            ]);
             DATA = { directions: rawCourses.map(mapCourseToUi) };
             applyProgressToCourses(rawProgress);
             computeLocksAndProgress();
@@ -796,7 +1086,8 @@
 
         $("darsQidiruv").value = "";
         sidebarDarslarRender(yonalish, dars.id);
-        $("darsQidiruv").oninput = () => sidebarDarslarRender(yonalish, dars.id);
+        $("darsQidiruv").oninput = () =>
+          sidebarDarslarRender(yonalish, dars.id);
 
         viewKorsat("viewPlayer");
       }
@@ -818,12 +1109,16 @@
       }
 
       window.app = {
-        yonalishOch(id) { setHash(`#/yonalish/${id}`); },
+        yonalishOch(id) {
+          setHash(`#/yonalish/${id}`);
+        },
         darsOch(id) {
           const found = darsTop(String(id));
           if (!found) return;
           if (found.dars.is_locked) {
-            toast("🔒 Bu dars yopiq. Avvalgi darsni ✅ Ko‘rildi deb belgilang.");
+            toast(
+              "🔒 Bu dars yopiq. Avvalgi darsni ✅ Ko‘rildi deb belgilang."
+            );
             return;
           }
           setHash(`#/dars/${found.dars.id}`);
@@ -849,7 +1144,10 @@
       // =========================
       async function init() {
         try {
-          const [rawCourses, rawProgress] = await Promise.all([loadCoursesRaw(), loadProgressRaw()]);
+          const [rawCourses, rawProgress] = await Promise.all([
+            loadCoursesRaw(),
+            loadProgressRaw(),
+          ]);
           DATA = { directions: rawCourses.map(mapCourseToUi) };
 
           // ✅ progressni qo'sh
@@ -857,7 +1155,10 @@
           // ✅ lock va percentni hisobla
           computeLocksAndProgress();
         } catch (e) {
-          if (String(e.message) === "NO_TOKEN" || String(e.message) === "UNAUTHORIZED") {
+          if (
+            String(e.message) === "NO_TOKEN" ||
+            String(e.message) === "UNAUTHORIZED"
+          ) {
             window.location.href = "login.html";
             return;
           }
@@ -880,7 +1181,8 @@
         route();
       }
 
-      if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", init);
+      if (document.readyState === "loading")
+        document.addEventListener("DOMContentLoaded", init);
       else init();
     </script>
   </body>
