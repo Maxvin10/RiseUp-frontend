@@ -290,7 +290,7 @@
       const isLocalPreview = /:(5500|5501)$/.test(window.location.origin || "");
       const API_ORIGIN = (window.location.origin || "").startsWith("http") && !isLocalPreview
         ? window.location.origin
-        : "http://127.0.0.1:8000";
+        : "https://api.riseuply.uz";
       const API_BASE = `${API_ORIGIN}/api`;
       const $ = (id) => document.getElementById(id);
 
