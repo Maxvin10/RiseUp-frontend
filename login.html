@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register</title>
+  <link rel="shortcut icon" href="rasmlar/dark.png" type="image/x-icon">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            primary: {
+              50: '#f5f3ff',
+              100: '#ede9fe',
+              500: '#8b5cf6',
+              600: '#7c3aed',
+              700: '#6d28d9',
+              800: '#5b21b6',
+              900: '#4c1d95',
+            }
+          },
+          animation: {
+            'fade-in': 'fadeIn 0.3s ease-in-out',
+          },
+          keyframes: {
+            fadeIn: {
+              '0%': { opacity: '0', transform: 'translateY(4px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            }
+          },
+          backgroundImage: {
+            'grid': 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)',
+          }
+        }
+      }
+    };
+  </script>
+</head>
+
+<body class="min-h-screen flex flex-col bg-slate-950 text-slate-50 font-sans antialiased transition-all duration-500 ease-in-out">
+
+  <!-- KO‘RINMAS KOSMOS FONI -->
+  <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
+
+  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+    <div class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/40 blur-3xl"></div>
+    <div class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/40 blur-3xl"></div>
+    <div class="absolute inset-0 opacity-[0.08] bg-grid bg-[length:26px_26px]"></div>
+  </div>
+
+  <div class="pointer-events-none fixed inset-x-0 top-24 -z-10 flex justify-center">
+    <div class="h-64 w-[650px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-400/40 blur-3xl opacity-80"></div>
+  </div>
+  <!-- /FON -->
+
+  <!-- HEADER: Theme + Language -->
+  <header class="flex justify-between items-center px-6 py-4 bg-slate-900/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm border-b border-slate-800/70 transition-all duration-300">
+    <div class="flex items-center space-x-3">
+      <img id="logo" src="rasmlar/lightrise.png" alt="Logo"
+           class="w-12 h-12 rounded-full object-cover ring-2 ring-primary-300/70 dark:ring-primary-700/80 transition-all duration-500 ease-in-out">
+      <span class="text-xl font-bold bg-gradient-to-r from-primary-200 via-sky-300 to-pink-300 bg-clip-text text-transparent">
+        Rise Up
+      </span>
+    </div>
+    <div class="flex items-center space-x-4">
+      <select id="language-select"
+              class="px-3 py-1.5 text-sm border border-slate-700 rounded-lg bg-slate-900/80 text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer transition-all duration-200">
+        <option value="en">EN</option>
+        <option value="uz">UZ</option>
+        <option value="ru">RU</option>
+      </select>
+      <!-- <button id="theme-toggle"
+              class="p-2.5 rounded-full bg-slate-800 text-slate-200 hover:scale-110 hover:shadow-md transition-all duration-300 ring-2 ring-transparent hover:ring-primary-400/70">
+         Ikonka JS orqali 
+      </button>  -->
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="flex-1 flex items-center justify-center p-6">
+    <div class="flex w-full max-w-6xl rounded-3xl overflow-hidden shadow-[0_20px_80px_rgba(15,23,42,0.9)] bg-slate-900/80 backdrop-blur-xl border border-slate-800/80">
+
+      <!-- LEFT SIDE -->
+      <div class="flex flex-col justify-center items-center w-1/2 p-12 bg-gradient-to-br from-indigo-500 via-purple-600 to-fuchsia-500 text-white relative overflow-hidden">
+        <div class="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-white/15 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-fuchsia-300/30 blur-3xl"></div>
+
+        <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl shadow-lg mb-6 animate-fade-in border border-white/20 relative z-10">
+          <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b30c2e8d75-5256456ab383cdda0031.png" alt="illustration" class="w-56 rounded-xl">
+        </div>
+        <h2 class="text-3xl font-bold mb-3 drop-shadow-sm" data-key="boost_title">Boost Your Productivity</h2>
+        <p class="text-center text-purple-100 mb-8 max-w-md text-sm leading-relaxed" data-key="boost_desc">
+          Join thousands of students and professionals who organize their tasks and achieve their goals with our powerful productivity platform.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm relative z-10">
+          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+            <span class="w-2.5 h-2.5 bg-purple-300 rounded-full"></span><span data-key="task_mgmt">Task Management</span>
+          </div>
+          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+            <span class="w-2.5 h-2.5 bg-purple-300 rounded-full"></span><span data-key="goal_track">Goal Tracking</span>
+          </div>
+          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
+            <span class="w-2.5 h-2.5 bg-indigo-300 rounded-full"></span><span data-key="team_collab">Team Collaboration</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- RIGHT SIDE -->
+      <div class="w-1/2 bg-slate-950/70 dark:bg-slate-950/80 p-10 flex flex-col justify-center">
+        <div class="max-w-sm mx-auto w-full">
+          <h1 class="text-3xl font-bold text-center mb-2 text-slate-50" id="formTitle" data-key="welcome_back">Welcome Back</h1>
+          <p class="text-slate-400 text-center mb-8 text-sm" id="formSubtitle" data-key="signin_continue">
+            Sign in to continue your productivity journey
+          </p>
+
+          <!-- Tabs -->
+          <div class="flex bg-slate-900 rounded-xl mb-8 p-1 border border-slate-800">
+            <button id="loginTab" class="flex-1 py-2.5 rounded-lg tab-active text-slate-50 text-sm font-medium transition-all duration-300" data-key="login">
+              Login
+            </button>
+            <button id="registerTab" class="flex-1 py-2.5 rounded-lg tab-inactive text-slate-400 text-sm font-medium transition-all duration-300" data-key="register">
+              Register
+            </button>
+          </div>
+
+          <form id="authForm" class="space-y-5">
+            <div id="nameField" class="hidden animate-fade-in">
+              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="full_name">Full Name</label>
+              <input type="text" id="nameInput" placeholder="Enter your name"
+                class="w-full px-4 py-3 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
+              <p class="error hidden text-red-400 text-xs mt-1.5">Name is required</p>
+            </div>
+
+            <div class="animate-fade-in">
+              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="email">Email Address</label>
+              <input type="email" id="emailInput" placeholder="Enter your email"
+                class="w-full px-4 py-3 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
+              <p class="error hidden text-red-400 text-xs mt-1.5">Email is required</p>
+            </div>
+
+            <div class="animate-fade-in">
+              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="password">Password</label>
+              <div class="relative">
+                <input type="password" minlength="8" id="passwordInput" placeholder="Enter your password"
+                  class="w-full px-4 py-3 pr-10 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
+                <button type="button" class="password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors" data-target="passwordInput">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
+              <p class="error hidden text-red-400 text-xs mt-1.5">Password is required</p>
+            </div>
+
+            <div id="confirmField" class="hidden animate-fade-in">
+              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="confirm_password">Confirm Password</label>
+              <div class="relative">
+                <input type="password" id="confirmInput" placeholder="Re-enter your password"
+                  class="w-full px-4 py-3 pr-10 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
+                <button type="button" class="password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors" data-target="confirmInput">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                  </svg>
+                </button>
+              </div>
+              <p class="error hidden text-red-400 text-xs mt-1.5">Passwords do not match</p>
+            </div>
+
+            
+
+            <button type="submit"
+              class="w-full bg-gradient-to-r from-primary-500 via-purple-500 to-fuchsia-500 hover:from-primary-600 hover:via-purple-600 hover:to-fuchsia-600 text-white font-medium py-3 rounded-xl shadow-lg shadow-fuchsia-500/40 btn-hover transition-all duration-300" id="submitBtn" data-key="sign_in">
+              Sign In
+            </button>
+
+            
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT (o‘zing bergan logika, faqat dizayn bilan ishlaydi) -->
+  <script>
+/* ---------- Clean unified script ---------- */
+(() => {
+  const translations = {
+    en: { boost_title: "Boost Your Productivity", boost_desc: "Join thousands...", task_mgmt: "Task Management", goal_track: "Goal Tracking", team_collab: "Team Collaboration", welcome_back: "Welcome Back", signin_continue: "Sign in to continue your productivity journey", login: "Login", register: "Register", full_name: "Full Name", email: "Email Address", password: "Password", confirm_password: "Confirm Password", remember_me: "Remember me", forgot_password: "Forgot password?", or: "or", continue_google: "Continue with Google", sign_in: "Sign In", sign_up: "Sign Up", no_account: "Don't have an account? <a href='#' id='createLink'>Create one</a>", create_account: "Create Account", join_us: "Join us and start your productivity journey" },
+    uz: { boost_title: "Mahsuldorligingizni oshiring", boost_desc: "Minglab talabalar...", task_mgmt: "Vazifa boshqaruvi", goal_track: "Maqsadlarni kuzatish", team_collab: "Jamoaviy hamkorlik", welcome_back: "Xush kelibsiz", signin_continue: "Mahsuldorlik sayohatingizni davom ettirish uchun kiring", login: "Kirish", register: "Ro'yxatdan o'tish", full_name: "To'liq ism", email: "Elektron pochta", password: "Parol", confirm_password: "Parolni tasdiqlash", remember_me: "Meni eslab qol", forgot_password: "Parolni unutdingizmi?", or: "yoki", continue_google: "Google bilan davom etish", sign_in: "Kirish", sign_up: "Ro'yxatdan o'tish", no_account: "Hisobingiz yo'qmi? <a href='#' id='createLink'>Yaratish</a>", create_account: "Hisob yaratish", join_us: "Bizga qo'shiling va mahsuldorlik sayohatingizni boshlang" },
+    ru: { boost_title: "Повысьте свою продуктивность", boost_desc: "Присоединяйтесь к тысячам...", task_mgmt: "Управление задачами", goal_track: "Отслеживание целей", team_collab: "Командное сотрудничество", welcome_back: "Добро пожаловать", signin_continue: "Войдите, чтобы продолжить путь продуктивности", login: "Войти", register: "Регистрация", full_name: "Полное имя", email: "Электронная почта", password: "Пароль", confirm_password: "Подтвердите пароль", remember_me: "Запомнить меня", forgot_password: "Забыли пароль?", or: "или", continue_google: "Продолжить с Google", sign_in: "Войти", sign_up: "Зарегистрироваться", no_account: "Нет аккаунта? <a href='#' id='createLink'>Создать</a>", create_account: "Создать аккаунт", join_us: "Присоединяйтесь и начните свой путь продуктивности" }
+  };
+
+  const API_BASE = 'http://127.0.0.1:8000/api/auth';
+
+  // Query DOM once (with guards)
+  const body = document.body;
+  const themeToggle = document.getElementById('theme-toggle');
+  const languageSelect = document.getElementById('language-select');
+  const logo = document.getElementById('logo');
+  const loginTab = document.getElementById('loginTab');
+  const registerTab = document.getElementById('registerTab');
+  const nameField = document.getElementById('nameField');
+  const confirmField = document.getElementById('confirmField');
+  const extraLogin = document.getElementById('extraLogin');
+  const formTitle = document.getElementById('formTitle');
+  const formSubtitle = document.getElementById('formSubtitle');
+  const submitBtn = document.getElementById('submitBtn');
+  const authForm = document.getElementById('authForm');
+
+  // Theme functions
+  function updateThemeIcon() {
+    if (!themeToggle) return;
+    const sun = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.485-11.515l-.707.707M5.636 18.364l-.707.707m13.435-2.828l-.707-.707M5.636 5.636l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"/></svg>`;
+    const moon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>`;
+    themeToggle.innerHTML = body.classList.contains('dark') ? sun : moon;
+  }
+
+  function applyTheme() {
+    const saved = localStorage.getItem('theme');
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const useDark = saved === 'dark' || (!saved && prefersDark);
+    if (useDark) body.classList.add('dark'); else body.classList.remove('dark');
+    if (logo) logo.src = body.classList.contains('dark') ? 'rasmlar/darkrise.png' : 'rasmlar/lightrise.png';
+    updateThemeIcon();
+  }
+
+  function toggleTheme() {
+    const nowDark = body.classList.toggle('dark');
+    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
+    if (logo) logo.src = nowDark ? 'rasmlar/darkrise.png' : 'rasmlar/lightrise.png';
+    updateThemeIcon();
+  }
+
+  // Translation / UI text
+  function setTextsForLang(lang) {
+    document.querySelectorAll('[data-key]').forEach(el => {
+      const key = el.getAttribute('data-key');
+      if (!key) return;
+      if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
+    });
+    if (languageSelect) languageSelect.value = lang;
+    localStorage.setItem('language', lang);
+  }
+
+  // Tab switching (single function)
+  function switchTab(type) {
+    const isLogin = type === 'login';
+    if (isLogin) {
+      body.classList.remove('register-mode');
+      nameField?.classList.add('hidden');
+      confirmField?.classList.add('hidden');
+      extraLogin?.classList.remove('hidden');
+      loginTab?.classList.add('tab-active'); loginTab?.classList.remove('tab-inactive');
+      registerTab?.classList.remove('tab-active'); registerTab?.classList.add('tab-inactive');
+    } else {
+      body.classList.add('register-mode');
+      nameField?.classList.remove('hidden');
+      confirmField?.classList.remove('hidden');
+      extraLogin?.classList.add('hidden');
+      registerTab?.classList.add('tab-active'); registerTab?.classList.remove('tab-inactive');
+      loginTab?.classList.remove('tab-active'); loginTab?.classList.add('tab-inactive');
+    }
+    const lang = (languageSelect && languageSelect.value) || localStorage.getItem('language') || 'en';
+    setTextsForLang(lang);
+  }
+
+  // Helper: POST JSON
+  async function postJSON(url, body) {
+    try {
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+      const data = await res.json().catch(() => ({}));
+      return { ok: res.ok, status: res.status, data };
+    } catch (err) {
+      return { ok: false, status: 0, data: { error: 'Network error' } };
+    }
+  }
+
+  // Validation helpers
+  function showError(inputEl, message) {
+    if (!inputEl) { alert(message); return; }
+    inputEl.classList.add('border-red-500');
+    const err = inputEl.parentElement?.querySelector('.error');
+    if (err) { err.textContent = message; err.classList.remove('hidden'); }
+    else alert(message);
+  }
+  function clearErrors() {
+    document.querySelectorAll('.error').forEach(e => e.classList.add('hidden'));
+    document.querySelectorAll('input').forEach(i => i.classList.remove('border-red-500'));
+  }
+
+  // Form submit (single handler)
+ async function handleFormSubmit(e) {
+    e.preventDefault();
+    clearErrors();
+    const isRegister = body.classList.contains('register-mode');
+    const emailEl = document.getElementById('emailInput');
+    const passEl = document.getElementById('passwordInput');
+    const email = emailEl?.value.trim() || '';
+       const password = passEl?.value || '';
+
+    if (!email) return showError(emailEl, 'Email is required');
+    if (!password) return showError(passEl, 'Password is required');
+
+    if (isRegister) {
+      const nameEl = document.getElementById('nameInput');
+      const confirmEl = document.getElementById('confirmInput');
+      const name = nameEl?.value.trim() || '';
+      const confirm = confirmEl?.value || '';
+      if (!name) return showError(nameEl, 'Name is required');
+      if (!confirm) return showError(confirmEl, 'Confirm your password');
+      if (password !== confirm) return showError(confirmEl, 'Passwords do not match');
+
+      const { ok, data } = await postJSON(`${API_BASE}/register/`, { name, email, password });
+      if (ok) {
+        localStorage.setItem('access', data.access || '');
+        localStorage.setItem('refresh', data.refresh || '');
+        localStorage.setItem('username', data.username || (name || email.split('@')[0]));
+        try { localStorage.setItem('lastContentPage', 'bolimlar/progress.html'); } catch(e) { /* ignore */ }
+        alert('✅ Ro\'yxatdan o‘tish muvaffaqiyatli amalga oshirildi');
+        window.location.href = 'dashboard.html';
+      } else {
+        alert(data.error || 'Registration failed');
+      }
+    } else {
+      const { ok, data } = await postJSON(`${API_BASE}/login/`, { email, password });
+      if (ok) {
+        localStorage.setItem('access', data.access || '');
+        localStorage.setItem('refresh', data.refresh || '');
+        localStorage.setItem('username', data.username || email.split('@')[0]);
+
+        if (data.is_superuser || data.is_staff) {
+          localStorage.setItem('admin_session', '1');
+          localStorage.setItem('admin_name', data.username || 'Admin');
+          localStorage.setItem('admin_role', 'Super admin');
+        } else {
+          localStorage.removeItem('admin_session');
+          localStorage.removeItem('admin_name');
+          localStorage.removeItem('admin_role');
+        }
+
+        try { localStorage.setItem('lastContentPage', 'bolimlar/progress.html'); } catch(e) { /* ignore */ }
+        alert('✅ Kirish muvaffaqiyatli amalga oshirildi');
+        window.location.href = 'dashboard.html';
+      } else {
+        alert(data.error || 'Login failed');
+      }
+    }
+  }
+
+  // Password visibility toggle
+  function togglePasswordVisibility(button) {
+    const targetId = button.getAttribute('data-target');
+    const inputEl = document.getElementById(targetId);
+    if (!inputEl) return;
+
+    const isPassword = inputEl.type === 'password';
+    inputEl.type = isPassword ? 'text' : 'password';
+    
+    // Update icon
+    const svg = button.querySelector('svg');
+    if (svg) {
+      if (isPassword) {
+        // eye-slash
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
+      } else {
+        // eye
+        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />';
+      }
+    }
+  }
+
+  // Attach events safely
+  window.addEventListener('DOMContentLoaded', () => {
+    applyTheme();
+    const savedLang = localStorage.getItem('language') || 'en';
+    setTextsForLang(savedLang);
+
+    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
+    if (languageSelect) languageSelect.addEventListener('change', (e) => setTextsForLang(e.target.value));
+    if (loginTab) loginTab.addEventListener('click', (ev) => { ev.preventDefault(); switchTab('login'); });
+    if (registerTab) registerTab.addEventListener('click', (ev) => { ev.preventDefault(); switchTab('register'); });
+    if (authForm) authForm.addEventListener('submit', handleFormSubmit);
+
+    document.querySelectorAll('.password-toggle').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        togglePasswordVisibility(btn);
+      });
+    });
+
+    if (localStorage.getItem('access')) {
+      // dev vaqtida avtomatik redirectni o‘chirib qo‘yganmiz:
+      // window.location.href = 'dashboard.html';
+    }
+  });
+
+})();
+  </script>
+
+</body>
+</html>

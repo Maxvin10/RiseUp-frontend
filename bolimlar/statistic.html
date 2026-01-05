@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Statistika • RiseUp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.3.0/dist/chart.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+          },
+          backgroundImage: {
+            'grid': 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)',
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-slate-950 text-slate-50 font-sans antialiased">
+
+  <!-- GLOBAL BACKGROUND -->
+  <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
+
+  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+    <div class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/35 blur-3xl"></div>
+    <div class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/35 blur-3xl"></div>
+    <div class="absolute inset-0 opacity-[0.07] bg-grid bg-[length:26px_26px]"></div>
+  </div>
+
+  <div class="pointer-events-none fixed inset-x-0 top-20 -z-10 flex justify-center">
+    <div class="h-64 w-[650px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-400/40 blur-3xl opacity-70"></div>
+  </div>
+  <!-- END GLOBAL BACKGROUND -->
+
+  <main class="relative max-w-6xl mx-auto px-6 py-10 space-y-8">
+
+    <!-- TITLE / HEADER -->
+    <header class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="h-11 w-11 rounded-2xl bg-gradient-to-br from-indigo-500 to-sky-400 flex items-center justify-center shadow-lg shadow-indigo-500/40">
+          <span class="text-xl font-bold text-white">📊</span>
+        </div>
+        <div>
+          <h1 class="text-xl md:text-2xl font-semibold text-slate-50 tracking-tight">
+            Statistika paneli
+          </h1>
+          <p class="text-sm text-slate-400">
+            Ballaringiz, to‘g‘ri/noto‘g‘ri javoblaringiz va umumiy muvaffaqiyat darajasi.
+          </p>
+        </div>
+      </div>
+      <button onclick="refreshStats()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-medium transition-colors">
+        Yangilash
+      </button>
+    </header>
+
+    <!-- STATS GRID -->
+    <section class="grid grid-cols-1 md:grid-cols-2 gap-5">
+      <!-- Jami Balllar -->
+      <div class="rounded-2xl border border-slate-800/70 bg-slate-900/70 backdrop-blur-xl p-5 shadow-xl shadow-slate-950/60">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs uppercase tracking-[0.14em] text-slate-400 font-semibold">Jami balllar</p>
+            <p class="mt-2 text-3xl md:text-4xl font-bold text-indigo-400" id="totalPoints">0</p>
+          </div>
+          <div class="h-12 w-12 rounded-2xl bg-indigo-500/20 flex items-center justify-center text-2xl">
+            ⭐
+          </div>
+        </div>
+        <p class="text-xs text-slate-500">
+          Savollarga javob berib olgan umumiy balllaringiz.
+        </p>
+      </div>
+
+      <!-- To'g'ri javoblar -->
+      <div class="rounded-2xl border border-emerald-700/70 bg-emerald-950/50 backdrop-blur-xl p-5 shadow-xl shadow-emerald-900/70">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs uppercase tracking-[0.14em] text-emerald-300/80 font-semibold">
+              To‘g‘ri javoblar
+            </p>
+            <p class="mt-2 text-3xl md:text-4xl font-bold text-emerald-400" id="correctAnswers">0</p>
+          </div>
+          <div class="h-12 w-12 rounded-2xl bg-emerald-500/15 flex items-center justify-center text-2xl">
+            ✅
+          </div>
+        </div>
+        <p class="text-xs text-emerald-100/70">
+          To‘g‘ri belgilangan javoblar soni.
+        </p>
+      </div>
+
+      <!-- Noto'g'ri javoblar -->
+      <div class="rounded-2xl border border-rose-800/70 bg-rose-950/60 backdrop-blur-xl p-5 shadow-xl shadow-rose-900/70">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs uppercase tracking-[0.14em] text-rose-200/80 font-semibold">
+              Noto‘g‘ri javoblar
+            </p>
+            <p class="mt-2 text-3xl md:text-4xl font-bold text-rose-400" id="incorrectAnswers">0</p>
+          </div>
+          <div class="h-12 w-12 rounded-2xl bg-rose-500/20 flex items-center justify-center text-2xl">
+            ⚠️
+          </div>
+        </div>
+        <p class="text-xs text-rose-100/80">
+          Xatolar orqali ham o‘rganamiz – bu ham progress.
+        </p>
+      </div>
+
+      <!-- Muvaffaqiyat foizi -->
+      <div class="rounded-2xl border border-sky-700/70 bg-sky-950/60 backdrop-blur-xl p-5 shadow-xl shadow-sky-900/70">
+        <div class="flex items-center justify-between mb-2">
+          <div>
+            <p class="text-xs uppercase tracking-[0.14em] text-sky-200/80 font-semibold">
+              Muvaffaqiyat darajasi
+            </p>
+            <p class="mt-2 text-3xl md:text-4xl font-bold text-sky-300" id="successRate">0%</p>
+          </div>
+          <div class="h-12 w-12 rounded-2xl bg-sky-500/20 flex items-center justify-center text-2xl">
+            📈
+          </div>
+        </div>
+        <p class="text-xs text-sky-100/80">
+          To‘g‘ri javoblaringiz ulushi (%).
+        </p>
+      </div>
+    </section>
+
+    <!-- CHART SECTION -->
+    <section class="rounded-2xl border border-slate-800/70 bg-slate-900/70 backdrop-blur-xl p-6 md:p-7 shadow-2xl shadow-slate-950/70 mt-4">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-lg md:text-xl font-semibold text-slate-50">
+            Ball qo‘shilishi grafigi
+          </h2>
+          <p class="text-xs text-slate-400">
+            O‘tgan vaqt mobaynida qanday qilib ball yig‘ganingizni ko‘rsatadi.
+          </p>
+        </div>
+        <div id="statsStatus" class="text-sm text-slate-400">
+          Yuklanmoqda...
+        </div>
+      </div>
+
+      <!-- Chart wrapper -->
+      <div class="mt-6 h-[320px] md:h-[420px]">
+        <canvas id="pointsChart"></canvas>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+  let pointsChart = null;
+
+  // === ОБНОВЛЕНИЕ ТОКЕНА ===
+  async function refreshToken() {
+      try {
+          const refresh = localStorage.getItem('refresh');
+          if (!refresh) {
+              window.location.href = 'login.html';
+              return false;
+          }
+
+          const response = await fetch('http://127.0.0.1:8000/api/auth/refresh/', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ refresh })
+          });
+
+          if (!response.ok) {
+              window.location.href = 'login.html';
+              return false;
+          }
+
+          const data = await response.json();
+          localStorage.setItem('access', data.access);
+          return true;
+      } catch (error) {
+          console.error('Token refresh failed:', error);
+          window.location.href = 'login.html';
+          return false;
+      }
+  }
+
+  // === ЗАГРУЗКА СТАТИСТИКИ ===
+  async function getUserStats() {
+    try {
+        const token = localStorage.getItem('access');
+        if (!token) {
+            throw new Error("Foydalanuvchi avtorizatsiyadan o'tmagan");
+        }
+
+        console.log("=== MAKING API REQUEST ===");
+        console.log("Token exists:", !!token);
+        console.log("Request URL: http://127.0.0.1:8000/api/stats/");
+        
+        const startTime = Date.now();
+        const response = await fetch('http://127.0.0.1:8000/api/stats/', {
+            method: 'GET',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+
+        const endTime = Date.now();
+        console.log(`Request took: ${endTime - startTime}ms`);
+        console.log("Response status:", response.status);
+        console.log("Response status text:", response.statusText);
+        console.log("Response headers:", Object.fromEntries(response.headers.entries()));
+        
+        // Пытаемся прочитать ответ
+        const responseText = await response.text();
+        console.log("Response text:", responseText);
+        
+        let data;
+        try {
+            data = JSON.parse(responseText);
+            console.log("Parsed JSON data:", data);
+        } catch (parseError) {
+            console.error("Failed to parse JSON:", parseError);
+            throw new Error(`Invalid JSON response: ${responseText.substring(0, 100)}...`);
+        }
+        
+        // Проверяем наличие ошибки в данных
+        if (data.error) {
+            console.warn("API returned with error field:", data.error);
+            console.warn("Error message:", data.message);
+            // Все равно возвращаем данные, они содержат нулевые значения
+        }
+        
+        return data;
+
+    } catch (error) {
+        console.error("CRITICAL ERROR in getUserStats:", error);
+        console.error("Error stack:", error.stack);
+        throw error;
+    }
+}
+
+  // === ОБНОВЛЕНИЕ СТАТУСА ===
+  function setStatus(text) {
+      const el = document.getElementById("statsStatus");
+      if (el) {
+          el.textContent = text;
+          // Автоматически скрываем через 3 секунды если это статус
+          if (text.includes("✅") || text.includes("❌") || text.includes("Yuklandi")) {
+              setTimeout(() => {
+                  el.textContent = "";
+              }, 3000);
+          }
+      }
+  }
+
+  // === ОБНОВЛЕНИЕ ИНТЕРФЕЙСА ===
+  function updateUI(data) {
+      if (!data) {
+          setStatus("Ma'lumotlar yo'q ❌");
+          return;
+      }
+
+      // Извлекаем данные из ответа API
+      const points = data.user_stats?.total_points || 0;
+      const correct = data.answers?.correct || 0;
+      const incorrect = data.answers?.wrong || 0;
+      const accuracy = data.user_stats?.success_rate || data.answers?.accuracy || 0;
+
+      // Обновляем DOM элементы
+      document.getElementById("totalPoints").textContent = points;
+      document.getElementById("correctAnswers").textContent = correct;
+      document.getElementById("incorrectAnswers").textContent = incorrect;
+      document.getElementById("successRate").textContent = `${Math.round(accuracy)}%`;
+
+      // Создаем график прогресса
+      createChart(data);
+  }
+
+  // === СОЗДАНИЕ ГРАФИКА ===
+  function createChart(data) {
+      const ctx = document.getElementById('pointsChart').getContext('2d');
+      
+      // Удаляем предыдущий график если есть
+      if (pointsChart) {
+          pointsChart.destroy();
+      }
+
+      const points = data.user_stats?.total_points || 0;
+      const chartData = [];
+      const chartLabels = [];
+
+      // Используем реальные данные по датам если они есть
+      if (data.tasks?.by_date && data.tasks.by_date.length > 0) {
+          const tasksByDate = data.tasks.by_date;
+          
+          // Сортируем по дате
+          tasksByDate.sort((a, b) => new Date(a.created_at__date) - new Date(b.created_at__date));
+          
+          // Накопительное суммирование баллов (предполагаем 10 баллов за задание)
+          let cumulativePoints = 0;
+          tasksByDate.forEach((item, index) => {
+              cumulativePoints += item.count * 10;
+              chartData.push(cumulativePoints);
+              
+              // Форматируем дату
+              const date = new Date(item.created_at__date);
+              const day = date.getDate();
+              const month = date.getMonth() + 1;
+              chartLabels.push(`${day < 10 ? '0' : ''}${day}.${month < 10 ? '0' : ''}${month}`);
+          });
+      } else {
+          // Если нет данных по датам, создаем линейный прогресс
+          const steps = Math.min(10, Math.max(3, Math.ceil(points / 20)));
+          for (let i = 0; i <= steps; i++) {
+              const progress = i / steps;
+              chartData.push(Math.round(points * progress));
+              chartLabels.push(`Qadam ${i + 1}`);
+          }
+      }
+
+      const maxPoints = Math.max(points, 50); // Минимум 50 для наглядности
+
+      pointsChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+              labels: chartLabels,
+              datasets: [{
+                  label: 'Ball',
+                  data: chartData,
+                  fill: true,
+                  backgroundColor: 'rgba(99,102,241,0.16)',
+                  borderColor: '#6366f1',
+                  borderWidth: 2,
+                  tension: 0.4,
+                  pointBackgroundColor: '#6366f1',
+                  pointRadius: 4,
+                  pointHoverRadius: 6
+              }]
+          },
+          options: {
+              responsive: true,
+              maintainAspectRatio: false,
+              plugins: {
+                  legend: { display: false },
+                  tooltip: {
+                      enabled: true,
+                      backgroundColor: 'rgba(15,23,42,0.95)',
+                      borderColor: '#4f46e5',
+                      borderWidth: 1,
+                      titleColor: '#e5e7eb',
+                      bodyColor: '#cbd5f5',
+                      padding: 10,
+                      cornerRadius: 8
+                  }
+              },
+              scales: {
+                  x: {
+                      ticks: {
+                          color: '#94a3b8',
+                          font: { size: 11 }
+                      },
+                      grid: {
+                          color: 'rgba(148,163,184,0.24)',
+                          drawBorder: false
+                      }
+                  },
+                  y: {
+                      beginAtZero: true,
+                      max: maxPoints,
+                      ticks: {
+                          stepSize: Math.max(10, Math.ceil(maxPoints / 5)),
+                          color: '#94a3b8',
+                          font: { size: 11 }
+                      },
+                      grid: {
+                          color: 'rgba(148,163,184,0.22)',
+                          drawBorder: false
+                      }
+                  }
+              }
+          }
+      });
+  }
+
+  // === ОСНОВНАЯ ФУНКЦИЯ ЗАГРУЗКИ ===
+  async function loadAndDisplayStats() {
+      setStatus("Yuklanmoqda...");
+      
+      try {
+          const stats = await getUserStats();
+          
+          // Проверяем есть ли ошибка в ответе
+          if (stats.error) {
+              console.warn("API returned error but we continue:", stats.error);
+          }
+          
+          updateUI(stats);
+          setStatus("Yuklandi ✅");
+          
+      } catch (error) {
+          console.error("Statistikani yuklab bo'lmadi:", error);
+          setStatus("Xatolik yuz berdi ❌");
+          
+          // Показываем нулевые данные (лучше чем ничего)
+          updateUI({
+              user_stats: { total_points: 0, success_rate: 0 },
+              answers: { correct: 0, wrong: 0, total: 0, accuracy: 0 },
+              tasks: { total: 0, by_type: [], by_category: [], by_date: [] }
+          });
+      }
+  }
+
+  // === РУЧНОЕ ОБНОВЛЕНИЕ ===
+  function refreshStats() {
+      if (pointsChart) {
+          pointsChart.destroy();
+          pointsChart = null;
+      }
+      loadAndDisplayStats();
+  }
+
+  // === ВЫХОД ИЗ СИСТЕМЫ ===
+  function logout() {
+      localStorage.removeItem('access');
+      localStorage.removeItem('refresh');
+      localStorage.removeItem('username');
+      window.location.href = 'login.html';
+  }
+
+  // === ИНИЦИАЛИЗАЦИЯ ПРИ ЗАГРУЗКЕ ===
+  document.addEventListener('DOMContentLoaded', () => {
+      // Проверяем авторизацию
+      const token = localStorage.getItem('access');
+      if (!token) {
+          window.location.href = 'login.html';
+          return;
+      }
+      
+      // Загружаем статистику
+      loadAndDisplayStats();
+      
+      // Автоматическое обновление каждые 2 минуты
+      setInterval(() => {
+          refreshStats();
+      }, 2 * 60 * 1000);
+  });
+  </script>
+
+</body>
+</html>
