@@ -1,0 +1,1299 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard • RiseUp</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Inter', 'system-ui', 'sans-serif'] },
+          colors: {
+            brand: {
+              50: '#eef2ff',
+              100: '#e0e7ff',
+              500: '#6366f1',
+              600: '#4f46e5',
+              700: '#4338ca',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Inter', system-ui, sans-serif; }
+    .glass-card {
+      background: linear-gradient(180deg, rgba(5, 5, 5, 0.98), rgba(25, 106, 187, 0.96));
+      border: 1px solid rgba(148,163,184,0.22);
+      box-shadow: 0 18px 45px rgba(15,23,42,0.12);
+      border-radius: 16px;
+      backdrop-filter: blur(18px);
+    }
+    .glass-soft {
+      background: rgba(2,6,23,0.55);
+      border: 1px solid rgba(148,163,184,0.18);
+      border-radius: 16px;
+      backdrop-filter: blur(18px);
+    }
+    .chip {
+      border-radius:999px; padding:2px 10px; font-size:11px; font-weight:600;
+      display:inline-flex; align-items:center; gap:6px;
+      border: 1px solid rgba(148,163,184,0.20);
+    }
+    .chip-dot { width:7px; height:7px; border-radius:999px; }
+    .nav-active { background: rgba(148,163,184,0.12); color: #fff; }
+    .nav-idle { color: rgba(226,232,240,0.72); }
+    .nav-idle:hover { background: rgba(148,163,184,0.10); color: #fff; }
+    .table-head { background: rgba(15,23,42,0.65); }
+    .row-hover:hover { background: rgba(148,163,184,0.06); }
+    #toast {
+      position: fixed; right: 18px; bottom: 18px;
+      padding: 10px 14px; border-radius: 999px;
+      font-size: 13px; font-weight: 600;
+      z-index: 9999; display: none;
+      box-shadow: 0 18px 40px rgba(15,23,42,0.22);
+      border: 1px solid rgba(148,163,184,0.25);
+      background: rgba(2,6,23,0.9);
+      color: #e2e8f0;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-slate-950 to-slate-900 text-slate-50">
+
+<!-- background -->
+<div class="pointer-events-none fixed inset-0 -z-10">
+  <div class="absolute -top-32 -left-10 h-72 w-72 rounded-full bg-brand-500/30 blur-3xl"></div>
+  <div class="absolute -bottom-40 -right-10 h-80 w-80 rounded-full bg-fuchsia-500/25 blur-3xl"></div>
+  <div class="absolute inset-0 opacity-[0.06] bg-[radial-gradient(circle_at_1px_1px,#1f2937_1px,transparent_0)] bg-[length:22px_22px]"></div>
+</div>
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="hidden md:flex md:flex-col w-72 border-r border-slate-800/70 bg-slate-950/70 backdrop-blur-xl">
+    <div class="px-5 pt-5 pb-4 flex items-center gap-3">
+      <div class="w-11 h-11 rounded-2xl bg-gradient-to-br from-brand-500 to-indigo-700 flex items-center justify-center text-lg font-bold shadow-lg shadow-indigo-500/30">
+        RU
+      </div>
+      <div class="min-w-0">
+        <p class="text-sm font-semibold tracking-tight">RiseUp Admin</p>
+        <p class="text-xs text-slate-400">Monitoring • Users • Tasks</p>
+      </div>
+    </div>
+
+    <div class="px-5 pb-3">
+      <div class="glass-soft p-3">
+        <div class="flex items-center justify-between">
+          <div>
+            <p class="text-[11px] uppercase tracking-[0.16em] text-slate-400">Status</p>
+            <p id="apiStatusText" class="text-sm font-semibold mt-1">Checking…</p>
+          </div>
+          <div id="apiStatusChip" class="chip bg-slate-900/30">
+            <span class="chip-dot bg-slate-400"></span>
+            <span class="text-slate-200">API</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 mt-2">Admin token mavjud bo‘lsa panel ishlaydi.</p>
+      </div>
+    </div>
+
+    <nav class="mt-2 flex-1 px-3 space-y-1 text-sm">
+      <button data-view="dashboard" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl nav-active">
+        <span>📊</span> <span>Dashboard</span>
+      </button>
+      <button data-view="users" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl nav-idle">
+        <span>👥</span> <span>Users</span>
+      </button>
+      <button data-view="tasks" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl nav-idle">
+        <span>✅</span> <span>Tasks</span>
+      </button>
+      <button data-view="courses"
+        class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl nav-idle">
+        <span>📚</span> <span>Courses</span>
+      </button>
+      <button data-view="features" class="nav-btn w-full flex items-center gap-3 px-3 py-2.5 rounded-xl nav-idle">
+        <span>✨</span> <span>Admin Tools</span>
+      </button>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 flex flex-col">
+
+    <!-- TOPBAR -->
+    <header class="flex items-center justify-between px-4 md:px-8 py-4 border-b border-slate-800/70 bg-slate-950/70 backdrop-blur-xl">
+      <div>
+        <p class="text-[11px] uppercase tracking-[0.18em] text-sky-300/90 mb-1">Admin</p>
+        <h1 class="text-lg md:text-xl font-semibold flex items-center gap-2">
+          <span id="currentViewText">Dashboard</span>
+          <span id="envLabel" class="hidden md:inline-flex chip bg-amber-400/10 text-amber-300">
+            <span class="chip-dot bg-amber-300"></span>
+            <span>DEV</span>
+          </span>
+        </h1>
+        <p id="subTitleText" class="text-xs text-slate-400 mt-1">Realtime monitoring & boshqaruv</p>
+      </div>
+
+      <div class="flex items-center gap-2 md:gap-3 text-[11px]">
+        <div class="chip bg-emerald-400/10 text-emerald-200">
+          <span class="chip-dot bg-emerald-300 animate-pulse"></span>
+          <span id="adminRoleLabel">Super admin</span>
+        </div>
+
+        <!-- realtime chip -->
+        <div id="realtimeChip" class="hidden md:inline-flex chip bg-sky-400/10 text-sky-200">
+          <span class="chip-dot bg-sky-300"></span>
+          <span id="onlineUsersLabel">Online: —</span>
+        </div>
+      </div>
+    </header>
+
+    <section class="flex-1 px-4 md:px-8 py-6 space-y-6">
+
+      <!-- DASHBOARD -->
+      <div id="view-dashboard" class="view space-y-6">
+
+        <!-- KPI -->
+        <div class="grid grid-cols-1 md:grid-cols-6 gap-4">
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Jami foydalanuvchilar</p>
+              <p id="statTotalUsers" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">Registrations</p>
+            </div>
+            <span class="text-2xl">👤</span>
+          </div>
+
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Telegram ulanganlar</p>
+              <p id="statTelegramUsers" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">Linked users</p>
+            </div>
+            <span class="text-2xl">🤖</span>
+          </div>
+
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Jami tasks</p>
+              <p id="statTotalTasks" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">All tasks</p>
+            </div>
+            <span class="text-2xl">✅</span>
+          </div>
+
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Bugungi rejalangan</p>
+              <p id="statTodayTasks" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">Scheduled today</p>
+            </div>
+            <span class="text-2xl">📅</span>
+          </div>
+
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Jami kurslar</p>
+              <p id="statTotalCourses" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">All courses</p>
+            </div>
+            <span class="text-2xl">📚</span>
+          </div>
+
+          <div class="glass-card px-4 py-4 flex items-center justify-between">
+            <div>
+              <p class="text-[11px] uppercase tracking-wide text-slate-300/70">Jami darslar</p>
+              <p id="statTotalLessons" class="text-2xl font-semibold mt-2">—</p>
+              <p class="text-[11px] text-slate-300/60 mt-1">All lessons</p>
+            </div>
+            <span class="text-2xl">🎓</span>
+          </div>
+        </div>
+
+        <!-- Realtime panel -->
+        <div id="realtimePanel" class="hidden glass-soft p-5">
+          <div class="flex items-start justify-between gap-3">
+            <div>
+              <h2 class="text-base font-semibold">Realtime Monitoring</h2>
+              <p class="text-xs text-slate-400 mt-1">Online users, requestlar, kechikishlar (API bo‘lsa).</p>
+            </div>
+            <div class="chip bg-slate-900/30 text-slate-200">
+              <span class="chip-dot bg-slate-300"></span>
+              <span id="realtimeUpdatedAt">updated: —</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mt-4">
+            <div class="glass-soft p-4">
+              <p class="text-xs text-slate-400">Online users</p>
+              <p id="rtOnline" class="text-2xl font-semibold mt-1">—</p>
+            </div>
+            <div class="glass-soft p-4">
+              <p class="text-xs text-slate-400">Requests / min</p>
+              <p id="rtRpm" class="text-2xl font-semibold mt-1">—</p>
+            </div>
+            <div class="glass-soft p-4">
+              <p class="text-xs text-slate-400">DB latency (ms)</p>
+              <p id="rtDb" class="text-2xl font-semibold mt-1">—</p>
+            </div>
+            <div class="glass-soft p-4">
+              <p class="text-xs text-slate-400">Queue / pending</p>
+              <p id="rtQueue" class="text-2xl font-semibold mt-1">—</p>
+            </div>
+          </div>
+
+          <p class="text-[11px] text-slate-400 mt-4">
+            ✅ Bu blok keyin backendga endpoint qo‘shilganda avtomatik ishlaydi: <span class="text-slate-200">/api/admin/realtime/</span>
+          </p>
+        </div>
+
+        <!-- quick actions -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="glass-soft p-5">
+            <h3 class="text-sm font-semibold">Quick actions</h3>
+            <p class="text-xs text-slate-400 mt-1">Eng ko‘p ishlatiladigan admin ishlar.</p>
+            <div class="mt-4 flex flex-wrap gap-2">
+              <button onclick="showView('users')" class="px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700 text-xs hover:bg-slate-800">
+                👥 Users
+              </button>
+              <button onclick="showView('tasks')" class="px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700 text-xs hover:bg-slate-800">
+                ✅ Tasks
+              </button>
+              <button onclick="loadDashboard(true)" class="px-3 py-2 rounded-xl bg-brand-600/20 border border-brand-500/40 text-xs hover:bg-brand-600/30">
+                🔄 Refresh
+              </button>
+            </div>
+          </div>
+
+          <div class="glass-soft p-5 md:col-span-2">
+            <h3 class="text-sm font-semibold">Admin notes (for your team)</h3>
+            <p class="text-xs text-slate-400 mt-1">Bu yerga keyin “Announcements” qo‘shsak bo‘ladi.</p>
+            <ul class="mt-3 text-xs text-slate-300/80 space-y-2">
+              <li>• Task yuborish (send_tasks) serverda worker bo‘lib ishlashi kerak.</li>
+              <li>• Telegram bot + Backend bir xil env bilan ishlasin (BOT_TOKEN, API_BASE).</li>
+              <li>• Supabase pooler ishlatilsa, connection limits va idle timeout tekshirilsin.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <!-- USERS -->
+      <div id="view-users" class="view hidden space-y-4">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <h2 class="text-base md:text-lg font-semibold">Users</h2>
+            <p class="text-xs text-slate-400">Jami RiseUp foydalanuvchilari.</p>
+          </div>
+
+          <div class="flex items-center gap-2 w-full md:w-auto">
+            <input id="userSearch" type="text" placeholder="Search by username or email..."
+              class="w-full md:w-80 px-3 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-xs placeholder:text-slate-500 focus:outline-none focus:ring-1 focus:ring-sky-400" />
+            <button onclick="loadUsers(document.getElementById('userSearch').value)"
+              class="px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700 text-xs hover:bg-slate-800">
+              🔍 Search
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-soft overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead class="table-head text-slate-200/90">
+                <tr>
+                  <th class="text-left py-3 px-3">ID</th>
+                  <th class="text-left py-3 px-3">Username</th>
+                  <th class="text-left py-3 px-3">Email</th>
+                  <th class="text-left py-3 px-3">Role</th>
+                  <th class="text-left py-3 px-3">Telegram</th>
+                  <th class="text-left py-3 px-3">Tasks</th>
+                  <th class="text-left py-3 px-3">Created</th>
+                  <th class="text-left py-3 px-3">Last login</th>
+                  <th class="text-right py-3 px-3">Action</th>
+                </tr>
+              </thead>
+              <tbody id="usersTbody" class="divide-y divide-slate-800/60 bg-slate-950/30"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- TASKS -->
+      <div id="view-tasks" class="view hidden space-y-4">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-3">
+          <div>
+            <h2 class="text-base md:text-lg font-semibold">Tasks</h2>
+            <p class="text-xs text-slate-400">Filter: sent status + date.</p>
+          </div>
+
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <select id="taskSentFilter"
+              class="px-3 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-xs focus:outline-none focus:ring-1 focus:ring-sky-400">
+              <option value="">Sent: hammasi</option>
+              <option value="false">Yuborilmagan</option>
+              <option value="true">Yuborilgan</option>
+            </select>
+
+            <input id="taskDateFilter" type="date"
+              class="px-3 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-xs focus:outline-none focus:ring-1 focus:ring-sky-400" />
+
+            <button onclick="loadTasks()"
+              class="px-3 py-2 rounded-xl bg-slate-800/60 border border-slate-700 text-xs hover:bg-slate-800">
+              🔄 Apply
+            </button>
+          </div>
+        </div>
+
+        <div class="glass-soft overflow-hidden">
+          <div class="overflow-x-auto">
+            <table class="min-w-full text-xs">
+              <thead class="table-head text-slate-200/90">
+                <tr>
+                  <th class="text-left py-3 px-3">ID</th>
+                  <th class="text-left py-3 px-3">User</th>
+                  <th class="text-left py-3 px-3">Title</th>
+                  <th class="text-left py-3 px-3">Type</th>
+                  <th class="text-left py-3 px-3">Category</th>
+                  <th class="text-left py-3 px-3">Scheduled</th>
+                  <th class="text-left py-3 px-3">Sent</th>
+                  <th class="text-right py-3 px-3">Action</th>
+                </tr>
+              </thead>
+              <tbody id="tasksTbody" class="divide-y divide-slate-800/60 bg-slate-950/30"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- COURSES -->
+      <div id="view-courses" class="view hidden space-y-4">
+
+        <div class="flex h-[70vh] gap-4">
+
+          <!-- COURSES LIST -->
+          <aside class="w-80 glass-soft p-4 overflow-y-auto">
+            <h2 class="text-sm font-semibold mb-3">📚 Courses</h2>
+            <div class="glass-soft p-3 mb-3">
+              <p id="courseFormTitle" class="text-xs font-semibold mb-2">➕ Create course</p>
+              <input id="courseTitle" placeholder="Title"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <textarea id="courseDesc" placeholder="Description"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs"></textarea>
+              <input id="courseBadge" placeholder="Badge (optional)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <input id="courseCoverUrl" placeholder="Cover URL (optional)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <input id="courseGradient" placeholder="Gradient (optional)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <input id="courseTags" placeholder="Tags (comma separated)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <div class="flex items-center gap-2 mb-2 text-xs">
+                <input id="courseIsFree" type="checkbox" checked class="accent-emerald-400" />
+                <label for="courseIsFree">Free</label>
+              </div>
+              <input id="coursePrice" type="number" step="0.01" placeholder="Price"
+                class="w-full mb-3 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+              <div class="grid grid-cols-2 gap-2">
+                <button onclick="createCourseAdmin()"
+                  class="w-full px-3 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-xs hover:bg-emerald-600/30">
+                  ➕ Create
+                </button>
+                <button onclick="resetCourseForm()"
+                  class="w-full px-3 py-2 rounded-xl bg-slate-900/60 border border-slate-700 text-xs hover:bg-slate-900">
+                  Reset
+                </button>
+              </div>
+              <button onclick="updateCourseAdmin()"
+                class="w-full mt-2 px-3 py-2 rounded-xl bg-sky-600/20 border border-sky-500/40 text-xs hover:bg-sky-600/30">
+                ✏️ Update selected
+              </button>
+            </div>
+            <div id="coursesList" class="space-y-3"></div>
+          </aside>
+
+          <!-- LESSONS -->
+          <div class="flex-1 glass-soft p-5 overflow-y-auto">
+
+            <h2 id="lessonsTitle" class="text-base font-semibold mb-3">
+              Select a course
+            </h2>
+            <p class="text-xs text-slate-400 mb-4">
+              Kursni tanlang → pastdagi form orqali dars qo‘shing.
+            </p>
+
+            <!-- CREATE LESSON -->
+            <div id="createLessonBox" class="glass-soft p-4 mb-4 hidden">
+              <h3 class="text-sm font-semibold mb-2">➕ Создать урок</h3>
+
+              <input id="lessonTitle"
+                placeholder="Название урока"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+
+              <input id="lessonOrder"
+                type="number"
+                placeholder="Порядок (order)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+
+              <input id="lessonVideo"
+                placeholder="YouTube ID yoki URL (ixtiyoriy)"
+                class="w-full mb-2 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs" />
+
+              <textarea id="lessonContent"
+                placeholder="Описание / контент урока"
+                class="w-full mb-3 px-3 py-2 rounded bg-slate-900/60 border border-slate-700 text-xs"></textarea>
+
+              <button onclick="createLessonAdmin()"
+                class="px-4 py-2 rounded-xl bg-emerald-600/20 border border-emerald-500/40 text-xs hover:bg-emerald-600/30">
+                ➕ Создать
+              </button>
+            </div>
+
+
+            <!-- LESSONS TABLE -->
+            <div class="overflow-x-auto">
+              <table class="min-w-full text-xs">
+                <thead class="table-head">
+                  <tr>
+                    <th class="text-left py-3 px-3">Order</th>
+                    <th class="text-left py-3 px-3">Title</th>
+                    <th class="text-right py-3 px-3">Action</th>
+                  </tr>
+                </thead>
+                <tbody id="lessonsTbody"
+                  class="divide-y divide-slate-800/60"></tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- FEATURES / ADMIN TOOLS -->
+      <div id="view-features" class="view hidden space-y-4">
+        <div class="glass-soft p-5">
+          <h2 class="text-base md:text-lg font-semibold">Admin Tools (RiseUp uchun g‘oyalar)</h2>
+          <p class="text-xs text-slate-400 mt-1">Keyin qo‘shsak admin panel real “startup panel” bo‘ladi.</p>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4 text-xs">
+            <div class="glass-soft p-4">
+              <p class="font-semibold">🆕 Announcements</p>
+              <p class="text-slate-400 mt-1">Saytga “yangilik” card chiqishi, admin paneldan qo‘shish/o‘chirish.</p>
+            </div>
+
+            <div class="glass-soft p-4">
+              <p class="font-semibold">🛡️ Audit log</p>
+              <p class="text-slate-400 mt-1">Admin kimni o‘chirdi, nima update qildi — hammasi log bo‘lsin.</p>
+            </div>
+
+            <div class="glass-soft p-4">
+              <p class="font-semibold">🚨 Rate limit / Abuse</p>
+              <p class="text-slate-400 mt-1">Login bruteforce bo‘lsa bloklash / throttling holatini ko‘rsatish.</p>
+            </div>
+
+            <div class="glass-soft p-4">
+              <p class="font-semibold">📌 Task moderation</p>
+              <p class="text-slate-400 mt-1">Noto‘g‘ri yoki spam tasklarni hide/delete/ban user.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+  </main>
+</div>
+
+<div id="toast"></div>
+
+<script>
+/* ======================================================
+   RISEUP ADMIN — CLEAN + PRO UI (keeps your logic)
+   ====================================================== */
+
+const isLocalPreview = /:(5500|5501)$/.test(window.location.origin || '');
+const API_ORIGIN = (window.location.origin || '').startsWith('http') && !isLocalPreview
+  ? window.location.origin
+  : 'http://127.0.0.1:8000';
+const API_ROOT = `${API_ORIGIN}/api`;
+const API_BASE = `${API_ROOT}/admin`;
+let dashboardInterval = null;
+let realtimeInterval = null;
+
+/* ==============================
+   AUTH
+   ============================== */
+
+function hardLogout() {
+  localStorage.removeItem('access');
+  localStorage.removeItem('refresh');
+  window.location.href = 'login.html';
+}
+
+async function apiRequest(url, options = {}) {
+  const token = localStorage.getItem('access');
+  if (!token) {
+    hardLogout();
+    return { ok:false, status:401, data:null };
+  }
+
+  let res;
+  try {
+    res = await fetch(url, {
+      ...options,
+      headers: {
+        'Authorization': `Bearer ${token}`,
+        'Content-Type': 'application/json',
+        ...(options.headers || {})
+      }
+    });
+  } catch (e) {
+    console.error('Network error:', e);
+    return { ok:false, status:0, data:null };
+  }
+
+  if (res.status === 401 || res.status === 403) {
+    hardLogout();
+    return { ok:false, status:res.status, data:null };
+  }
+
+  if (res.status === 204) {
+    return { ok:true, status:204, data:null };
+  }
+
+  let data = null;
+  let text = null;
+  try {
+    data = await res.clone().json();
+  } catch {
+    try { text = await res.text(); } catch {}
+  }
+
+  return { ok: res.ok, status: res.status, data, text };
+}
+
+/* ==============================
+   UI HELPERS
+   ============================== */
+
+function showToast(message) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = message;
+  t.style.display = 'block';
+  clearTimeout(window.__toastTimer);
+  window.__toastTimer = setTimeout(() => t.style.display = 'none', 2200);
+}
+
+function formatDateTime(str) {
+  if (!str) return '—';
+  const d = new Date(str);
+  return isNaN(d) ? str : d.toLocaleString();
+}
+
+function truncate(text, len = 40) {
+  if (!text) return '';
+  return text.length <= len ? text : text.slice(0, len) + '…';
+}
+
+function setSidebarStatus(ok) {
+  const txt = document.getElementById('apiStatusText');
+  const chip = document.getElementById('apiStatusChip');
+  if (!txt || !chip) return;
+
+  if (ok) {
+    txt.textContent = 'Online';
+    chip.className = 'chip bg-emerald-400/10 text-emerald-200';
+    chip.innerHTML = `<span class="chip-dot bg-emerald-300 animate-pulse"></span><span>API</span>`;
+  } else {
+    txt.textContent = 'Offline';
+    chip.className = 'chip bg-rose-400/10 text-rose-200';
+    chip.innerHTML = `<span class="chip-dot bg-rose-300"></span><span>API</span>`;
+  }
+}
+
+/* ==============================
+   DASHBOARD
+   ============================== */
+
+async function loadDashboard(showToastOnOk=false) {
+  const view = document.getElementById('view-dashboard');
+  if (!view || view.classList.contains('hidden')) return;
+
+  const elTotalUsers = document.getElementById('statTotalUsers');
+  const elTelegram = document.getElementById('statTelegramUsers');
+  const elTotalTasks = document.getElementById('statTotalTasks');
+  const elTodayTasks = document.getElementById('statTodayTasks');
+  const elTotalCourses = document.getElementById('statTotalCourses');
+  const elTotalLessons = document.getElementById('statTotalLessons');
+
+  const r = await apiRequest(`${API_BASE}/dashboard/`);
+  setSidebarStatus(r.ok);
+
+  if (!r.ok || !r.data) return;
+
+  elTotalUsers.textContent = r.data.total_users ?? '—';
+  elTelegram.textContent = r.data.telegram_connected ?? '—';
+  elTotalTasks.textContent = r.data.total_tasks ?? '—';
+  elTodayTasks.textContent = r.data.today_tasks ?? '—';
+  elTotalCourses.textContent = r.data.total_courses ?? '—';
+  elTotalLessons.textContent = r.data.total_lessons ?? '—';
+
+  // demo badge remove (optional)
+  document.getElementById('envLabel')?.classList.add('hidden');
+
+  if (showToastOnOk) showToast('Dashboard refreshed ✅');
+}
+
+/* ==============================
+   REALTIME (optional endpoint)
+   expected: { online_users, rpm, db_latency_ms, queue_pending }
+   ============================== */
+
+async function loadRealtime() {
+  const panel = document.getElementById('realtimePanel');
+  const chip = document.getElementById('realtimeChip');
+  const onlineLabel = document.getElementById('onlineUsersLabel');
+
+  const r = await apiRequest(`${API_BASE}/realtime/`);
+  if (!r.ok || !r.data) {
+    // endpoint yo'q bo'lsa yashiramiz
+    panel?.classList.add('hidden');
+    chip?.classList.add('hidden');
+    return;
+  }
+
+  panel?.classList.remove('hidden');
+  chip?.classList.remove('hidden');
+
+  document.getElementById('rtOnline').textContent = r.data.online_users ?? '—';
+  document.getElementById('rtRpm').textContent = r.data.rpm ?? '—';
+  document.getElementById('rtDb').textContent = r.data.db_latency_ms ?? '—';
+  document.getElementById('rtQueue').textContent = r.data.queue_pending ?? '—';
+
+  const now = new Date();
+  document.getElementById('realtimeUpdatedAt').textContent = 'updated: ' + now.toLocaleTimeString();
+
+  onlineLabel.textContent = `Online: ${r.data.online_users ?? '—'}`;
+}
+
+/* ==============================
+   USERS
+   ============================== */
+
+async function loadUsers(filter = '') {
+  const tbody = document.getElementById('usersTbody');
+  if (!tbody) return;
+
+  const r = await apiRequest(`${API_BASE}/users/`);
+  if (!r.ok || !r.data) return;
+
+  const users = r.data;
+  const q = (filter || '').toLowerCase();
+
+  const filtered = users.filter(u =>
+    (u.username || '').toLowerCase().includes(q) ||
+    (u.email || '').toLowerCase().includes(q)
+  );
+
+  tbody.innerHTML = filtered.length
+    ? filtered.map(u => `
+        <tr class="row-hover">
+          <td class="px-3 py-3">${u.id}</td>
+          <td class="px-3 py-3">
+            <div class="font-semibold">${u.username || '—'}</div>
+            <div class="text-[11px] text-slate-400">${u.is_staff ? 'Admin' : 'User'}</div>
+          </td>
+          <td class="px-3 py-3">${u.email || '—'}</td>
+          <td class="px-3 py-3">
+            <span class="chip ${u.is_staff ? 'bg-amber-400/10 text-amber-200' : 'bg-slate-900/30 text-slate-200'}">
+              <span class="chip-dot ${u.is_staff ? 'bg-amber-300' : 'bg-slate-300'}"></span>
+              ${u.is_staff ? 'Admin' : 'User'}
+            </span>
+          </td>
+          <td class="px-3 py-3">
+            ${u.telegram_linked ? '<span class="chip bg-emerald-400/10 text-emerald-200"><span class="chip-dot bg-emerald-300"></span>Linked</span>' : '<span class="chip bg-rose-400/10 text-rose-200"><span class="chip-dot bg-rose-300"></span>—</span>'}
+          </td>
+          <td class="px-3 py-3">${u.tasks_count ?? 0}</td>
+          <td class="px-3 py-3">${formatDateTime(u.created_at)}</td>
+          <td class="px-3 py-3">${formatDateTime(u.last_login)}</td>
+          <td class="px-3 py-3 text-right">
+            <button
+              onclick="deleteUser(${u.id}, '${(u.username || 'user').replace(/'/g,"\\'")}')"
+              class="text-rose-300 hover:text-rose-200 text-xs font-semibold">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('')
+    : `<tr><td colspan="9" class="text-center py-6 text-slate-400">No users</td></tr>`;
+}
+
+/* ==============================
+   DELETE USER (fix: 204 -> success)
+   ============================== */
+
+async function deleteUser(id, username) {
+  const ok = confirm(`"${username}" userni o‘chirasizmi?`);
+  if (!ok) return;
+
+  const r = await apiRequest(`${API_BASE}/users/${id}/`, { method: 'DELETE' });
+  if (!r.ok) {
+    showToast('Delete failed ❌');
+    return;
+  }
+
+  showToast('User deleted ✅');
+  loadUsers(document.getElementById('userSearch')?.value || '');
+  loadDashboard();
+}
+
+/* ==============================
+   TASKS
+   ============================== */
+
+async function loadTasks() {
+  const tbody = document.getElementById('tasksTbody');
+  if (!tbody) return;
+
+  const sent = document.getElementById('taskSentFilter')?.value;
+  const date = document.getElementById('taskDateFilter')?.value;
+
+  const qs = new URLSearchParams();
+  if (sent !== '') qs.append('sent', sent);
+  if (date) qs.append('date', date);
+
+  const r = await apiRequest(`${API_BASE}/tasks/?${qs}`);
+  if (!r.ok || !r.data) return;
+
+  const tasks = r.data;
+
+  tbody.innerHTML = tasks.length
+    ? tasks.map(t => `
+        <tr class="row-hover">
+          <td class="px-3 py-3">${t.id}</td>
+          <td class="px-3 py-3">
+            <div class="font-semibold">${t.user_username || '—'}</div>
+            <div class="text-[11px] text-slate-400">${t.user_email || '—'}</div>
+          </td>
+          <td class="px-3 py-3">${truncate(t.title, 46)}</td>
+          <td class="px-3 py-3">
+            <span class="chip bg-slate-900/30 text-slate-200">
+              <span class="chip-dot bg-slate-300"></span>
+              ${t.type || '—'}
+            </span>
+          </td>
+          <td class="px-3 py-3">${t.category || '—'}</td>
+          <td class="px-3 py-3">${formatDateTime(t.scheduled_time)}</td>
+          <td class="px-3 py-3">
+            ${t.sent_to_telegram ? '<span class="chip bg-emerald-400/10 text-emerald-200"><span class="chip-dot bg-emerald-300"></span>Sent</span>' : '<span class="chip bg-amber-400/10 text-amber-200"><span class="chip-dot bg-amber-300"></span>Pending</span>'}
+          </td>
+          <td class="px-3 py-3 text-right">
+            <button onclick="deleteTask(${t.id})" class="text-rose-300 hover:text-rose-200 text-xs font-semibold">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `).join('')
+    : `<tr><td colspan="8" class="text-center py-6 text-slate-400">No tasks</td></tr>`;
+}
+
+async function deleteTask(id) {
+  if (!confirm('Savolni o‘chirasizmi?')) return;
+
+  const r = await apiRequest(`${API_BASE}/tasks/${id}/`, { method: 'DELETE' });
+  if (!r.ok) {
+    showToast('Delete failed ❌');
+    return;
+  }
+
+  showToast('Task deleted ✅');
+  loadTasks();
+  loadDashboard();
+}
+
+/* ==============================
+   VIEW SWITCH
+   ============================== */
+
+function setNavActive(name) {
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    const isActive = btn.dataset.view === name;
+    btn.classList.toggle('nav-active', isActive);
+    btn.classList.toggle('nav-idle', !isActive);
+  });
+}
+
+function showView(name) {
+  document.querySelectorAll('.view').forEach(v => v.classList.add('hidden'));
+  document.getElementById(`view-${name}`)?.classList.remove('hidden');
+
+  setNavActive(name);
+
+  const title = document.getElementById('currentViewText');
+  const sub = document.getElementById('subTitleText');
+  if (title) title.textContent = name.charAt(0).toUpperCase() + name.slice(1);
+  if (sub) {
+    sub.textContent =
+      name === 'dashboard' ? 'Realtime monitoring & boshqaruv' :
+      name === 'users' ? 'Users management, telegram link holati, statistikalar' :
+      name === 'tasks' ? 'Task moderation, filter, scheduled & sent status' :
+      'RiseUp admin feature g‘oyalari va tools';
+  }
+
+  if (dashboardInterval) { clearInterval(dashboardInterval); dashboardInterval = null; }
+  if (realtimeInterval) { clearInterval(realtimeInterval); realtimeInterval = null; }
+
+  if (name === 'dashboard') {
+    loadDashboard();
+    dashboardInterval = setInterval(loadDashboard, 12000);
+
+    // realtime (optional)
+    loadRealtime();
+    realtimeInterval = setInterval(loadRealtime, 7000);
+  }
+
+  if (name === 'users') loadUsers(document.getElementById('userSearch')?.value || '');
+  if (name === 'tasks') loadTasks();
+  if (name === 'courses') loadCoursesAdmin();
+}
+
+/* ==============================
+   COURSES → LESSONS (ADMIN)
+   ============================== */
+
+let currentCourseId = null;
+let currentCourseData = null;
+let currentLessonId = null;
+
+async function loadCoursesAdmin() {
+  const r = await apiRequest(`${API_BASE}/courses/`);
+  if (!r.ok || !r.data) return;
+
+  const box = document.getElementById('coursesList');
+  box.innerHTML = '';
+
+  r.data.forEach(c => {
+    const card = document.createElement('div');
+    const isActive = currentCourseId === c.id;
+    const gradient = c.gradient || 'from-slate-800 via-slate-900 to-slate-950';
+    const cover = c.cover || c.cover_url || '';
+    const badge = c.badge || '📚';
+    const priceText = c.is_free ? 'Free' : (c.price ?? 'Paid');
+
+    card.className =
+      'rounded-2xl border px-3 py-3 text-xs transition-all ' +
+      (isActive
+        ? 'border-sky-400/60 bg-sky-500/10 shadow-[0_0_0_1px_rgba(56,189,248,0.35)]'
+        : 'border-slate-700/70 bg-slate-900/60 hover:border-slate-600');
+
+    card.innerHTML = `
+      <button class="w-full text-left" type="button">
+        <div class="relative h-16 rounded-xl overflow-hidden border border-slate-800/80">
+          ${cover ? `<img src="${cover}" alt="" class="absolute inset-0 w-full h-full object-cover">` : ''}
+          <div class="absolute inset-0 bg-gradient-to-br ${gradient} ${cover ? 'opacity-60' : 'opacity-95'}"></div>
+          <div class="absolute inset-0 bg-slate-950/35"></div>
+          <div class="absolute left-2 top-2 text-[11px] font-semibold px-2 py-1 rounded-full border border-white/15 bg-black/40 text-white">${badge}</div>
+          <div class="absolute right-2 top-2 text-[10px] uppercase tracking-wide text-slate-200">${priceText}</div>
+        </div>
+        <div class="mt-2 flex items-start justify-between gap-2">
+          <div class="min-w-0">
+            <div class="font-semibold text-slate-100 truncate">${c.title || 'Untitled course'}</div>
+            <div class="text-[11px] text-slate-400 truncate">${c.description || 'No description'}</div>
+          </div>
+          <div class="flex flex-col items-end gap-1">
+            <button class="text-sky-300 hover:text-sky-200 text-[11px] font-semibold" type="button">Edit</button>
+            <button class="text-rose-300 hover:text-rose-200 text-[11px] font-semibold" type="button">Delete</button>
+          </div>
+        </div>
+      </button>
+    `;
+
+    const mainBtn = card.querySelector('button');
+    const actionBtns = card.querySelectorAll('button');
+    const editBtn = actionBtns[1];
+    const delBtn = actionBtns[2];
+
+    mainBtn.onclick = () => selectCourseAdmin(c);
+    editBtn.onclick = (e) => { e.stopPropagation(); fillCourseForm(c); };
+    delBtn.onclick = (e) => { e.stopPropagation(); deleteCourseAdmin(c.id); };
+
+    box.appendChild(card);
+  });
+}
+
+async function createCourseAdmin() {
+  const titleEl = document.getElementById('courseTitle');
+  const descEl = document.getElementById('courseDesc');
+  const badgeEl = document.getElementById('courseBadge');
+  const coverEl = document.getElementById('courseCoverUrl');
+  const gradientEl = document.getElementById('courseGradient');
+  const tagsEl = document.getElementById('courseTags');
+  const isFreeEl = document.getElementById('courseIsFree');
+  const priceEl = document.getElementById('coursePrice');
+
+  if (!titleEl) {
+    showToast('Course form not found');
+    return;
+  }
+
+  const title = titleEl.value.trim();
+  if (!title) {
+    showToast('Title is required');
+    return;
+  }
+
+  const isFree = !!isFreeEl?.checked;
+  const tags = (tagsEl?.value || '')
+    .split(',')
+    .map(t => t.trim())
+    .filter(Boolean);
+
+  const coverUrl = (coverEl?.value || '').trim();
+  if (coverUrl && !/^https?:\/\//i.test(coverUrl)) {
+    showToast('Cover URL must start with http:// or https://');
+    return;
+  }
+
+  const payload = {
+    title,
+    description: (descEl?.value || '').trim(),
+    badge: (badgeEl?.value || '').trim(),
+    cover_url: coverUrl,
+    gradient: (gradientEl?.value || '').trim(),
+    tags,
+    is_free: isFree,
+    price: isFree ? 0 : Number(priceEl?.value || 0),
+  };
+
+  const r = await apiRequest(`${API_BASE}/courses/create/`, {
+    method: 'POST',
+    body: JSON.stringify(payload),
+  });
+
+  if (!r.ok) {
+    let msg = 'Course create failed ❌';
+    if (r.data && typeof r.data === 'object') {
+      const firstKey = Object.keys(r.data)[0];
+      if (firstKey) {
+        const val = r.data[firstKey];
+        msg = Array.isArray(val) ? `${firstKey}: ${val[0]}` : `${firstKey}: ${val}`;
+      }
+    } else if (r.text) {
+      msg = r.text.slice(0, 160);
+    }
+    console.warn('Course create error:', r);
+    showToast(msg);
+    return;
+  }
+
+  showToast('Course created ✅');
+  if (descEl) descEl.value = '';
+  if (badgeEl) badgeEl.value = '';
+  if (coverEl) coverEl.value = '';
+  if (gradientEl) gradientEl.value = '';
+  if (tagsEl) tagsEl.value = '';
+  if (priceEl) priceEl.value = '';
+  titleEl.value = '';
+  if (isFreeEl) isFreeEl.checked = true;
+
+  loadCoursesAdmin();
+}
+
+async function updateCourseAdmin() {
+  if (!currentCourseId) {
+    showToast('Select a course first');
+    return;
+  }
+
+  const titleEl = document.getElementById('courseTitle');
+  const descEl = document.getElementById('courseDesc');
+  const badgeEl = document.getElementById('courseBadge');
+  const coverEl = document.getElementById('courseCoverUrl');
+  const gradientEl = document.getElementById('courseGradient');
+  const tagsEl = document.getElementById('courseTags');
+  const isFreeEl = document.getElementById('courseIsFree');
+  const priceEl = document.getElementById('coursePrice');
+
+  const title = titleEl?.value.trim() || '';
+  if (!title) {
+    showToast('Title is required');
+    return;
+  }
+
+  const coverUrl = (coverEl?.value || '').trim();
+  if (coverUrl && !/^https?:\/\//i.test(coverUrl)) {
+    showToast('Cover URL must start with http:// or https://');
+    return;
+  }
+
+  const isFree = !!isFreeEl?.checked;
+  const tags = (tagsEl?.value || '')
+    .split(',')
+    .map(t => t.trim())
+    .filter(Boolean);
+
+  const payload = {
+    title,
+    description: (descEl?.value || '').trim(),
+    badge: (badgeEl?.value || '').trim(),
+    cover_url: coverUrl,
+    gradient: (gradientEl?.value || '').trim(),
+    tags,
+    is_free: isFree,
+    price: isFree ? 0 : Number(priceEl?.value || 0),
+  };
+
+  const r = await apiRequest(`${API_BASE}/courses/${currentCourseId}/update/`, {
+    method: 'PATCH',
+    body: JSON.stringify(payload),
+  });
+
+  if (!r.ok) {
+    let msg = 'Course update failed ❌';
+    if (r.data && typeof r.data === 'object') {
+      const firstKey = Object.keys(r.data)[0];
+      if (firstKey) {
+        const val = r.data[firstKey];
+        msg = Array.isArray(val) ? `${firstKey}: ${val[0]}` : `${firstKey}: ${val}`;
+      }
+    } else if (r.text) {
+      msg = r.text.slice(0, 160);
+    }
+    showToast(msg);
+    return;
+  }
+
+  showToast('Course updated ✅');
+  loadCoursesAdmin();
+}
+
+async function deleteCourseAdmin(id) {
+  if (!confirm('Kursni o‘chirasizmi?')) return;
+
+  const r = await apiRequest(`${API_BASE}/courses/${id}/delete/`, { method: 'DELETE' });
+  if (!r.ok) {
+    showToast('Delete failed ❌');
+    return;
+  }
+
+  showToast('Course deleted ✅');
+  if (currentCourseId === id) {
+    resetCourseForm();
+  }
+  loadCoursesAdmin();
+}
+
+function selectCourseAdmin(course) {
+  currentCourseId = course.id;
+  currentCourseData = course;
+  fillCourseForm(course);
+  document.getElementById('lessonsTitle').textContent = '🎓 ' + course.title;
+  document.getElementById('createLessonBox').classList.remove('hidden');
+  loadLessonsAdmin();
+}
+
+function fillCourseForm(course) {
+  const titleEl = document.getElementById('courseTitle');
+  const descEl = document.getElementById('courseDesc');
+  const badgeEl = document.getElementById('courseBadge');
+  const coverEl = document.getElementById('courseCoverUrl');
+  const gradientEl = document.getElementById('courseGradient');
+  const tagsEl = document.getElementById('courseTags');
+  const isFreeEl = document.getElementById('courseIsFree');
+  const priceEl = document.getElementById('coursePrice');
+  const titleLabel = document.getElementById('courseFormTitle');
+
+  if (!titleEl) return;
+
+  currentCourseId = course.id;
+  currentCourseData = course;
+  titleEl.value = course.title || '';
+  if (descEl) descEl.value = course.description || '';
+  if (badgeEl) badgeEl.value = course.badge || '';
+  if (coverEl) coverEl.value = course.cover_url || '';
+  if (gradientEl) gradientEl.value = course.gradient || '';
+  if (tagsEl) tagsEl.value = Array.isArray(course.tags) ? course.tags.join(', ') : '';
+  if (isFreeEl) isFreeEl.checked = !!course.is_free;
+  if (priceEl) priceEl.value = course.price ?? '';
+  if (titleLabel) titleLabel.textContent = `✏️ Edit course #${course.id}`;
+}
+
+function resetCourseForm() {
+  const titleEl = document.getElementById('courseTitle');
+  const descEl = document.getElementById('courseDesc');
+  const badgeEl = document.getElementById('courseBadge');
+  const coverEl = document.getElementById('courseCoverUrl');
+  const gradientEl = document.getElementById('courseGradient');
+  const tagsEl = document.getElementById('courseTags');
+  const isFreeEl = document.getElementById('courseIsFree');
+  const priceEl = document.getElementById('coursePrice');
+  const titleLabel = document.getElementById('courseFormTitle');
+
+  if (titleEl) titleEl.value = '';
+  if (descEl) descEl.value = '';
+  if (badgeEl) badgeEl.value = '';
+  if (coverEl) coverEl.value = '';
+  if (gradientEl) gradientEl.value = '';
+  if (tagsEl) tagsEl.value = '';
+  if (priceEl) priceEl.value = '';
+  if (isFreeEl) isFreeEl.checked = true;
+  if (titleLabel) titleLabel.textContent = '➕ Create course';
+  currentCourseId = null;
+  currentCourseData = null;
+}
+
+async function loadLessonsAdmin() {
+  const r = await apiRequest(`${API_BASE}/lessons/`);
+  if (!r.ok || !r.data) return;
+
+  const tbody = document.getElementById('lessonsTbody');
+  tbody.innerHTML = '';
+
+  r.data
+    .filter(l => l.course === currentCourseId)
+    .sort((a, b) => a.order - b.order)
+    .forEach(l => {
+      tbody.innerHTML += `
+        <tr class="row-hover">
+          <td class="px-3 py-3">${l.order}</td>
+          <td class="px-3 py-3">${l.title}</td>
+          <td class="px-3 py-3 text-right">
+            <button onclick="editLessonAdmin(${l.id})"
+              class="text-sky-300 hover:text-sky-200 text-xs font-semibold mr-3">
+              Edit
+            </button>
+            <button onclick="deleteLessonAdmin(${l.id})"
+              class="text-rose-300 hover:text-rose-200 text-xs font-semibold">
+              Delete
+            </button>
+          </td>
+        </tr>
+      `;
+    });
+}
+
+async function editLessonAdmin(id) {
+  const r = await apiRequest(`${API_BASE}/lessons/${id}/`);
+  if (!r.ok || !r.data) {
+    showToast('Lesson load failed ❌');
+    return;
+  }
+
+  currentLessonId = id;
+  const lessonTitle = document.getElementById('lessonTitle');
+  const lessonContent = document.getElementById('lessonContent');
+  const lessonOrder = document.getElementById('lessonOrder');
+  const lessonVideo = document.getElementById('lessonVideo');
+
+  if (lessonTitle) lessonTitle.value = r.data.title || '';
+  if (lessonContent) lessonContent.value = r.data.content || '';
+  if (lessonOrder) lessonOrder.value = r.data.order ?? '';
+  if (lessonVideo) lessonVideo.value = r.data.video_id || '';
+
+  showToast('Lesson loaded ✏️');
+}
+
+async function deleteLessonAdmin(id) {
+  if (!confirm('Darsni o‘chirasizmi?')) return;
+
+  const r = await apiRequest(`${API_BASE}/lessons/${id}/`, { method: 'DELETE' });
+  if (!r.ok) {
+    showToast('Delete failed ❌');
+    return;
+  }
+
+  showToast('Lesson deleted ✅');
+  loadLessonsAdmin();
+}
+
+
+
+/* ==============================
+   INIT
+   ============================== */
+
+document.addEventListener('DOMContentLoaded', async () => {
+  // quick auth check
+  const r = await apiRequest(`${API_BASE}/dashboard/`);
+  setSidebarStatus(r.ok);
+
+  if (!r.ok) return;
+
+  document.getElementById('logoutBtn')?.addEventListener('click', hardLogout);
+
+  document.getElementById('userSearch')?.addEventListener('input', e => loadUsers(e.target.value));
+  document.getElementById('taskSentFilter')?.addEventListener('change', loadTasks);
+  document.getElementById('taskDateFilter')?.addEventListener('change', loadTasks);
+
+  document.querySelectorAll('.nav-btn')
+    .forEach(btn => btn.addEventListener('click', () => showView(btn.dataset.view)));
+
+  showView('dashboard');
+});
+async function createLessonAdmin() {
+  if (!currentCourseId) {
+    showToast("Сначала выберите курс");
+    return;
+  }
+
+  const lessonTitle = document.getElementById('lessonTitle');
+  const lessonContent = document.getElementById('lessonContent');
+  const lessonOrder = document.getElementById('lessonOrder');
+  const lessonVideo = document.getElementById('lessonVideo');
+
+  if (!lessonTitle || !lessonContent || !lessonOrder) {
+    showToast("Форма урока не найдена");
+    return;
+  }
+
+  const rawVideo = (lessonVideo?.value || '').trim();
+  const videoId = rawVideo
+    ? rawVideo.replace(/^.*(youtu\.be\/|v=|\/embed\/)([^#&?]+).*$/i, '$2')
+    : '';
+
+  const payload = {
+    course: currentCourseId,
+    title: lessonTitle.value.trim(),
+    content: lessonContent.value.trim(),
+    order: Number(lessonOrder.value),
+    video_id: videoId
+  };
+
+  if (!payload.title || !payload.order) {
+    showToast("Название и порядок обязательны");
+    return;
+  }
+
+  const url = currentLessonId
+    ? `${API_BASE}/lessons/${currentLessonId}/`
+    : `${API_BASE}/lessons/`;
+  const method = currentLessonId ? 'PUT' : 'POST';
+
+  const r = await apiRequest(url, {
+    method,
+    body: JSON.stringify(payload)
+  });
+
+  if (!r.ok) {
+    showToast("Ошибка создания урока");
+    return;
+  }
+
+  lessonTitle.value = '';
+  lessonContent.value = '';
+  lessonOrder.value = '';
+  if (lessonVideo) lessonVideo.value = '';
+
+  showToast(currentLessonId ? "Урок обновлён ✅" : "Урок создан ✅");
+  currentLessonId = null;
+  loadLessonsAdmin();
+}
+
+</script>
+
+</body>
+</html>
