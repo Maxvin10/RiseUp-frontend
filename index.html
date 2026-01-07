@@ -1,35 +1,59 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!-- Google Search -->
-    <meta name="google-site-verification" content="WBTkUC8mZXiR20VyMOiH6C2M8vE58tMLgKSKoXj-oIM" />
-    <title>RiseUply — Plan, Learn, Track</title>
+    <meta
+      name="google-site-verification"
+      content="WBTkUC8mZXiR20VyMOiH6C2M8vE58tMLgKSKoXj-oIM"
+    />
+    <title>RiseUp — Reja, o‘rganish, kuzatish</title>
     <meta
       name="description"
-      content="RiseUply — courses, tasks, progress tracking and Telegram bot integration for students."
+      content="RiseUp — kurslar, vazifalar, progress va statistika. Telegram bot bilan integratsiya. Talabalar uchun yagona platforma."
     />
     <meta name="robots" content="index,follow" />
     <link rel="canonical" href="https://riseuply.vercel.app/" />
+    <meta http-equiv="content-language" content="uz" />
 
-    <!-- Open Graph (Telegram, FB, etc.) -->
-    <meta property="og:title" content="RiseUply — Plan, Learn, Track" />
+    <meta property="og:title" content="RiseUp — Reja, o‘rganish, kuzatish" />
     <meta
       property="og:description"
-      content="Courses, tasks, progress tracking and Telegram bot integration."
+      content="Kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi. Talabalar uchun yagona platforma."
     />
     <meta property="og:url" content="https://riseuply.vercel.app/" />
     <meta property="og:type" content="website" />
+
     <meta
       property="og:image"
       content="https://riseuply.vercel.app/rasmlar/darkrise.png"
     />
+    <meta
+      property="og:image:secure_url"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-    <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RiseUp — Reja, o‘rganish, kuzatish" />
+    <meta
+      name="twitter:description"
+      content="Kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi."
+    />
+    <meta
+      name="twitter:image"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
 
-    <link rel="shortcut icon" href="rasmlar/dark.png" type="icon" />
+    <link rel="alternate" hreflang="uz" href="https://riseuply.vercel.app/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://riseuply.vercel.app/"
+    />
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -139,7 +163,7 @@
             <option value="ru">RU</option>
           </select>
 
-          <a target="_blank" href="login.html">
+          <a target="_blank" rel="noopener noreferrer" href="login.html">
             <button
               class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-4 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold shadow-[0_0_30px_rgba(129,140,248,0.7)] hover:brightness-110 transition"
             >
@@ -500,7 +524,13 @@
       const logo = document.getElementById("logo");
 
       const savedTheme = localStorage.getItem("theme") || "dark";
-      const savedLang = localStorage.getItem("language") || "en";
+      const browserLang = (navigator.language || "uz").toLowerCase();
+      const defaultLang = browserLang.startsWith("ru")
+        ? "ru"
+        : browserLang.startsWith("en")
+        ? "en"
+        : "uz";
+      const savedLang = localStorage.getItem("language") || defaultLang;
 
       function setTheme(theme) {
         if (theme === "dark") {
@@ -537,7 +567,7 @@
       // 🔧 BACKEND manzilingni shu yerga yoz:
       // local django: http://127.0.0.1:8000/api
       // production: https://your-domain.uz/api
-      const API_BASE = "https://riseup-back-production.up.railway.app";
+      const API_BASE = "https://riseup-back-production.up.railway.app/api";
 
       document.addEventListener("DOMContentLoaded", () => {
         const btn = document.getElementById("goDashboardBtn");
