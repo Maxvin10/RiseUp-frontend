@@ -1,472 +1,669 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>RiseUp</title>
-  <link rel="shortcut icon" href="rasmlar/dark.png" type="icon">
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="base.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['system-ui', 'ui-sans-serif', 'Inter', 'sans-serif'],
-          },
-          backgroundImage: {
-            'grid': 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)',
-          }
-        },
-      },
-    }
-  </script>
-<style>
-      html, body { overflow-x: hidden; }
-      img, video, iframe { max-width: 100%; }
-</style>
-  <link rel="stylesheet" href="base.css" />
-</head>
+<html lang="uz">
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="/rasmlar/dark.png?v=1" />
+  <link rel="apple-touch-icon" href="/rasmlar/dark.png?v=1" />
 
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Search -->
+    <meta
+      name="google-site-verification"
+      content="WBTkUC8mZXiR20VyMOiH6C2M8vE58tMLgKSKoXj-oIM"
+    />
 
+    <!-- SEO -->
+    <title>RiseUply — Reja, o‘rganish, kuzatish</title>
+    <meta
+      name="description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi. Talabalar uchun yagona platforma."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://riseuply.vercel.app/" />
+    <meta http-equiv="content-language" content="uz" />
 
-<body id="body"
-      class="bg-slate-950 text-slate-50 min-h-screen antialiased font-sans transition-colors duration-500">
+    <!-- Open Graph -->
+    <meta property="og:title" content="RiseUply — Reja, o‘rganish, kuzatish" />
+    <meta
+      property="og:description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi. Talabalar uchun yagona platforma."
+    />
+    <meta property="og:url" content="https://riseuply.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
 
-  <!-- BACKGROUND LAYERLAR -->
-  <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RiseUply — Reja, o‘rganish, kuzatish" />
+    <meta
+      name="twitter:description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi."
+    />
+    <meta
+      name="twitter:image"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
 
-  <!-- Gradient dumaloqlar -->
-  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-    <div class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/25 blur-3xl"></div>
-    <div class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/25 blur-3xl"></div>
-    <div class="absolute inset-0 opacity-[0.07] bg-grid bg-[length:24px_24px]"></div>
-  </div>
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="uz" href="https://riseuply.vercel.app/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://riseuply.vercel.app/"
+    />
 
-  <!-- Orbital gradient halo -->
-  <div class="pointer-events-none fixed inset-x-0 top-20 -z-10 flex justify-center">
-    <div class="h-72 w-[600px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-500/40 blur-3xl opacity-70"></div>
-  </div>
-
-  <!-- HEADER -->
-  <header class="sticky top-0 z-40 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-2xl">
-    <div class="max-w-6xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-4">
-
-      <!-- Logo + Brand -->
-      <div class="flex items-center gap-3">
-        <div class="relative">
-          <div class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-indigo-500/80 to-fuchsia-500/80 blur-md opacity-70"></div>
-          <img id="logo"
-               src="rasmlar/dark.png"
-               alt="RiseUp Logo"
-               class="relative w-11 h-11 rounded-2xl bg-slate-950 border border-slate-700 shadow-[0_0_35px_rgba(79,70,229,0.65)] object-cover" />
-          <span class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 shadow shadow-emerald-400/80"></span>
-        </div>
-        <div class="flex flex-col">
-          <span class="font-semibold text-lg tracking-tight text-white">RiseUp</span>
-          <span class="text-[13px] text-slate-400 hidden sm:inline">
-            Reja • O'rganish • Nazorat • O'sish
-          </span>
-        </div>
-      </div>
-
-      <!-- NAV -->
-      <nav class="hidden md:flex items-center gap-6 text-[18px] font-medium">
-        <!-- agar kerak bo‘lsa nav linklar -->
-        <!-- <a id="adminLink" href="admin.html" class="text-slate-200 hover:text-white">Admin</a> -->
-      </nav>
-
-      <!-- Right controls -->
-      <div class="flex items-center gap-2 sm:gap-3">
-        <select id="language-select"
-                class="border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs sm:text-[13px] bg-slate-900/90 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/70 cursor-pointer">
-          <option value="en">EN</option>
-          <option value="uz">UZ</option>
-          <option value="ru">RU</option>
-        </select>
-
-        <a target="_blank" href="login.html">
-          <button
-            class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-4 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold shadow-[0_0_30px_rgba(129,140,248,0.7)] hover:brightness-110 transition">
-            <span data-key="signin">Sign in</span>
-          </button>
-        </a>
-      </div>
-    </div>
-  </header>
-
-  <!-- MAIN CONTENT -->
-  <main class="max-w-6xl mx-auto px-4 lg:px-8 pt-10 lg:pt-14 pb-20">
-
-    <!-- HERO -->
-    <section class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
-
-      <!-- LEFT: TEXT -->
-      <div class="w-full space-y-7">
-
-        <!-- Badge -->
-        <div
-          class="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-slate-900/80 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-indigo-200 shadow shadow-indigo-500/30">
-          <span class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
-          <span>Study smarter · Not harder</span>
-        </div>
-
-        <div class="space-y-4">
-          <h1 class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-tight"
-              data-key="main_title">
-            Plan, Learn, and Track <br> Rise-Up
-          </h1>
-          <p class="text-slate-300 text-sm sm:text-[15px] lg:text-base leading-relaxed max-w-xl"
-             data-key="main_desc">
-            Organize your learning journey, set goals, <br> and watch your progress grow day by day.
-          </p>
-        </div>
-
-        <!-- CTA -->
-        <div class="flex flex-wrap items-center gap-4">
-
-          <!-- ✅ MODIFIED: Go to Dashboard endi backend /api/panel/ orqali tekshiradi -->
-          <button
-            id="goDashboardBtn"
-            class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 text-slate-950 px-6 py-2.5 rounded-2xl text-sm sm:text-[15px] font-semibold shadow-lg shadow-indigo-500/50 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(56,189,248,0.6)] transition-transform duration-150"
-            data-key="go_dashboard">
-            Go to Dashboard
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M13 7l5 5m0 0l-5 5m5-5H6" />
-            </svg>
-          </button>
-
-          <button
-            class="inline-flex items-center gap-2 border border-slate-700 bg-slate-900/80 text-slate-100 px-5 py-2.5 rounded-2xl text-sm sm:text-[15px] font-medium hover:border-indigo-400 hover:text-indigo-200 transition"
-            data-key="view_stats">
-            View Statistics
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none"
-                 viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4 19h16M5 11l4 4 5-8 5 7" />
-            </svg>
-          </button>
-        </div>
-
-        <!-- QUICK STATS -->
-        <div class="flex flex-wrap gap-6 text-xs text-slate-300 pt-4">
-          <div class="space-y-1">
-            <p class="text-xl font-semibold text-white">+1.2k</p>
-            <p class="text-[11px] text-slate-400">Active learners</p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xl font-semibold text-white">92%</p>
-            <p class="text-[11px] text-slate-400">Consistency rate</p>
-          </div>
-          <div class="space-y-1">
-            <p class="text-xl font-semibold text-white">35 min</p>
-            <p class="text-[11px] text-slate-400">Avg. focus / day</p>
-          </div>
-        </div>
-
-      </div>
-      
-    </section>
- <section class="mt-18 lg:mt-20">
-      <div class="text-center max-w-2xl mx-auto mb-9">
-        <h2 class="text-2xl sm:text-3xl lg:text-[32px] font-extrabold text-white mb-2"
-            data-key="features_title">
-          Everything You Need to Succeed
-        </h2>
-        <p class="text-xs sm:text-sm text-slate-300"
-           data-key="features_desc">
-          Powerful tools to enhance your learning journey
-        </p>
-      </div>
-
-      <div class="grid gap-6 md:grid-cols-3">
-
-        <!-- Card 1 -->
-        <div
-          class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/80 shadow-lg shadow-slate-950/60 hover:shadow-indigo-500/30 transition-all duration-200">
-          <div
-            class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/20 border border-indigo-400/60">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-indigo-300" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-                    d="M12 6v12m-4-8v8m8-4v4M5 20h14M5 4h14v6H5z" />
-            </svg>
-          </div>
-          <h3 class="text-[15px] font-semibold text-white mb-2" data-key="plan_title">
-            Create Learning Plans
-          </h3>
-          <p class="text-[13px] text-slate-300" data-key="plan_desc">
-            Design personalized study schedules and break down complex topics into manageable learning sessions.
-          </p>
-          <span class="mt-4 text-[10px] uppercase tracking-[0.18em] text-indigo-300/80">
-            Smart planning engine
-          </span>
-          <div
-            class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-indigo-500/10 via-fuchsia-500/10 to-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </div>
-
-        <!-- Card 2 -->
-        <div
-          class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/80 shadow-lg shadow-slate-950/60 hover:shadow-emerald-500/30 transition-all duration-200">
-          <div
-            class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/20 border border-emerald-400/60">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-emerald-300" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-                    d="M4 19h16M5 11l4 4 5-8 5 7" />
-            </svg>
-          </div>
-          <h3 class="text-[15px] font-semibold text-white mb-2" data-key="progress_title">
-            Track Your Progress
-          </h3>
-          <p class="text-[13px] text-slate-300" data-key="progress_desc">
-            Monitor your achievements with detailed analytics and stay motivated as you hit each milestone.
-          </p>
-          <span class="mt-4 text-[10px] uppercase tracking-[0.18em] text-emerald-300/80">
-            Visual analytics & streaks
-          </span>
-          <div
-            class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-lime-400/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </div>
-
-        <!-- Card 3 -->
-        <div
-          class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-fuchsia-500/80 shadow-lg shadow-slate-950/60 hover:shadow-fuchsia-500/30 transition-all duration-200">
-          <div
-            class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/60">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-fuchsia-300" viewBox="0 0 24 24"
-                 fill="none" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7"
-                    d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m10 0a4 4 0 00-4-4h-2a4 4 0 00-4 4m10 0a4 4 0 00-4-4m-6 4a4 4 0 014-4" />
-            </svg>
-          </div>
-          <h3 class="text-[15px] font-semibold text-white mb-2" data-key="community_title">
-            Join the Community
-          </h3>
-          <p class="text-[13px] text-slate-300" data-key="community_desc">
-            Connect with learners around the world and exchange tips, resources, and motivation.
-          </p>
-          <span class="mt-4 text-[10px] uppercase tracking-[0.18em] text-fuchsia-300/80">
-            Shared goals & support
-          </span>
-          <div
-            class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-fuchsia-500/10 via-purple-500/10 to-indigo-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"></div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- MINI TESTIMONIAL / CTA -->
-    
-
-<!-- FEATURES -->
-    <section class="mt-10">
-      <div class="flex items-end justify-between gap-4 flex-wrap">
-        <div>
-          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-50">Nega RiseUp?</h2>
-          <p class="text-slate-400 mt-1 text-sm sm:text-base text-wrap-safe">
-            Kurslar, progress, vazifalar va statistika — hammasi bitta joyda. Mobile’da ham qulay.
-          </p>
-        </div>
-      </div>
-
-      
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="mt-10 border-t border-slate-800/70 pt-5 text-[16px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p>© <span id="yearSpan"></span> RiseUp. All rights reserved.</p>
-      <p class="text-[16px] text-slate-500/80">
-        Built for students who want to grow every single day.
-      </p>
-    </footer>
-  </main>
-
-  <!-- TRANSLATIONS + THEME -->
-  <script>
-    const translations = {
-      en: {
-        home: "Home",
-        dashboard: "Dashboard",
-        tasks: "Tasks",
-        statistics: "Statistics",
-        admin: "Admin",
-        signin: "Sign in",
-        main_title: "Plan, Learn, and Track <br> Rise-Up",
-        main_desc: "Organize your learning journey, set goals, <br> and watch your progress grow day by day.",
-        go_dashboard: "Go to Dashboard",
-        view_stats: "View Statistics",
-        features_title: "Everything You Need to Succeed",
-        features_desc: "Powerful tools to enhance your learning journey",
-        plan_title: "Create Learning Plans",
-        plan_desc: "Design personalized study schedules and break down complex topics into manageable learning sessions.",
-        progress_title: "Track Your Progress",
-        progress_desc: "Monitor your achievements with detailed analytics and stay motivated as you hit each milestone.",
-        community_title: "Join the Community",
-        community_desc: "Connect with learners around the world and exchange tips, resources, and motivation."
-      },
-      uz: {
-        home: "Bosh sahifa",
-        dashboard: "Boshqaruv paneli",
-        tasks: "Vazifalar",
-        statistics: "Statistika",
-        admin: "Admin",
-        signin: "Kirish",
-        main_title: "Reja, O'rgan, Kuzat <br> Rise-Up",
-        main_desc: "O'quv sayohatingizni tartibga soling, maqsadlar qo'ying, <br> va har kuni o'sishingizni kuzating.",
-        go_dashboard: "Panelga o'tish",
-        view_stats: "Statistikani ko'rish",
-        features_title: "Muvaffaqiyat uchun kerak bo'lgan hamma narsa",
-        features_desc: "O'quv jarayoningizni yaxshilash uchun kuchli vositalar",
-        plan_title: "O'quv rejalarini yarating",
-        plan_desc: "Shaxsiy o'quv jadvallarini tuzing va murakkab mavzularni boshqariladigan qismlarga bo'ling.",
-        progress_title: "Jarayoningizni kuzating",
-        progress_desc: "Yutuqlaringizni batafsil tahlillar bilan kuzating va har bir bosqichda motivatsiyada bo'ling.",
-        community_title: "Jamiyatga qo'shiling",
-        community_desc: "Dunyodagi o'quvchilar bilan bog'laning va maslahatlar, resurslar va motivatsiya almashing."
-      },
-      ru: {
-        home: "Главная",
-        dashboard: "Панель",
-        tasks: "Задачи",
-        statistics: "Статистика",
-        admin: "Admin",
-        signin: "Войти",
-        main_title: "Планируй, Учись, Отслеживай <br>  Rise-Up",
-        main_desc: "Организуй свое обучение, ставь цели, <br> и следи за прогрессом день за днём.",
-        go_dashboard: "Перейти в панель",
-        view_stats: "Посмотреть статистику",
-        features_title: "Всё, что нужно для успеха",
-        features_desc: "Мощные инструменты для улучшения вашего обучения",
-        plan_title: "Создавайте планы обучения",
-        plan_desc: "Составляйте персональные графики и разбивайте сложные темы на управляемые сессии.",
-        progress_title: "Отслеживайте прогресс",
-        progress_desc: "Следите за достижениями с помощью аналитики и оставайтесь мотивированными на каждом этапе.",
-        community_title: "Присоединяйтесь к сообществу",
-        community_desc: "Общайтесь с учениками по всему миру, обменивайтесь советами, ресурсами и мотивацией."
-      }
-    };
-
-    const body = document.getElementById('body');
-    const languageSelect = document.getElementById('language-select');
-    const logo = document.getElementById('logo');
-
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    const savedLang = localStorage.getItem('language') || 'en';
-
-    function setTheme(theme) {
-      if (theme === 'dark') {
-        body.classList.add('dark');
-        logo.src = 'rasmlar/darkrise.png';
-      } else {
-        body.classList.remove('dark');
-        logo.src = 'rasmlar/lightrise.png';
-      }
-      localStorage.setItem('theme', theme);
-    }
-
-    function setLanguage(lang) {
-      document.querySelectorAll('[data-key]').forEach(el => {
-        const key = el.getAttribute('data-key');
-        if (translations[lang][key]) el.innerHTML = translations[lang][key];
-      });
-      languageSelect.value = lang;
-      localStorage.setItem('language', lang);
-    }
-
-    languageSelect.addEventListener('change', (e) => setLanguage(e.target.value));
-
-    setTheme(savedTheme);
-    setLanguage(savedLang);
-    document.getElementById('yearSpan').textContent = new Date().getFullYear();
-  </script>
-
-  <!-- ✅ PANEL API CONNECT (Go to Dashboard) -->
-  <script>
-    // 🔧 BACKEND manzilingni shu yerga yoz:
-    // local django: http://127.0.0.1:8000/api
-    // production: https://your-domain.uz/api
-    const API_BASE = "http://riseup-back-production.up.railway.app/api";
-
-    document.addEventListener('DOMContentLoaded', () => {
-      const btn = document.getElementById('goDashboardBtn');
-      if (!btn) return;
-
-      btn.addEventListener('click', async () => {
-        const access = localStorage.getItem('access');
-
-        // token bo‘lmasa -> login.html
-        if (!access) {
-          window.location.href = "login.html";
-          return;
-        }
-
-        try {
-          // NOTE: redirectlarni qo‘lda ushlaymiz
-          const res = await fetch(`${API_BASE}/auth/panel/`, {
-            method: "GET",
-            headers: {
-              "Authorization": `Bearer ${access}`
+    <!-- Favicon (tavsiya) -->
+    <link rel="icon" type="image/png" href="/rasmlar/dark.png?v=1" />
+    <link rel="apple-touch-icon" href="/rasmlar/dark.png?v=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["system-ui", "ui-sans-serif", "Inter", "sans-serif"],
             },
-            redirect: "manual"
-          });
+            backgroundImage: {
+              grid: "radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html,
+      body {
+        overflow-x: hidden;
+      }
+      img,
+      video,
+      iframe {
+        max-width: 100%;
+      }
+    </style>
+    <link rel="stylesheet" href="base.css" />
+  </head>
 
-          // Agar backend 302/301 qaytarsa: Location header bo‘ladi
-          if (res.status === 301 || res.status === 302 || res.status === 303 || res.status === 307 || res.status === 308) {
-            const loc = res.headers.get("Location");
+  <body
+    id="body"
+    class="bg-slate-950 text-slate-50 min-h-screen antialiased font-sans transition-colors duration-500"
+  >
+    <!-- BACKGROUND LAYERLAR -->
+    <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
 
-            // Backend qayerga redirect qilsa — shuni ochamiz
-            if (loc) {
-              // agar absolute url bo‘lsa ham, relative bo‘lsa ham ishlaydi:
-              window.location.href = loc;
-              return;
-            }
-          }
+    <!-- Gradient dumaloqlar -->
+    <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+      <div
+        class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/25 blur-3xl"
+      ></div>
+      <div
+        class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/25 blur-3xl"
+      ></div>
+      <div
+        class="absolute inset-0 opacity-[0.07] bg-grid bg-[length:24px_24px]"
+      ></div>
+    </div>
 
-          // 200 bo‘lsa: demak ruxsat bor, dashboardga o‘tkazamiz
-          if (res.ok) {
-            window.location.href = "dashboard.html";
-            return;
-          }
+    <!-- Orbital gradient halo -->
+    <div
+      class="pointer-events-none fixed inset-x-0 top-20 -z-10 flex justify-center"
+    >
+      <div
+        class="h-72 w-[600px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-500/40 blur-3xl opacity-70"
+      ></div>
+    </div>
 
-          // 401/403 bo‘lsa -> login
-          if (res.status === 401 || res.status === 403) {
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-40 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-2xl"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-4"
+      >
+        <!-- Logo + Brand -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div
+              class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-indigo-500/80 to-fuchsia-500/80 blur-md opacity-70"
+            ></div>
+            <img
+              id="logo"
+              src="rasmlar/dark.png"
+              alt="RiseUp Logo"
+              class="relative w-11 h-11 rounded-2xl bg-slate-950 border border-slate-700 shadow-[0_0_35px_rgba(79,70,229,0.65)] object-cover"
+            />
+            <span
+              class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 shadow shadow-emerald-400/80"
+            ></span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-semibold text-lg tracking-tight text-white"
+              >RiseUp</span
+            >
+            <span class="text-[13px] text-slate-400 hidden sm:inline">
+              Reja • O'rganish • Nazorat • O'sish
+            </span>
+          </div>
+        </div>
+
+        <!-- NAV -->
+        <nav class="hidden md:flex items-center gap-6 text-[18px] font-medium">
+          <!-- agar kerak bo‘lsa nav linklar -->
+          <!-- <a id="adminLink" href="admin.html" class="text-slate-200 hover:text-white">Admin</a> -->
+        </nav>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <select
+            id="language-select"
+            class="border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs sm:text-[13px] bg-slate-900/90 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/70 cursor-pointer"
+          >
+            <option value="en">EN</option>
+            <option value="uz">UZ</option>
+            <option value="ru">RU</option>
+          </select>
+
+          <a target="_blank" rel="noopener noreferrer" href="login.html">
+            <button
+              class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-4 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold shadow-[0_0_30px_rgba(129,140,248,0.7)] hover:brightness-110 transition"
+            >
+              <span data-key="signin">Sign in</span>
+            </button>
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 lg:px-8 pt-10 lg:pt-14 pb-20">
+      <!-- HERO -->
+      <section class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <!-- LEFT: TEXT -->
+        <div class="w-full space-y-7">
+          <!-- Badge -->
+          <div
+            class="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-slate-900/80 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-indigo-200 shadow shadow-indigo-500/30"
+          >
+            <span
+              class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"
+            ></span>
+            <span>Study smarter · Not harder</span>
+          </div>
+
+          <div class="space-y-4">
+            <h1
+              class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-tight"
+              data-key="main_title"
+            >
+              Plan, Learn, and Track <br />
+              Rise-Up
+            </h1>
+            <p
+              class="text-slate-300 text-sm sm:text-[15px] lg:text-base leading-relaxed max-w-xl"
+              data-key="main_desc"
+            >
+              Organize your learning journey, set goals, <br />
+              and watch your progress grow day by day.
+            </p>
+          </div>
+
+          <!-- CTA -->
+          <div class="flex flex-wrap items-center gap-4">
+            <!-- ✅ MODIFIED: Go to Dashboard endi backend /api/panel/ orqali tekshiradi -->
+            <button
+              id="goDashboardBtn"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 text-slate-950 px-6 py-2.5 rounded-2xl text-sm sm:text-[15px] font-semibold shadow-lg shadow-indigo-500/50 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(56,189,248,0.6)] transition-transform duration-150"
+              data-key="go_dashboard"
+            >
+              Go to Dashboard
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
+            </button>
+
+            <button
+              class="inline-flex items-center gap-2 border border-slate-700 bg-slate-900/80 text-slate-100 px-5 py-2.5 rounded-2xl text-sm sm:text-[15px] font-medium hover:border-indigo-400 hover:text-indigo-200 transition"
+              data-key="view_stats"
+            >
+              View Statistics
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 19h16M5 11l4 4 5-8 5 7"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <!-- QUICK STATS -->
+          <div class="flex flex-wrap gap-6 text-xs text-slate-300 pt-4">
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">+1.2k</p>
+              <p class="text-[11px] text-slate-400">Active learners</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">92%</p>
+              <p class="text-[11px] text-slate-400">Consistency rate</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">35 min</p>
+              <p class="text-[11px] text-slate-400">Avg. focus / day</p>
+            </div>
+          </div>
+        </div>
+      </section>
+      <section class="mt-18 lg:mt-20">
+        <div class="text-center max-w-2xl mx-auto mb-9">
+          <h2
+            class="text-2xl sm:text-3xl lg:text-[32px] font-extrabold text-white mb-2"
+            data-key="features_title"
+          >
+            Everything You Need to Succeed
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300" data-key="features_desc">
+            Powerful tools to enhance your learning journey
+          </p>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3">
+          <!-- Card 1 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/80 shadow-lg shadow-slate-950/60 hover:shadow-indigo-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/20 border border-indigo-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-indigo-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M12 6v12m-4-8v8m8-4v4M5 20h14M5 4h14v6H5z"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="plan_title"
+            >
+              Create Learning Plans
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="plan_desc">
+              Design personalized study schedules and break down complex topics
+              into manageable learning sessions.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-indigo-300/80"
+            >
+              Smart planning engine
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-indigo-500/10 via-fuchsia-500/10 to-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
+
+          <!-- Card 2 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/80 shadow-lg shadow-slate-950/60 hover:shadow-emerald-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/20 border border-emerald-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-emerald-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M4 19h16M5 11l4 4 5-8 5 7"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="progress_title"
+            >
+              Track Your Progress
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="progress_desc">
+              Monitor your achievements with detailed analytics and stay
+              motivated as you hit each milestone.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-emerald-300/80"
+            >
+              Visual analytics & streaks
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-lime-400/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
+
+          <!-- Card 3 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-fuchsia-500/80 shadow-lg shadow-slate-950/60 hover:shadow-fuchsia-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-fuchsia-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m10 0a4 4 0 00-4-4h-2a4 4 0 00-4 4m10 0a4 4 0 00-4-4m-6 4a4 4 0 014-4"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="community_title"
+            >
+              Join the Community
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="community_desc">
+              Connect with learners around the world and exchange tips,
+              resources, and motivation.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-fuchsia-300/80"
+            >
+              Shared goals & support
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-fuchsia-500/10 via-purple-500/10 to-indigo-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- MINI TESTIMONIAL / CTA -->
+
+      <!-- FEATURES -->
+      <section class="mt-10">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-50">
+              Nega RiseUp?
+            </h2>
+            <p class="text-slate-400 mt-1 text-sm sm:text-base text-wrap-safe">
+              Kurslar, progress, vazifalar va statistika — hammasi bitta joyda.
+              Mobile’da ham qulay.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- FOOTER -->
+      <footer
+        class="mt-10 border-t border-slate-800/70 pt-5 text-[16px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <p>© <span id="yearSpan"></span> RiseUp. All rights reserved.</p>
+        <p class="text-[16px] text-slate-500/80">
+          Built for students who want to grow every single day.
+        </p>
+      </footer>
+    </main>
+
+    <!-- TRANSLATIONS + THEME -->
+    <script>
+      const translations = {
+        en: {
+          home: "Home",
+          dashboard: "Dashboard",
+          tasks: "Tasks",
+          statistics: "Statistics",
+          admin: "Admin",
+          signin: "Sign in",
+          main_title: "Plan, Learn, and Track <br> Rise-Up",
+          main_desc:
+            "Organize your learning journey, set goals, <br> and watch your progress grow day by day.",
+          go_dashboard: "Go to Dashboard",
+          view_stats: "View Statistics",
+          features_title: "Everything You Need to Succeed",
+          features_desc: "Powerful tools to enhance your learning journey",
+          plan_title: "Create Learning Plans",
+          plan_desc:
+            "Design personalized study schedules and break down complex topics into manageable learning sessions.",
+          progress_title: "Track Your Progress",
+          progress_desc:
+            "Monitor your achievements with detailed analytics and stay motivated as you hit each milestone.",
+          community_title: "Join the Community",
+          community_desc:
+            "Connect with learners around the world and exchange tips, resources, and motivation.",
+        },
+        uz: {
+          home: "Bosh sahifa",
+          dashboard: "Boshqaruv paneli",
+          tasks: "Vazifalar",
+          statistics: "Statistika",
+          admin: "Admin",
+          signin: "Kirish",
+          main_title: "Reja, O'rgan, Kuzat <br> Rise-Up",
+          main_desc:
+            "O'quv sayohatingizni tartibga soling, maqsadlar qo'ying, <br> va har kuni o'sishingizni kuzating.",
+          go_dashboard: "Panelga o'tish",
+          view_stats: "Statistikani ko'rish",
+          features_title: "Muvaffaqiyat uchun kerak bo'lgan hamma narsa",
+          features_desc:
+            "O'quv jarayoningizni yaxshilash uchun kuchli vositalar",
+          plan_title: "O'quv rejalarini yarating",
+          plan_desc:
+            "Shaxsiy o'quv jadvallarini tuzing va murakkab mavzularni boshqariladigan qismlarga bo'ling.",
+          progress_title: "Jarayoningizni kuzating",
+          progress_desc:
+            "Yutuqlaringizni batafsil tahlillar bilan kuzating va har bir bosqichda motivatsiyada bo'ling.",
+          community_title: "Jamiyatga qo'shiling",
+          community_desc:
+            "Dunyodagi o'quvchilar bilan bog'laning va maslahatlar, resurslar va motivatsiya almashing.",
+        },
+        ru: {
+          home: "Главная",
+          dashboard: "Панель",
+          tasks: "Задачи",
+          statistics: "Статистика",
+          admin: "Admin",
+          signin: "Войти",
+          main_title: "Планируй, Учись, Отслеживай <br>  Rise-Up",
+          main_desc:
+            "Организуй свое обучение, ставь цели, <br> и следи за прогрессом день за днём.",
+          go_dashboard: "Перейти в панель",
+          view_stats: "Посмотреть статистику",
+          features_title: "Всё, что нужно для успеха",
+          features_desc: "Мощные инструменты для улучшения вашего обучения",
+          plan_title: "Создавайте планы обучения",
+          plan_desc:
+            "Составляйте персональные графики и разбивайте сложные темы на управляемые сессии.",
+          progress_title: "Отслеживайте прогресс",
+          progress_desc:
+            "Следите за достижениями с помощью аналитики и оставайтесь мотивированными на каждом этапе.",
+          community_title: "Присоединяйтесь к сообществу",
+          community_desc:
+            "Общайтесь с учениками по всему миру, обменивайтесь советами, ресурсами и мотивацией.",
+        },
+      };
+
+      const body = document.getElementById("body");
+      const languageSelect = document.getElementById("language-select");
+      const logo = document.getElementById("logo");
+
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      const browserLang = (navigator.language || "uz").toLowerCase();
+      const defaultLang = browserLang.startsWith("ru")
+        ? "ru"
+        : browserLang.startsWith("en")
+        ? "en"
+        : "uz";
+      const savedLang = localStorage.getItem("language") || defaultLang;
+
+      function setTheme(theme) {
+        if (theme === "dark") {
+          body.classList.add("dark");
+          logo.src = "rasmlar/darkrise.png";
+        } else {
+          body.classList.remove("dark");
+          logo.src = "rasmlar/lightrise.png";
+        }
+        localStorage.setItem("theme", theme);
+      }
+
+      function setLanguage(lang) {
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          if (translations[lang][key]) el.innerHTML = translations[lang][key];
+        });
+        languageSelect.value = lang;
+        localStorage.setItem("language", lang);
+      }
+
+      languageSelect.addEventListener("change", (e) =>
+        setLanguage(e.target.value)
+      );
+
+      setTheme(savedTheme);
+      setLanguage(savedLang);
+      document.getElementById("yearSpan").textContent =
+        new Date().getFullYear();
+    </script>
+
+    <!-- ✅ PANEL API CONNECT (Go to Dashboard) -->
+    <script>
+      // 🔧 BACKEND manzilingni shu yerga yoz:
+      // local django: http://127.0.0.1:8000/api
+      // production: https://your-domain.uz/api
+      const API_BASE = "https://riseup-back-production.up.railway.app/api";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.getElementById("goDashboardBtn");
+        if (!btn) return;
+
+        btn.addEventListener("click", async () => {
+          const access = localStorage.getItem("access");
+
+          // token bo‘lmasa -> login.html
+          if (!access) {
             window.location.href = "login.html";
             return;
           }
 
-          // boshqa xatolar
-          alert(`Panel error: status ${res.status}`);
+          try {
+            // NOTE: redirectlarni qo‘lda ushlaymiz
+            const res = await fetch(`${API_BASE}/auth/panel/`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${access}`,
+              },
+              redirect: "manual",
+            });
+
+            // Agar backend 302/301 qaytarsa: Location header bo‘ladi
+            if (
+              res.status === 301 ||
+              res.status === 302 ||
+              res.status === 303 ||
+              res.status === 307 ||
+              res.status === 308
+            ) {
+              const loc = res.headers.get("Location");
+
+              // Backend qayerga redirect qilsa — shuni ochamiz
+              if (loc) {
+                // agar absolute url bo‘lsa ham, relative bo‘lsa ham ishlaydi:
+                window.location.href = loc;
+                return;
+              }
+            }
+
+            // 200 bo‘lsa: demak ruxsat bor, dashboardga o‘tkazamiz
+            if (res.ok) {
+              window.location.href = "dashboard.html";
+              return;
+            }
+
+            // 401/403 bo‘lsa -> login
+            if (res.status === 401 || res.status === 403) {
+              window.location.href = "login.html";
+              return;
+            }
+
+            // boshqa xatolar
+            alert(`Panel error: status ${res.status}`);
+          } catch (err) {
+            console.error(err);
+            alert("Network error: backendga ulana olmadim");
+          }
+        });
+      });
+    </script>
+
+    <!-- MODIFIED: hide Admin nav link unless frontend admin session exists -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          const adminLink = document.getElementById("adminLink");
+          if (!adminLink) return;
+          function updateAdminVisibility() {
+            adminLink.style.display =
+              localStorage.getItem("admin_session") === "1" ? "" : "none";
+          }
+          updateAdminVisibility();
+          window.addEventListener("storage", function (e) {
+            if (e.key === "admin_session") updateAdminVisibility();
+          });
         } catch (err) {
-          console.error(err);
-          alert("Network error: backendga ulana olmadim");
+          console.warn("adminLink visibility script error", err);
         }
       });
-    });
-  </script>
+    </script>
 
-  <!-- MODIFIED: hide Admin nav link unless frontend admin session exists -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      try {
-        const adminLink = document.getElementById('adminLink');
-        if (!adminLink) return;
-        function updateAdminVisibility() {
-          adminLink.style.display = (localStorage.getItem('admin_session') === '1') ? '' : 'none';
-        }
-        updateAdminVisibility();
-        window.addEventListener('storage', function(e) {
-          if (e.key === 'admin_session') updateAdminVisibility();
-        });
-      } catch (err) {
-        console.warn('adminLink visibility script error', err);
-      }
-    });
-  </script>
-
-  <script src="base.js"></script>
-</body>
+    <script src="base.js"></script>
+  </body>
 </html>

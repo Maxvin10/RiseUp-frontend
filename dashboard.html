@@ -6,7 +6,6 @@
     <title>RiseUp</title>
     <link rel="shortcut icon" href="rasmlar/dark.png" type="image/x-icon" />
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="base.js"></script>
     <script>
       tailwind.config = {
         theme: {
@@ -265,6 +264,10 @@
       function collapseSidebar() {
         const sidebar = document.getElementById("sidebar");
 
+        // overlay bosilganda sidebar yopilsin (mobile)
+        const overlay = document.getElementById("sidebarOverlay");
+        if (overlay) overlay.addEventListener("click", closeMobileSidebar);
+
         const logoText = document.getElementById("logoText");
         const navLabels = document.querySelectorAll(".nav-label");
         if (!sidebar) return;
@@ -393,28 +396,6 @@
       window.openMobileSidebar = openMobileSidebar;
       window.closeMobileSidebar = closeMobileSidebar;
       window.toggleMobileSidebar = toggleMobileSidebar;
-
-
-      // ✅ Overlay doim ishlasin (collapse/expand logikaga bog'lanmasin)
-      (function bindOverlayCloseOnce() {
-        const overlay = document.getElementById("sidebarOverlay");
-        if (!overlay) return;
-
-        // qayta-qayta qo'shilib ketmasin
-        if (overlay.dataset.bound === "1") return;
-        overlay.dataset.bound = "1";
-
-        overlay.addEventListener("click", (e) => {
-          e.preventDefault();
-          e.stopPropagation();
-          closeMobileSidebar();
-        });
-
-        // (ixtiyoriy) ESC bosilganda ham yopilsin
-        document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") closeMobileSidebar();
-        });
-      })();
 
       // resize: desktopga o'tsa sidebar joyida tursin, mobileda default yopiq
       window.addEventListener("resize", () => {
