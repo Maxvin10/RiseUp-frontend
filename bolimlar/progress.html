@@ -86,6 +86,14 @@
         >
           <div class="space-y-1">
             <div class="flex items-center gap-3">
+              <button
+                id="btnMobileMenu"
+                class="md:hidden inline-flex items-center justify-center w-11 h-11 rounded-2xl border border-slate-700/80 bg-slate-900/60 text-slate-200 hover:bg-slate-800/60 transition"
+                type="button"
+                title="Menu"
+              >
+                ☰
+              </button>
               <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight">
                 Kurslar
               </h1>
@@ -323,7 +331,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-start">
               <!-- SIDEBAR -->
               <aside
-                class="lg:col-span-4 bg-slate-900/70 border border-slate-700/80 rounded-2xl shadow-lg shadow-slate-950/80 backdrop-blur-xl overflow-hidden"
+                class="hidden md:block lg:col-span-4 bg-slate-900/70 border border-slate-700/80 rounded-2xl shadow-lg shadow-slate-950/80 backdrop-blur-xl overflow-hidden"
               >
                 <div
                   class="p-4 border-b border-slate-700/60 flex items-center justify-between"
@@ -403,7 +411,40 @@
                       ✅ Ko'rildi deb belgilash
                     </button>
                   </div>
+                
+                <!-- MOBILE: Darslar ro'yxati (<=765px) -->
+                <div class="md:hidden bg-slate-900/70 border border-slate-700/80 rounded-2xl shadow-lg shadow-slate-950/80 backdrop-blur-xl overflow-hidden">
+                  <button id="btnMobileLessonsToggle" type="button"
+                    class="w-full px-5 py-4 flex items-center justify-between gap-4 border-b border-slate-700/60">
+                    <div class="text-left">
+                      <p class="text-sm font-extrabold text-white">Darsliklar</p>
+                      <p id="mobileCourseMeta" class="text-xs text-slate-400 mt-0.5">—</p>
+                    </div>
+                    <span id="mobileLessonsChevron" class="text-lg text-slate-300">▾</span>
+                  </button>
+
+                  <div class="px-5 pt-4 pb-5 space-y-4">
+                    <div class="space-y-2">
+                      <div class="flex items-center justify-between text-sm">
+                        <span class="text-slate-300 font-semibold" id="mobileCourseTitle">—</span>
+                        <span class="font-extrabold text-sky-300" id="mobileCourseProgress">0%</span>
+                      </div>
+                      <div class="h-2.5 rounded-full bg-slate-800/80 overflow-hidden">
+                        <div id="mobileCourseProgressBar" class="h-full bg-gradient-to-r from-sky-400 to-indigo-500" style="width:0%"></div>
+                      </div>
+                    </div>
+
+                    <div id="mobileLessonsWrap" class="hidden">
+                      <div class="pb-3">
+                        <input id="mobileDarsQidiruv" placeholder="Dars qidirish..."
+                          class="w-full rounded-2xl border border-slate-700/70 bg-slate-950/40 px-4 py-3 text-sm text-slate-100 outline-none placeholder:text-slate-500 hover:border-sky-400/60 transition" />
+                      </div>
+
+                      <div id="mobileDarslar" class="space-y-2 max-h-[420px] overflow-auto pr-1"></div>
+                    </div>
+                  </div>
                 </div>
+</div>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
                   <div
@@ -934,64 +975,54 @@
         viewKorsat("viewDarslar");
       }
 
-      function sidebarDarslarRender(yonalish, activeLessonId) {
-        $("sidebarYonalishTitle").textContent = yonalish.title;
-        const q = ($("darsQidiruv").value || "").trim().toLowerCase();
+      // =========================
+      // LESSON LIST RENDER (shared)
+      // =========================
+      function renderLessonsListHTML(yonalish, activeLessonId, queryValue, compact = false) {
+        const q = (queryValue || "").trim().toLowerCase();
         const list = (yonalish.lessons || []).filter((l) =>
           !q ? true : (l.title || "").toLowerCase().includes(q)
         );
 
-        $("sidebarDarslar").innerHTML = list
-          .map((l, i) => {
-            const active = l.id === activeLessonId;
-            const base =
-              "w-full text-left rounded-2xl border px-4 py-3 transition";
-            const state = active
-              ? "border-sky-400/70 bg-sky-500/10"
-              : "border-slate-700/70 bg-slate-950/30 hover:bg-slate-900/70 hover:border-slate-600";
+        const item = (l, i, active) => {
+          const base = "w-full text-left rounded-2xl border px-4 py-3 transition";
+          const state = active
+            ? "border-sky-400/70 bg-sky-500/10"
+            : "border-slate-700/70 bg-slate-950/30 hover:bg-slate-900/70 hover:border-slate-600";
 
-            return `
-              <button onclick="app.darsOch('${
-                l.id
-              }')" class="${base} ${state} ${l.is_locked ? "opacity-60" : ""}">
-                <div class="flex items-start justify-between gap-3">
-                  <div class="min-w-0">
-                    <p class="text-xs uppercase tracking-[0.16em] ${
-                      active ? "text-sky-200" : "text-slate-400"
-                    }">${i + 1}-dars</p>
-                    <p class="text-sm font-extrabold ${
-                      active ? "text-white" : "text-slate-200"
-                    } truncate">${l.title}</p>
-                    <p class="text-xs ${
-                      active ? "text-sky-100/80" : "text-slate-400"
-                    }">${l.level} · ${l.duration}</p>
-                    <div class="mt-2 flex flex-wrap gap-2">
-                      ${
-                        l.is_locked
-                          ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>`
-                          : ``
-                      }
-                      ${
-                        l.is_completed
-                          ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>`
-                          : ``
-                      }
-                    </div>
+          return `
+            <button onclick="app.darsOch('${l.id}')" class="${base} ${state} ${l.is_locked ? "opacity-60" : ""}">
+              <div class="flex items-start justify-between gap-3">
+                <div class="min-w-0">
+                  <p class="text-xs uppercase tracking-[0.16em] ${active ? "text-sky-200" : "text-slate-400"}">${i + 1}-dars</p>
+                  <p class="text-sm font-extrabold ${active ? "text-white" : "text-slate-200"} truncate">${l.title}</p>
+                  <p class="text-xs ${active ? "text-sky-100/80" : "text-slate-400"}">${l.level} · ${l.duration}</p>
+                  <div class="mt-2 flex flex-wrap gap-2">
+                    ${l.is_locked ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-slate-800/70 border border-slate-700/70 text-slate-200">🔒 Qulflangan</span>` : ``}
+                    ${l.is_completed ? `<span class="text-[11px] font-extrabold px-2 py-1 rounded-full bg-emerald-500/15 border border-emerald-400/40 text-emerald-200">✅ Ko'rildi</span>` : ``}
                   </div>
-                  <span class="text-lg ${
-                    active ? "text-sky-200" : "text-slate-400"
-                  } ${l.is_locked ? "opacity-40" : ""}">▶</span>
                 </div>
-              </button>
-            `;
-          })
-          .join("");
+                <span class="text-lg ${active ? "text-sky-200" : "text-slate-400"} ${l.is_locked ? "opacity-40" : ""}">▶</span>
+              </div>
+            </button>
+          `;
+        };
 
-        if (list.length === 0)
-          $(
-            "sidebarDarslar"
-          ).innerHTML = `<div class="text-sm text-slate-400 px-3 py-4">Hech qanday dars topilmadi.</div>`;
+        if (list.length === 0) {
+          return `<div class="text-sm text-slate-400 px-3 py-4">Hech qanday dars topilmadi.</div>`;
+        }
+
+        return list
+          .map((l, i) => item(l, i, l.id === activeLessonId))
+          .join("");
       }
+
+            function sidebarDarslarRender(yonalish, activeLessonId) {
+        $("sidebarYonalishTitle").textContent = yonalish.title;
+        const q = ($("darsQidiruv").value || "").trim();
+        $("sidebarDarslar").innerHTML = renderLessonsListHTML(yonalish, activeLessonId, q, true);
+      }
+
 
       function updateKorildiButtonState(isCompleted) {
         const btn = $("btnKorildi");
@@ -1125,7 +1156,34 @@
         $("darsQidiruv").oninput = () =>
           sidebarDarslarRender(yonalish, dars.id);
 
-        viewKorsat("viewPlayer");
+        
+
+        // =========================
+        // MOBILE lessons panel sync (<=765px)
+        // =========================
+        const mobileMeta = $("mobileCourseMeta");
+        const mobileTitle = $("mobileCourseTitle");
+        const mobileProgress = $("mobileCourseProgress");
+        const mobileBar = $("mobileCourseProgressBar");
+        const mobileList = $("mobileDarslar");
+        const mobileSearch = $("mobileDarsQidiruv");
+
+        if (mobileMeta) mobileMeta.textContent = `${index + 1}/${(yonalish.lessons || []).length} · ${yonalish.title}`;
+        if (mobileTitle) mobileTitle.textContent = yonalish.title;
+
+        const coursePercent = Number(yonalish.progress_percent ?? 0);
+        if (mobileProgress) mobileProgress.textContent = `${coursePercent}%`;
+        if (mobileBar) mobileBar.style.width = `${coursePercent}%`;
+
+        if (mobileSearch) mobileSearch.value = "";
+        if (mobileList) mobileList.innerHTML = renderLessonsListHTML(yonalish, dars.id, "", true);
+
+        if (mobileSearch && mobileList) {
+          mobileSearch.oninput = () => {
+            mobileList.innerHTML = renderLessonsListHTML(yonalish, dars.id, mobileSearch.value, true);
+          };
+        }
+viewKorsat("viewPlayer");
       }
 
       // =========================
@@ -1160,6 +1218,56 @@
           setHash(`#/dars/${found.dars.id}`);
         },
       };
+
+      function setupMobileMenuButton() {
+        const btn = document.getElementById("btnMobileMenu");
+        if (!btn) return;
+
+        btn.addEventListener("click", () => {
+          // dashboard.html ichidagi sidebar drawer funksiyasi
+          if (window.parent && typeof window.parent.toggleMobileSidebar === "function") {
+            window.parent.toggleMobileSidebar();
+          } else {
+            toast("Menu topilmadi.");
+          }
+        });
+      }
+
+
+      function setupMobilePlayerUI() {
+        const toggleBtn = $("btnMobileLessonsToggle");
+        const wrap = $("mobileLessonsWrap");
+        const chev = $("mobileLessonsChevron");
+        if (toggleBtn && wrap && chev) {
+          const setOpen = (open) => {
+            if (open) {
+              wrap.classList.remove("hidden");
+              chev.textContent = "▴";
+            } else {
+              wrap.classList.add("hidden");
+              chev.textContent = "▾";
+            }
+          };
+          setOpen(false);
+          toggleBtn.addEventListener("click", () => {
+            const isOpen = !wrap.classList.contains("hidden");
+            setOpen(!isOpen);
+          });
+        }
+
+        const backBtn = $("btnMobileBackInVideo");
+        if (backBtn) {
+          backBtn.addEventListener("click", () => {
+            const h = location.hash || "#/";
+            if (h.startsWith("#/dars/")) {
+              const found = darsTop((h.match(/^#\/dars\/(.+)$/) || [])[1] || "");
+              if (found) return setHash(`#/yonalish/${found.yonalish.id}`);
+            }
+            setHash("#/");
+          });
+        }
+      }
+
 
       function navSetup() {
         $("btnBoshSahifa").onclick = () => setHash("#/");
@@ -1212,7 +1320,11 @@
         headerSync();
         navSetup();
 
-        filterBarRender();
+        setupMobileMenuButton();
+
+        
+        setupMobilePlayerUI();
+filterBarRender();
         $("qidiruvInput").addEventListener("input", yonalishlarRender);
 
         yonalishlarRender();

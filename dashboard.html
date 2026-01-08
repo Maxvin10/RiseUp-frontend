@@ -19,6 +19,73 @@
       };
     </script>
   </head>
+  <script>
+  // 1) O‘ng tugma (Right click) blok
+  document.addEventListener("contextmenu", (e) => {
+    e.preventDefault();
+    return false;
+  });
+
+  // 2) Klaviatura shortcut’larni blok (F12, Ctrl+Shift+I/J/C, Ctrl+U, etc.)
+  document.addEventListener("keydown", (e) => {
+    const key = e.key?.toLowerCase?.() || "";
+    const code = e.code?.toLowerCase?.() || "";
+
+    // F12
+    if (key === "f12" || code === "f12") {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    // Ctrl+Shift+I / J / C  (DevTools / Console / Inspector)
+    if (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(key)) {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    // Ctrl+U (View Source)
+    if (e.ctrlKey && key === "u") {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    // Ctrl+S (Save page)
+    if (e.ctrlKey && key === "s") {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+
+    // Ctrl+P (Print)
+    if (e.ctrlKey && key === "p") {
+      e.preventDefault();
+      e.stopPropagation();
+      return false;
+    }
+  }, { capture: true });
+
+  // 3) (Ixtiyoriy) Matn belgilashni ham blok qilmoqchi bo‘lsang:
+  // document.addEventListener("selectstart", (e) => e.preventDefault());
+  // document.addEventListener("dragstart", (e) => e.preventDefault());
+
+  // 4) (Ixtiyoriy) DevTools ochilganda “sezishga” urinib qaytarish (ham bypass bo‘ladi)
+  // Eslatma: bu ba’zi brauzerlarda ishlamaydi, ba’zida performancega ta’sir qiladi.
+  (function devtoolsTrap() {
+    const threshold = 160;
+    setInterval(() => {
+      const w = window.outerWidth - window.innerWidth;
+      const h = window.outerHeight - window.innerHeight;
+      if (w > threshold || h > threshold) {
+        // Sahifani chalg‘itish usuli (yumshoq):
+        document.body.innerHTML = "";
+      }
+    }, 800);
+  })();
+</script>
+
 
   <body class="min-h-screen bg-slate-950 text-slate-50 font-sans antialiased">
     <!-- ⭐ GLOBAL DARK NEON BACKGROUND -->
@@ -49,7 +116,7 @@
       <!-- Sidebar -->
       <aside
         id="sidebar"
-        class="w-64 bg-slate-900/85 shadow-2xl shadow-slate-950/70 border-r border-slate-800 flex flex-col transition-all duration-300 ease-in-out flex-shrink-0 hidden"
+        class="fixed md:static inset-y-0 left-0 z-[100] w-64 bg-slate-900/85 shadow-2xl shadow-slate-950/70 border-r border-slate-800 flex flex-col transition-all duration-300 ease-in-out flex-shrink-0 -translate-x-full md:translate-x-0 hidden"
         data-hidden-on-home="true"
       >
         <!-- Sidebar Header -->
@@ -174,6 +241,12 @@
         </div>
       </aside>
 
+      <!-- Mobile overlay (sidebar ochilganda tashqi joy bosilsa yopiladi) -->
+      <div
+        id="sidebarOverlay"
+        class="fixed inset-0 z-[90] hidden bg-black/50 backdrop-blur-[2px] md:hidden"
+      ></div>
+
       <!-- Main Content -->
       <main class="flex-1 overflow-auto">
         <iframe
@@ -190,6 +263,11 @@
       // =========================
       function collapseSidebar() {
         const sidebar = document.getElementById("sidebar");
+
+        // overlay bosilganda sidebar yopilsin (mobile)
+        const overlay = document.getElementById("sidebarOverlay");
+        if (overlay) overlay.addEventListener("click", closeMobileSidebar);
+
         const logoText = document.getElementById("logoText");
         const navLabels = document.querySelectorAll(".nav-label");
         if (!sidebar) return;
@@ -231,6 +309,8 @@
         const mq = window.matchMedia("(max-width: 700px)");
 
         function applyByScreen() {
+          // ✅ 765px va pastda drawer ishlaydi, collapse logika aralashmasin
+          if (window.innerWidth <= 765) return;
           const sidebar = document.getElementById("sidebar");
           if (!sidebar) return;
 
@@ -261,6 +341,81 @@
       // =========================
       // Page load: iframe route restore + sidebar show
       // =========================
+      
+      // =========================
+      // MOBILE SIDEBAR DRAWER (<=765px)
+      // =========================
+      function isMobileScreen() {
+        return window.innerWidth <= 765;
+      }
+
+      function openMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        if (!sidebar || !overlay) return;
+
+        // agar sidebar home uchun hidden bo'lsa, ochmaymiz
+        if (sidebar.classList.contains("hidden")) return;
+
+        if (!isMobileScreen()) return;
+
+        sidebar.classList.remove("-translate-x-full");
+        sidebar.classList.add("translate-x-0");
+
+        overlay.classList.remove("hidden");
+        document.body.style.overflow = "hidden";
+      }
+
+      function closeMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        if (!sidebar || !overlay) return;
+
+        if (!isMobileScreen()) {
+          overlay.classList.add("hidden");
+          document.body.style.overflow = "";
+          return;
+        }
+
+        sidebar.classList.add("-translate-x-full");
+        sidebar.classList.remove("translate-x-0");
+
+        overlay.classList.add("hidden");
+        document.body.style.overflow = "";
+      }
+
+      function toggleMobileSidebar() {
+        const sidebar = document.getElementById("sidebar");
+        if (!sidebar) return;
+        const isOpen = !sidebar.classList.contains("-translate-x-full");
+        if (isOpen) closeMobileSidebar();
+        else openMobileSidebar();
+      }
+
+      // iframe ichidan chaqirish uchun
+      window.openMobileSidebar = openMobileSidebar;
+      window.closeMobileSidebar = closeMobileSidebar;
+      window.toggleMobileSidebar = toggleMobileSidebar;
+
+      // resize: desktopga o'tsa sidebar joyida tursin, mobileda default yopiq
+      window.addEventListener("resize", () => {
+        const sidebar = document.getElementById("sidebar");
+        const overlay = document.getElementById("sidebarOverlay");
+        if (!sidebar || !overlay) return;
+
+        if (isMobileScreen()) {
+          // mobilega o'tganda yopib qo'yamiz
+          closeMobileSidebar();
+        } else {
+          // desktopda overlay yo'q, sidebar joyida
+          overlay.classList.add("hidden");
+          document.body.style.overflow = "";
+          sidebar.classList.remove("-translate-x-full");
+          sidebar.classList.add("translate-x-0");
+        }
+      });
+
+
       window.addEventListener("DOMContentLoaded", function () {
         const urlParams = new URLSearchParams(window.location.search);
         const page = urlParams.get("page");
@@ -291,7 +446,20 @@
             srcToLoad.includes("progress.html"))
         ) {
           sidebar.classList.remove("hidden");
+          // mobileda default yopiq turadi
+          try { if (window.innerWidth <= 765) closeMobileSidebar(); } catch (e) {}
+
         }
+
+        // ensure sidebar position on load
+        try {
+          if (window.innerWidth > 765) {
+            sidebar.classList.remove("-translate-x-full");
+            sidebar.classList.add("translate-x-0");
+          } else {
+            closeMobileSidebar();
+          }
+        } catch (e) {}
 
         // welcome text
         setWelcomeName();
@@ -402,6 +570,7 @@
             currentSrc.includes("statistic.html")
           ) {
             sidebar.classList.remove("hidden");
+            try { if (window.innerWidth <= 765) closeMobileSidebar(); } catch (e) {}
           }
 
           try {
