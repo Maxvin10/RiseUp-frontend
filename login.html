@@ -1,593 +1,669 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Login / Register</title>
-  <link rel="shortcut icon" href="rasmlar/dark.png" type="image/x-icon" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="base.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            primary: {
-              50: '#f5f3ff',
-              100: '#ede9fe',
-              500: '#8b5cf6',
-              600: '#7c3aed',
-              700: '#6d28d9',
-              800: '#5b21b6',
-              900: '#4c1d95',
-            }
+<html lang="uz">
+  <!-- FAVICON -->
+  <link rel="icon" type="image/png" href="/rasmlar/dark.png?v=1" />
+  <link rel="apple-touch-icon" href="/rasmlar/dark.png?v=1" />
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Google Search -->
+    <meta
+      name="google-site-verification"
+      content="WBTkUC8mZXiR20VyMOiH6C2M8vE58tMLgKSKoXj-oIM"
+    />
+
+    <!-- SEO -->
+    <title>RiseUply — Reja, o‘rganish, kuzatish</title>
+    <meta
+      name="description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi. Talabalar uchun yagona platforma."
+    />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href="https://riseuply.vercel.app/" />
+    <meta http-equiv="content-language" content="uz" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="RiseUply — Reja, o‘rganish, kuzatish" />
+    <meta
+      property="og:description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi. Talabalar uchun yagona platforma."
+    />
+    <meta property="og:url" content="https://riseuply.vercel.app/" />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+    <meta
+      property="og:image:secure_url"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="RiseUply — Reja, o‘rganish, kuzatish" />
+    <meta
+      name="twitter:description"
+      content="RiseUply — kurslar, vazifalar, progress va statistika. Telegram bot integratsiyasi."
+    />
+    <meta
+      name="twitter:image"
+      content="https://riseuply.vercel.app/rasmlar/darkrise.png"
+    />
+
+    <!-- hreflang -->
+    <link rel="alternate" hreflang="uz" href="https://riseuply.vercel.app/" />
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href="https://riseuply.vercel.app/"
+    />
+
+    <!-- Favicon (tavsiya) -->
+    <link rel="icon" type="image/png" href="/rasmlar/dark.png?v=1" />
+    <link rel="apple-touch-icon" href="/rasmlar/dark.png?v=1" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["system-ui", "ui-sans-serif", "Inter", "sans-serif"],
+            },
+            backgroundImage: {
+              grid: "radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)",
+            },
           },
-          animation: {
-            'fade-in': 'fadeIn 0.3s ease-in-out',
-          },
-          keyframes: {
-            fadeIn: {
-              '0%': { opacity: '0', transform: 'translateY(4px)' },
-              '100%': { opacity: '1', transform: 'translateY(0)' },
-            }
-          },
-          backgroundImage: {
-            'grid': 'radial-gradient(circle at 1px 1px, rgba(148,163,184,0.18) 1px, transparent 0)',
-          }
-        }
+        },
+      };
+    </script>
+    <style>
+      html,
+      body {
+        overflow-x: hidden;
       }
-    };
-  </script>
-  <style>
-    html, body { overflow-x: hidden; }
-    img, video, iframe { max-width: 100%; }
-  </style>
-  <link rel="stylesheet" href="base.css" />
-</head>
-<script>
-  // 1) O‘ng tugma (Right click) blok
-  document.addEventListener("contextmenu", (e) => {
-    e.preventDefault();
-    return false;
-  });
-
-  // 2) Klaviatura shortcut’larni blok (F12, Ctrl+Shift+I/J/C, Ctrl+U, etc.)
-  document.addEventListener("keydown", (e) => {
-    const key = e.key?.toLowerCase?.() || "";
-    const code = e.code?.toLowerCase?.() || "";
-
-    // F12
-    if (key === "f12" || code === "f12") {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-
-    // Ctrl+Shift+I / J / C  (DevTools / Console / Inspector)
-    if (e.ctrlKey && e.shiftKey && ["i", "j", "c"].includes(key)) {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-
-    // Ctrl+U (View Source)
-    if (e.ctrlKey && key === "u") {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-
-    // Ctrl+S (Save page)
-    if (e.ctrlKey && key === "s") {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-
-    // Ctrl+P (Print)
-    if (e.ctrlKey && key === "p") {
-      e.preventDefault();
-      e.stopPropagation();
-      return false;
-    }
-  }, { capture: true });
-
-  // 3) (Ixtiyoriy) Matn belgilashni ham blok qilmoqchi bo‘lsang:
-  // document.addEventListener("selectstart", (e) => e.preventDefault());
-  // document.addEventListener("dragstart", (e) => e.preventDefault());
-
-  // 4) (Ixtiyoriy) DevTools ochilganda “sezishga” urinib qaytarish (ham bypass bo‘ladi)
-  // Eslatma: bu ba’zi brauzerlarda ishlamaydi, ba’zida performancega ta’sir qiladi.
-  (function devtoolsTrap() {
-    const threshold = 160;
-    setInterval(() => {
-      const w = window.outerWidth - window.innerWidth;
-      const h = window.outerHeight - window.innerHeight;
-      if (w > threshold || h > threshold) {
-        // Sahifani chalg‘itish usuli (yumshoq):
-        document.body.innerHTML = "";
+      img,
+      video,
+      iframe {
+        max-width: 100%;
       }
-    }, 800);
-  })();
-</script>
+    </style>
+    <link rel="stylesheet" href="base.css" />
+  </head>
 
+  <body
+    id="body"
+    class="bg-slate-950 text-slate-50 min-h-screen antialiased font-sans transition-colors duration-500"
+  >
+    <!-- BACKGROUND LAYERLAR -->
+    <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
 
-<body class="min-h-screen flex flex-col bg-slate-950 text-slate-50 font-sans antialiased transition-all duration-500 ease-in-out">
-
-  <!-- KO‘RINMAS KOSMOS FONI -->
-  <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
-
-  <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
-    <div class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/40 blur-3xl"></div>
-    <div class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/40 blur-3xl"></div>
-    <div class="absolute inset-0 opacity-[0.08] bg-grid bg-[length:26px_26px]"></div>
-  </div>
-
-  <div class="pointer-events-none fixed inset-x-0 top-24 -z-10 flex justify-center">
-    <div class="h-64 w-[650px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-400/40 blur-3xl opacity-80"></div>
-  </div>
-  <!-- /FON -->
-
-  <!-- HEADER: Theme + Language -->
-  <header class="flex justify-between items-center px-6 py-4 bg-slate-900/80 dark:bg-slate-950/80 backdrop-blur-md shadow-sm border-b border-slate-800/70 transition-all duration-300">
-    <div class="flex items-center space-x-3">
-      <img id="logo" src="rasmlar/lightrise.png" alt="Logo"
-           class="w-12 h-12 rounded-full object-cover ring-2 ring-primary-300/70 dark:ring-primary-700/80 transition-all duration-500 ease-in-out">
-      <span class="text-xl font-bold bg-gradient-to-r from-primary-200 via-sky-300 to-pink-300 bg-clip-text text-transparent">
-        Rise Up
-      </span>
+    <!-- Gradient dumaloqlar -->
+    <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+      <div
+        class="absolute -top-40 -left-10 h-80 w-80 rounded-full bg-indigo-500/25 blur-3xl"
+      ></div>
+      <div
+        class="absolute -bottom-40 -right-10 h-96 w-96 rounded-full bg-fuchsia-500/25 blur-3xl"
+      ></div>
+      <div
+        class="absolute inset-0 opacity-[0.07] bg-grid bg-[length:24px_24px]"
+      ></div>
     </div>
-    <div class="flex items-center space-x-4">
-      <select id="language-select"
-              class="px-3 py-1.5 text-sm border border-slate-700 rounded-lg bg-slate-900/80 text-slate-100 focus:outline-none focus:ring-2 focus:ring-primary-500 cursor-pointer transition-all duration-200">
-        <option value="en">EN</option>
-        <option value="uz">UZ</option>
-        <option value="ru">RU</option>
-      </select>
-      <!-- Theme toggle (xohlasang yoqib qo'y) -->
-      <!--
-      <button id="theme-toggle"
-              class="p-2.5 rounded-full bg-slate-800 text-slate-200 hover:scale-110 hover:shadow-md transition-all duration-300 ring-2 ring-transparent hover:ring-primary-400/70"></button>
-      -->
+
+    <!-- Orbital gradient halo -->
+    <div
+      class="pointer-events-none fixed inset-x-0 top-20 -z-10 flex justify-center"
+    >
+      <div
+        class="h-72 w-[600px] rounded-[999px] bg-gradient-to-r from-indigo-500/40 via-sky-400/40 to-fuchsia-500/40 blur-3xl opacity-70"
+      ></div>
     </div>
-  </header>
 
-  <!-- MAIN CONTENT -->
-  <div class="flex-1 flex items-center justify-center p-4 sm:p-6">
-    <div class="flex flex-col lg:flex-row w-full max-w-6xl rounded-3xl overflow-hidden shadow-[0_20px_80px_rgba(15,23,42,0.9)] bg-slate-900/80 backdrop-blur-xl border border-slate-800/80">
-
-      <!-- LEFT SIDE -->
-      <div class="hidden lg:flex flex-col justify-center items-center w-full lg:w-1/2 p-8 lg:p-12 bg-gradient-to-br from-indigo-500 via-purple-600 to-fuchsia-500 text-white relative overflow-hidden">
-        <div class="pointer-events-none absolute -top-24 -right-24 h-56 w-56 rounded-full bg-white/15 blur-3xl"></div>
-        <div class="pointer-events-none absolute -bottom-24 -left-10 h-64 w-64 rounded-full bg-fuchsia-300/30 blur-3xl"></div>
-
-        <div class="bg-white/15 backdrop-blur-md p-6 rounded-2xl shadow-lg mb-6 animate-fade-in border border-white/20 relative z-10">
-          <img src="https://storage.googleapis.com/uxpilot-auth.appspot.com/b30c2e8d75-5256456ab383cdda0031.png" alt="illustration" class="w-56 rounded-xl">
+    <!-- HEADER -->
+    <header
+      class="sticky top-0 z-40 border-b border-slate-800/60 bg-slate-950/80 backdrop-blur-2xl"
+    >
+      <div
+        class="max-w-6xl mx-auto px-4 lg:px-8 py-3 flex items-center justify-between gap-4"
+      >
+        <!-- Logo + Brand -->
+        <div class="flex items-center gap-3">
+          <div class="relative">
+            <div
+              class="absolute inset-0 rounded-3xl bg-gradient-to-tr from-indigo-500/80 to-fuchsia-500/80 blur-md opacity-70"
+            ></div>
+            <img
+              id="logo"
+              src="rasmlar/dark.png"
+              alt="RiseUp Logo"
+              class="relative w-11 h-11 rounded-2xl bg-slate-950 border border-slate-700 shadow-[0_0_35px_rgba(79,70,229,0.65)] object-cover"
+            />
+            <span
+              class="absolute -bottom-1 -right-1 h-3 w-3 rounded-full bg-emerald-400 shadow shadow-emerald-400/80"
+            ></span>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-semibold text-lg tracking-tight text-white"
+              >RiseUp</span
+            >
+            <span class="text-[13px] text-slate-400 hidden sm:inline">
+              Reja • O'rganish • Nazorat • O'sish
+            </span>
+          </div>
         </div>
-        <h2 class="text-3xl font-bold mb-3 drop-shadow-sm" data-key="boost_title">Boost Your Productivity</h2>
-        <p class="text-center text-purple-100 mb-8 max-w-md text-sm leading-relaxed" data-key="boost_desc">
-          Join thousands of students and professionals who organize their tasks and achieve their goals with our powerful productivity platform.
-        </p>
-        <div class="flex flex-wrap justify-center gap-4 text-xs sm:text-sm relative z-10">
-          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <span class="w-2.5 h-2.5 bg-purple-300 rounded-full"></span><span data-key="task_mgmt">Task Management</span>
-          </div>
-          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <span class="w-2.5 h-2.5 bg-purple-300 rounded-full"></span><span data-key="goal_track">Goal Tracking</span>
-          </div>
-          <div class="flex items-center space-x-2 bg-white/10 px-3 py-1.5 rounded-full backdrop-blur-sm">
-            <span class="w-2.5 h-2.5 bg-indigo-300 rounded-full"></span><span data-key="team_collab">Team Collaboration</span>
-          </div>
+
+        <!-- NAV -->
+        <nav class="hidden md:flex items-center gap-6 text-[18px] font-medium">
+          <!-- agar kerak bo‘lsa nav linklar -->
+          <!-- <a id="adminLink" href="admin.html" class="text-slate-200 hover:text-white">Admin</a> -->
+        </nav>
+
+        <!-- Right controls -->
+        <div class="flex items-center gap-2 sm:gap-3">
+          <select
+            id="language-select"
+            class="border border-slate-700/80 rounded-xl px-3 py-1.5 text-xs sm:text-[13px] bg-slate-900/90 text-slate-100 focus:outline-none focus:ring-2 focus:ring-indigo-500/70 cursor-pointer"
+          >
+            <option value="en">EN</option>
+            <option value="uz">UZ</option>
+            <option value="ru">RU</option>
+          </select>
+
+          <a target="_blank" rel="noopener noreferrer" href="login.html">
+            <button
+              class="hidden sm:inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 to-fuchsia-500 text-white px-4 py-1.5 rounded-xl text-xs sm:text-[13px] font-semibold shadow-[0_0_30px_rgba(129,140,248,0.7)] hover:brightness-110 transition"
+            >
+              <span data-key="signin">Sign in</span>
+            </button>
+          </a>
         </div>
       </div>
+    </header>
 
-      <!-- RIGHT SIDE -->
-      <div class="w-full lg:w-1/2 bg-slate-950/70 dark:bg-slate-950/80 p-6 sm:p-8 lg:p-10 flex flex-col justify-center">
-        <div class="max-w-sm mx-auto w-full">
-          <h1 class="text-3xl font-bold text-center mb-2 text-slate-50" id="formTitle" data-key="welcome_back">Welcome Back</h1>
-          <p class="text-slate-400 text-center mb-8 text-sm" id="formSubtitle" data-key="signin_continue">
-            Sign in to continue your productivity journey
-          </p>
-
-          <!-- Tabs -->
-          <div class="flex auth-tabs bg-slate-900 rounded-xl mb-8 p-1 border border-slate-800">
-            <button id="loginTab" class="flex-1 py-2.5 rounded-lg tab-active text-slate-50 text-sm font-medium transition-all duration-300 tab-btn" data-key="login">
-              Login
-            </button>
-            <button id="registerTab" class="flex-1 py-2.5 rounded-lg tab-inactive text-slate-400 text-sm font-medium transition-all duration-300 tab-btn" data-key="register">
-              Register
-            </button>
+    <!-- MAIN CONTENT -->
+    <main class="max-w-6xl mx-auto px-4 lg:px-8 pt-10 lg:pt-14 pb-20">
+      <!-- HERO -->
+      <section class="flex flex-col lg:flex-row items-center gap-10 lg:gap-16">
+        <!-- LEFT: TEXT -->
+        <div class="w-full space-y-7">
+          <!-- Badge -->
+          <div
+            class="inline-flex items-center gap-2 rounded-full border border-indigo-400/40 bg-slate-900/80 px-3 py-1 text-[11px] uppercase tracking-[0.12em] text-indigo-200 shadow shadow-indigo-500/30"
+          >
+            <span
+              class="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse"
+            ></span>
+            <span>Study smarter · Not harder</span>
           </div>
 
-          <form id="authForm" class="space-y-5">
-            <div id="nameField" class="hidden animate-fade-in">
-              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="full_name">Full Name</label>
-              <input type="text" id="nameInput" placeholder="Enter your name"
-                class="w-full px-4 py-3 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
-              <p class="error hidden text-red-400 text-xs mt-1.5">Name is required</p>
-            </div>
+          <div class="space-y-4">
+            <h1
+              class="text-3xl sm:text-4xl lg:text-5xl xl:text-6xl font-extrabold tracking-tight text-white leading-tight"
+              data-key="main_title"
+            >
+              Plan, Learn, and Track <br />
+              Rise-Up
+            </h1>
+            <p
+              class="text-slate-300 text-sm sm:text-[15px] lg:text-base leading-relaxed max-w-xl"
+              data-key="main_desc"
+            >
+              Organize your learning journey, set goals, <br />
+              and watch your progress grow day by day.
+            </p>
+          </div>
 
-            <div class="animate-fade-in">
-              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="email">Email Address</label>
-              <input type="email" id="emailInput" placeholder="Enter your email"
-                class="w-full px-4 py-3 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
-              <p class="error hidden text-red-400 text-xs mt-1.5">Email is required</p>
-            </div>
-
-            <div class="animate-fade-in">
-              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="password">Password</label>
-              <div class="relative">
-                <input type="password" minlength="8" id="passwordInput" placeholder="Enter your password"
-                  class="w-full px-4 py-3 pr-10 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
-                <button type="button" class="password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors" data-target="passwordInput">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </button>
-              </div>
-              <p class="error hidden text-red-400 text-xs mt-1.5">Password is required</p>
-            </div>
-
-            <div id="confirmField" class="hidden animate-fade-in">
-              <label class="block text-sm font-medium text-slate-200 mb-1.5" data-key="confirm_password">Confirm Password</label>
-              <div class="relative">
-                <input type="password" id="confirmInput" placeholder="Re-enter your password"
-                  class="w-full px-4 py-3 pr-10 border border-slate-700 rounded-xl bg-slate-900/80 text-slate-100 placeholder:text-slate-500 input-focus" />
-                <button type="button" class="password-toggle absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-400 hover:text-slate-200 transition-colors" data-target="confirmInput">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 eye-icon" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-                  </svg>
-                </button>
-              </div>
-              <p class="error hidden text-red-400 text-xs mt-1.5">Passwords do not match</p>
-            </div>
-
-            <button type="submit"
-              class="w-full bg-gradient-to-r from-primary-500 via-purple-500 to-fuchsia-500 hover:from-primary-600 hover:via-purple-600 hover:to-fuchsia-600 text-white font-medium py-3 rounded-xl shadow-lg shadow-fuchsia-500/40 btn-hover transition-all duration-300"
-              id="submitBtn" data-key="sign_in">
-              Sign In
+          <!-- CTA -->
+          <div class="flex flex-wrap items-center gap-4">
+            <!-- ✅ MODIFIED: Go to Dashboard endi backend /api/panel/ orqali tekshiradi -->
+            <button
+              id="goDashboardBtn"
+              class="inline-flex items-center gap-2 bg-gradient-to-r from-indigo-500 via-sky-500 to-emerald-400 text-slate-950 px-6 py-2.5 rounded-2xl text-sm sm:text-[15px] font-semibold shadow-lg shadow-indigo-500/50 hover:-translate-y-0.5 hover:shadow-[0_20px_60px_rgba(56,189,248,0.6)] transition-transform duration-150"
+              data-key="go_dashboard"
+            >
+              Go to Dashboard
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M13 7l5 5m0 0l-5 5m5-5H6"
+                />
+              </svg>
             </button>
-          </form>
-        </div>
-      </div>
 
-    </div>
-  </div>
-
-  <!-- TOASTS (o'ng yuqori xabarlar) -->
-  <div id="toast-root"
-       class="fixed top-5 right-5 z-[9999] flex flex-col gap-3 w-[92vw] max-w-sm pointer-events-none">
-  </div>
-
-  <!-- JAVASCRIPT -->
-  <script>
-/* ---------- Clean unified script + Toast ---------- */
-(() => {
-  const translations = {
-    en: { boost_title: "Boost Your Productivity", boost_desc: "Join thousands...", task_mgmt: "Task Management", goal_track: "Goal Tracking", team_collab: "Team Collaboration", welcome_back: "Welcome Back", signin_continue: "Sign in to continue your productivity journey", login: "Login", register: "Register", full_name: "Full Name", email: "Email Address", password: "Password", confirm_password: "Confirm Password", sign_in: "Sign In", sign_up: "Sign Up" },
-    uz: { boost_title: "Mahsuldorligingizni oshiring", boost_desc: "Minglab talabalar...", task_mgmt: "Vazifa boshqaruvi", goal_track: "Maqsadlarni kuzatish", team_collab: "Jamoaviy hamkorlik", welcome_back: "Xush kelibsiz", signin_continue: "Mahsuldorlik sayohatingizni davom ettirish uchun kiring", login: "Kirish", register: "Ro'yxatdan o'tish", full_name: "To'liq ism", email: "Elektron pochta", password: "Parol", confirm_password: "Parolni tasdiqlash", sign_in: "Kirish", sign_up: "Ro'yxatdan o'tish" },
-    ru: { boost_title: "Повысьте свою продуктивность", boost_desc: "Присоединяйтесь к тысячам...", task_mgmt: "Управление задачами", goal_track: "Отслеживание целей", team_collab: "Командное сотрудничество", welcome_back: "Добро пожаловать", signin_continue: "Войдите, чтобы продолжить путь продуктивности", login: "Войти", register: "Регистрация", full_name: "Полное имя", email: "Электронная почта", password: "Пароль", confirm_password: "Подтвердите пароль", sign_in: "Войти", sign_up: "Зарегистрироваться" }
-  };
-
-  const API_BASE = 'http://riseup-back-production.up.railway.app/api/auth';
-
-  // Query DOM once (with guards)
-  const body = document.body;
-  const themeToggle = document.getElementById('theme-toggle');
-  const languageSelect = document.getElementById('language-select');
-  const logo = document.getElementById('logo');
-  const loginTab = document.getElementById('loginTab');
-  const registerTab = document.getElementById('registerTab');
-  const nameField = document.getElementById('nameField');
-  const confirmField = document.getElementById('confirmField');
-  const extraLogin = document.getElementById('extraLogin'); // (yo'q bo'lsa muammo emas)
-  const formTitle = document.getElementById('formTitle');
-  const formSubtitle = document.getElementById('formSubtitle');
-  const submitBtn = document.getElementById('submitBtn');
-  const authForm = document.getElementById('authForm');
-
-  // =========================
-  // TOAST (alert o'rniga)
-  // =========================
-  function showToast(message, type = "info", opts = {}) {
-    const root = document.getElementById("toast-root");
-    if (!root) { console.log(message); return; }
-
-    const duration = opts.duration ?? 3200;
-
-    const styles = {
-      success: { ring: "ring-1 ring-emerald-400/30", bg: "bg-emerald-500/10", iconBg: "bg-emerald-500/20", icon: "✓", title: "Success" },
-      error:   { ring: "ring-1 ring-rose-400/30",    bg: "bg-rose-500/10",    iconBg: "bg-rose-500/20",    icon: "!", title: "Error" },
-      info:    { ring: "ring-1 ring-sky-400/30",     bg: "bg-sky-500/10",     iconBg: "bg-sky-500/20",     icon: "i", title: "Info" },
-      warn:    { ring: "ring-1 ring-amber-400/30",   bg: "bg-amber-500/10",   iconBg: "bg-amber-500/20",   icon: "!", title: "Warning" },
-    };
-
-    const s = styles[type] || styles.info;
-
-    const el = document.createElement("div");
-    el.className = `
-      pointer-events-auto overflow-hidden
-      ${s.ring} ${s.bg}
-      backdrop-blur-xl border border-slate-800/60
-      rounded-2xl shadow-[0_20px_60px_rgba(0,0,0,0.55)]
-      animate-fade-in
-    `;
-
-    el.innerHTML = `
-      <div class="flex items-start gap-3 p-4">
-        <div class="mt-0.5 h-9 w-9 rounded-xl ${s.iconBg} flex items-center justify-center text-slate-100 font-bold">
-          ${s.icon}
-        </div>
-        <div class="flex-1">
-          <div class="flex items-center justify-between gap-3">
-            <p class="text-sm font-semibold text-slate-100">${opts.title || s.title}</p>
-            <button class="toast-close text-slate-400 hover:text-slate-200 transition-colors">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"/>
+            <button
+              class="inline-flex items-center gap-2 border border-slate-700 bg-slate-900/80 text-slate-100 px-5 py-2.5 rounded-2xl text-sm sm:text-[15px] font-medium hover:border-indigo-400 hover:text-indigo-200 transition"
+              data-key="view_stats"
+            >
+              View Statistics
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 19h16M5 11l4 4 5-8 5 7"
+                />
               </svg>
             </button>
           </div>
-          <p class="text-sm text-slate-300 mt-1 leading-relaxed">${message}</p>
-          <div class="mt-3 h-1 w-full bg-slate-800/60 rounded-full overflow-hidden">
-            <div class="toast-bar h-full w-full bg-white/30 rounded-full"></div>
+
+          <!-- QUICK STATS -->
+          <div class="flex flex-wrap gap-6 text-xs text-slate-300 pt-4">
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">+1.2k</p>
+              <p class="text-[11px] text-slate-400">Active learners</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">92%</p>
+              <p class="text-[11px] text-slate-400">Consistency rate</p>
+            </div>
+            <div class="space-y-1">
+              <p class="text-xl font-semibold text-white">35 min</p>
+              <p class="text-[11px] text-slate-400">Avg. focus / day</p>
+            </div>
           </div>
         </div>
-      </div>
-    `;
+      </section>
+      <section class="mt-18 lg:mt-20">
+        <div class="text-center max-w-2xl mx-auto mb-9">
+          <h2
+            class="text-2xl sm:text-3xl lg:text-[32px] font-extrabold text-white mb-2"
+            data-key="features_title"
+          >
+            Everything You Need to Succeed
+          </h2>
+          <p class="text-xs sm:text-sm text-slate-300" data-key="features_desc">
+            Powerful tools to enhance your learning journey
+          </p>
+        </div>
 
-    root.appendChild(el);
+        <div class="grid gap-6 md:grid-cols-3">
+          <!-- Card 1 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-indigo-500/80 shadow-lg shadow-slate-950/60 hover:shadow-indigo-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-indigo-500/20 border border-indigo-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-indigo-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M12 6v12m-4-8v8m8-4v4M5 20h14M5 4h14v6H5z"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="plan_title"
+            >
+              Create Learning Plans
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="plan_desc">
+              Design personalized study schedules and break down complex topics
+              into manageable learning sessions.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-indigo-300/80"
+            >
+              Smart planning engine
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-indigo-500/10 via-fuchsia-500/10 to-emerald-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
 
-    // progress bar anim
-    const bar = el.querySelector(".toast-bar");
-    if (bar) {
-      bar.animate([{ transform: "translateX(0%)" }, { transform: "translateX(-100%)" }], {
-        duration,
-        easing: "linear",
-        fill: "forwards"
-      });
-    }
+          <!-- Card 2 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-emerald-500/80 shadow-lg shadow-slate-950/60 hover:shadow-emerald-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-emerald-500/20 border border-emerald-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-emerald-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M4 19h16M5 11l4 4 5-8 5 7"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="progress_title"
+            >
+              Track Your Progress
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="progress_desc">
+              Monitor your achievements with detailed analytics and stay
+              motivated as you hit each milestone.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-emerald-300/80"
+            >
+              Visual analytics & streaks
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-emerald-500/10 via-cyan-500/10 to-lime-400/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
 
-    const remove = () => {
-      el.style.opacity = "0";
-      el.style.transform = "translateY(-6px)";
-      el.style.transition = "all 200ms ease";
-      setTimeout(() => el.remove(), 210);
-    };
+          <!-- Card 3 -->
+          <div
+            class="group relative flex flex-col items-start p-6 rounded-3xl bg-slate-900/80 border border-slate-800 hover:border-fuchsia-500/80 shadow-lg shadow-slate-950/60 hover:shadow-fuchsia-500/30 transition-all duration-200"
+          >
+            <div
+              class="mb-4 inline-flex h-11 w-11 items-center justify-center rounded-2xl bg-fuchsia-500/20 border border-fuchsia-400/60"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-5 w-5 text-fuchsia-300"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="1.7"
+                  d="M17 20h5v-2a4 4 0 00-4-4h-1M7 20H2v-2a4 4 0 014-4h1m10 0a4 4 0 00-4-4h-2a4 4 0 00-4 4m10 0a4 4 0 00-4-4m-6 4a4 4 0 014-4"
+                />
+              </svg>
+            </div>
+            <h3
+              class="text-[15px] font-semibold text-white mb-2"
+              data-key="community_title"
+            >
+              Join the Community
+            </h3>
+            <p class="text-[13px] text-slate-300" data-key="community_desc">
+              Connect with learners around the world and exchange tips,
+              resources, and motivation.
+            </p>
+            <span
+              class="mt-4 text-[10px] uppercase tracking-[0.18em] text-fuchsia-300/80"
+            >
+              Shared goals & support
+            </span>
+            <div
+              class="pointer-events-none absolute inset-x-8 -bottom-4 h-12 rounded-full bg-gradient-to-r from-fuchsia-500/10 via-purple-500/10 to-indigo-500/10 blur-xl opacity-0 group-hover:opacity-100 transition-opacity"
+            ></div>
+          </div>
+        </div>
+      </section>
 
-    el.querySelector(".toast-close")?.addEventListener("click", remove);
-    setTimeout(remove, duration);
-  }
+      <!-- MINI TESTIMONIAL / CTA -->
 
-  // Theme functions
-  function updateThemeIcon() {
-    if (!themeToggle) return;
-    const sun = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m8.485-11.515l-.707.707M5.636 18.364l-.707.707m13.435-2.828l-.707-.707M5.636 5.636l-.707-.707M12 7a5 5 0 100 10 5 5 0 000-10z"/></svg>`;
-    const moon = `<svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>`;
-    themeToggle.innerHTML = body.classList.contains('dark') ? sun : moon;
-  }
+      <!-- FEATURES -->
+      <section class="mt-10">
+        <div class="flex items-end justify-between gap-4 flex-wrap">
+          <div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-50">
+              Nega RiseUp?
+            </h2>
+            <p class="text-slate-400 mt-1 text-sm sm:text-base text-wrap-safe">
+              Kurslar, progress, vazifalar va statistika — hammasi bitta joyda.
+              Mobile’da ham qulay.
+            </p>
+          </div>
+        </div>
+      </section>
 
-  function applyTheme() {
-    const saved = localStorage.getItem('theme');
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const useDark = saved === 'dark' || (!saved && prefersDark);
-    if (useDark) body.classList.add('dark'); else body.classList.remove('dark');
-    if (logo) logo.src = body.classList.contains('dark') ? 'rasmlar/darkrise.png' : 'rasmlar/lightrise.png';
-    updateThemeIcon();
-  }
+      <!-- FOOTER -->
+      <footer
+        class="mt-10 border-t border-slate-800/70 pt-5 text-[16px] text-slate-400 flex flex-col sm:flex-row items-center justify-between gap-3"
+      >
+        <p>© <span id="yearSpan"></span> RiseUp. All rights reserved.</p>
+        <p class="text-[16px] text-slate-500/80">
+          Built for students who want to grow every single day.
+        </p>
+      </footer>
+    </main>
 
-  function toggleTheme() {
-    const nowDark = body.classList.toggle('dark');
-    localStorage.setItem('theme', nowDark ? 'dark' : 'light');
-    if (logo) logo.src = nowDark ? 'rasmlar/darkrise.png' : 'rasmlar/lightrise.png';
-    updateThemeIcon();
-  }
+    <!-- TRANSLATIONS + THEME -->
+    <script>
+      const translations = {
+        en: {
+          home: "Home",
+          dashboard: "Dashboard",
+          tasks: "Tasks",
+          statistics: "Statistics",
+          admin: "Admin",
+          signin: "Sign in",
+          main_title: "Plan, Learn, and Track <br> Rise-Up",
+          main_desc:
+            "Organize your learning journey, set goals, <br> and watch your progress grow day by day.",
+          go_dashboard: "Go to Dashboard",
+          view_stats: "View Statistics",
+          features_title: "Everything You Need to Succeed",
+          features_desc: "Powerful tools to enhance your learning journey",
+          plan_title: "Create Learning Plans",
+          plan_desc:
+            "Design personalized study schedules and break down complex topics into manageable learning sessions.",
+          progress_title: "Track Your Progress",
+          progress_desc:
+            "Monitor your achievements with detailed analytics and stay motivated as you hit each milestone.",
+          community_title: "Join the Community",
+          community_desc:
+            "Connect with learners around the world and exchange tips, resources, and motivation.",
+        },
+        uz: {
+          home: "Bosh sahifa",
+          dashboard: "Boshqaruv paneli",
+          tasks: "Vazifalar",
+          statistics: "Statistika",
+          admin: "Admin",
+          signin: "Kirish",
+          main_title: "Reja, O'rgan, Kuzat <br> Rise-Up",
+          main_desc:
+            "O'quv sayohatingizni tartibga soling, maqsadlar qo'ying, <br> va har kuni o'sishingizni kuzating.",
+          go_dashboard: "Panelga o'tish",
+          view_stats: "Statistikani ko'rish",
+          features_title: "Muvaffaqiyat uchun kerak bo'lgan hamma narsa",
+          features_desc:
+            "O'quv jarayoningizni yaxshilash uchun kuchli vositalar",
+          plan_title: "O'quv rejalarini yarating",
+          plan_desc:
+            "Shaxsiy o'quv jadvallarini tuzing va murakkab mavzularni boshqariladigan qismlarga bo'ling.",
+          progress_title: "Jarayoningizni kuzating",
+          progress_desc:
+            "Yutuqlaringizni batafsil tahlillar bilan kuzating va har bir bosqichda motivatsiyada bo'ling.",
+          community_title: "Jamiyatga qo'shiling",
+          community_desc:
+            "Dunyodagi o'quvchilar bilan bog'laning va maslahatlar, resurslar va motivatsiya almashing.",
+        },
+        ru: {
+          home: "Главная",
+          dashboard: "Панель",
+          tasks: "Задачи",
+          statistics: "Статистика",
+          admin: "Admin",
+          signin: "Войти",
+          main_title: "Планируй, Учись, Отслеживай <br>  Rise-Up",
+          main_desc:
+            "Организуй свое обучение, ставь цели, <br> и следи за прогрессом день за днём.",
+          go_dashboard: "Перейти в панель",
+          view_stats: "Посмотреть статистику",
+          features_title: "Всё, что нужно для успеха",
+          features_desc: "Мощные инструменты для улучшения вашего обучения",
+          plan_title: "Создавайте планы обучения",
+          plan_desc:
+            "Составляйте персональные графики и разбивайте сложные темы на управляемые сессии.",
+          progress_title: "Отслеживайте прогресс",
+          progress_desc:
+            "Следите за достижениями с помощью аналитики и оставайтесь мотивированными на каждом этапе.",
+          community_title: "Присоединяйтесь к сообществу",
+          community_desc:
+            "Общайтесь с учениками по всему миру, обменивайтесь советами, ресурсами и мотивацией.",
+        },
+      };
 
-  // Translation / UI text
-  function setTextsForLang(lang) {
-    document.querySelectorAll('[data-key]').forEach(el => {
-      const key = el.getAttribute('data-key');
-      if (!key) return;
-      if (translations[lang] && translations[lang][key]) el.innerHTML = translations[lang][key];
-    });
-    if (languageSelect) languageSelect.value = lang;
-    localStorage.setItem('language', lang);
-  }
+      const body = document.getElementById("body");
+      const languageSelect = document.getElementById("language-select");
+      const logo = document.getElementById("logo");
 
-  // Tab switching
-  function switchTab(type) {
-    const isLogin = type === 'login';
-    if (isLogin) {
-      body.classList.remove('register-mode');
-      nameField?.classList.add('hidden');
-      confirmField?.classList.add('hidden');
-      extraLogin?.classList.remove('hidden');
-      loginTab?.classList.add('tab-active'); loginTab?.classList.remove('tab-inactive');
-      registerTab?.classList.remove('tab-active'); registerTab?.classList.add('tab-inactive');
-      if (submitBtn) submitBtn.setAttribute('data-key', 'sign_in');
-    } else {
-      body.classList.add('register-mode');
-      nameField?.classList.remove('hidden');
-      confirmField?.classList.remove('hidden');
-      extraLogin?.classList.add('hidden');
-      registerTab?.classList.add('tab-active'); registerTab?.classList.remove('tab-inactive');
-      loginTab?.classList.remove('tab-active'); loginTab?.classList.add('tab-inactive');
-      if (submitBtn) submitBtn.setAttribute('data-key', 'sign_up');
-    }
-    const lang = (languageSelect && languageSelect.value) || localStorage.getItem('language') || 'en';
-    setTextsForLang(lang);
-  }
+      const savedTheme = localStorage.getItem("theme") || "dark";
+      const browserLang = (navigator.language || "uz").toLowerCase();
+      const defaultLang = browserLang.startsWith("ru")
+        ? "ru"
+        : browserLang.startsWith("en")
+        ? "en"
+        : "uz";
+      const savedLang = localStorage.getItem("language") || defaultLang;
 
-  // Helper: POST JSON
-  async function postJSON(url, bodyObj) {
-    try {
-      const res = await fetch(url, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(bodyObj)
-      });
-      const data = await res.json().catch(() => ({}));
-      return { ok: res.ok, status: res.status, data };
-    } catch (err) {
-      return { ok: false, status: 0, data: { error: 'Network error' } };
-    }
-  }
-
-  // Validation helpers
-  function showError(inputEl, message) {
-    if (!inputEl) { showToast(message, "error", { title: "Form error" }); return; }
-    inputEl.classList.add('border-red-500');
-    const err = inputEl.parentElement?.querySelector('.error');
-    if (err) { err.textContent = message; err.classList.remove('hidden'); }
-    showToast(message, "error", { title: "Form error", duration: 2600 });
-  }
-
-  function clearErrors() {
-    document.querySelectorAll('.error').forEach(e => e.classList.add('hidden'));
-    document.querySelectorAll('input').forEach(i => i.classList.remove('border-red-500'));
-  }
-
-  // Form submit
-  async function handleFormSubmit(e) {
-    e.preventDefault();
-    clearErrors();
-
-    const isRegister = body.classList.contains('register-mode');
-    const emailEl = document.getElementById('emailInput');
-    const passEl = document.getElementById('passwordInput');
-    const email = emailEl?.value.trim() || '';
-    const password = passEl?.value || '';
-
-    if (!email) return showError(emailEl, 'Email is required');
-    if (!password) return showError(passEl, 'Password is required');
-
-    // loading UI
-    const prevBtnText = submitBtn?.innerHTML;
-    if (submitBtn) {
-      submitBtn.disabled = true;
-      submitBtn.classList.add('opacity-80', 'cursor-not-allowed');
-      submitBtn.innerHTML = `
-        <span class="inline-flex items-center gap-2">
-          <svg class="h-5 w-5 animate-spin" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v4a4 4 0 00-4 4H4z"></path>
-          </svg>
-          Processing...
-        </span>`;
-    }
-
-    const restoreBtn = () => {
-      if (!submitBtn) return;
-      submitBtn.disabled = false;
-      submitBtn.classList.remove('opacity-80', 'cursor-not-allowed');
-      submitBtn.innerHTML = prevBtnText || (isRegister ? 'Sign Up' : 'Sign In');
-    };
-
-    if (isRegister) {
-      const nameEl = document.getElementById('nameInput');
-      const confirmEl = document.getElementById('confirmInput');
-      const name = nameEl?.value.trim() || '';
-      const confirm = confirmEl?.value || '';
-
-      if (!name) { restoreBtn(); return showError(nameEl, 'Name is required'); }
-      if (!confirm) { restoreBtn(); return showError(confirmEl, 'Confirm your password'); }
-      if (password !== confirm) { restoreBtn(); return showError(confirmEl, 'Passwords do not match'); }
-
-      const { ok, data } = await postJSON(`${API_BASE}/register/`, { name, email, password });
-      restoreBtn();
-
-      if (ok) {
-        localStorage.setItem('access', data.access || '');
-        localStorage.setItem('refresh', data.refresh || '');
-        localStorage.setItem('username', data.username || (name || email.split('@')[0]));
-        try { localStorage.setItem('lastContentPage', 'bolimlar/progress.html'); } catch(e) {}
-
-        showToast("Ro‘yxatdan o‘tish muvaffaqiyatli amalga oshirildi", "success", { title: "Welcome!" });
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 500);
-      } else {
-        showToast(data.error || 'Registration failed', "error", { title: "Register error" });
-      }
-    } else {
-      const { ok, data } = await postJSON(`${API_BASE}/login/`, { email, password });
-      restoreBtn();
-
-      if (ok) {
-        localStorage.setItem('access', data.access || '');
-        localStorage.setItem('refresh', data.refresh || '');
-        localStorage.setItem('username', data.username || email.split('@')[0]);
-
-        if (data.is_superuser || data.is_staff) {
-          localStorage.setItem('admin_session', '1');
-          localStorage.setItem('admin_name', data.username || 'Admin');
-          localStorage.setItem('admin_role', 'Super admin');
+      function setTheme(theme) {
+        if (theme === "dark") {
+          body.classList.add("dark");
+          logo.src = "rasmlar/darkrise.png";
         } else {
-          localStorage.removeItem('admin_session');
-          localStorage.removeItem('admin_name');
-          localStorage.removeItem('admin_role');
+          body.classList.remove("dark");
+          logo.src = "rasmlar/lightrise.png";
         }
-
-        try { localStorage.setItem('lastContentPage', 'bolimlar/progress.html'); } catch(e) {}
-
-        showToast("Kirish muvaffaqiyatli amalga oshirildi", "success", { title: "Success" });
-        setTimeout(() => { window.location.href = 'dashboard.html'; }, 400);
-      } else {
-        // backenddan kelgan status bo'yicha ham chiroyli xabar
-        if (data && (data.detail || data.message)) {
-          showToast(data.detail || data.message, "error", { title: "Login error" });
-        } else {
-          showToast(data.error || 'Login failed', "error", { title: "Login error" });
-        }
+        localStorage.setItem("theme", theme);
       }
-    }
-  }
 
-  // Password visibility toggle
-  function togglePasswordVisibility(button) {
-    const targetId = button.getAttribute('data-target');
-    const inputEl = document.getElementById(targetId);
-    if (!inputEl) return;
-
-    const isPassword = inputEl.type === 'password';
-    inputEl.type = isPassword ? 'text' : 'password';
-
-    const svg = button.querySelector('svg');
-    if (svg) {
-      if (isPassword) {
-        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />';
-      } else {
-        svg.innerHTML = '<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />';
+      function setLanguage(lang) {
+        document.querySelectorAll("[data-key]").forEach((el) => {
+          const key = el.getAttribute("data-key");
+          if (translations[lang][key]) el.innerHTML = translations[lang][key];
+        });
+        languageSelect.value = lang;
+        localStorage.setItem("language", lang);
       }
-    }
-  }
 
-  // Attach events safely
-  window.addEventListener('DOMContentLoaded', () => {
-    applyTheme();
-    const savedLang = localStorage.getItem('language') || 'en';
-    setTextsForLang(savedLang);
+      languageSelect.addEventListener("change", (e) =>
+        setLanguage(e.target.value)
+      );
 
-    if (themeToggle) themeToggle.addEventListener('click', toggleTheme);
-    if (languageSelect) languageSelect.addEventListener('change', (e) => setTextsForLang(e.target.value));
-    if (loginTab) loginTab.addEventListener('click', (ev) => { ev.preventDefault(); switchTab('login'); });
-    if (registerTab) registerTab.addEventListener('click', (ev) => { ev.preventDefault(); switchTab('register'); });
-    if (authForm) authForm.addEventListener('submit', handleFormSubmit);
+      setTheme(savedTheme);
+      setLanguage(savedLang);
+      document.getElementById("yearSpan").textContent =
+        new Date().getFullYear();
+    </script>
 
-    document.querySelectorAll('.password-toggle').forEach(btn => {
-      btn.addEventListener('click', (e) => {
-        e.preventDefault();
-        togglePasswordVisibility(btn);
+    <!-- ✅ PANEL API CONNECT (Go to Dashboard) -->
+    <script>
+      // 🔧 BACKEND manzilingni shu yerga yoz:
+      // local django: http://127.0.0.1:8000/api
+      // production: https://your-domain.uz/api
+      const API_BASE = "https://riseup-back-production.up.railway.app/api";
+
+      document.addEventListener("DOMContentLoaded", () => {
+        const btn = document.getElementById("goDashboardBtn");
+        if (!btn) return;
+
+        btn.addEventListener("click", async () => {
+          const access = localStorage.getItem("access");
+
+          // token bo‘lmasa -> login.html
+          if (!access) {
+            window.location.href = "login.html";
+            return;
+          }
+
+          try {
+            // NOTE: redirectlarni qo‘lda ushlaymiz
+            const res = await fetch(`${API_BASE}/auth/panel/`, {
+              method: "GET",
+              headers: {
+                Authorization: `Bearer ${access}`,
+              },
+              redirect: "manual",
+            });
+
+            // Agar backend 302/301 qaytarsa: Location header bo‘ladi
+            if (
+              res.status === 301 ||
+              res.status === 302 ||
+              res.status === 303 ||
+              res.status === 307 ||
+              res.status === 308
+            ) {
+              const loc = res.headers.get("Location");
+
+              // Backend qayerga redirect qilsa — shuni ochamiz
+              if (loc) {
+                // agar absolute url bo‘lsa ham, relative bo‘lsa ham ishlaydi:
+                window.location.href = loc;
+                return;
+              }
+            }
+
+            // 200 bo‘lsa: demak ruxsat bor, dashboardga o‘tkazamiz
+            if (res.ok) {
+              window.location.href = "dashboard.html";
+              return;
+            }
+
+            // 401/403 bo‘lsa -> login
+            if (res.status === 401 || res.status === 403) {
+              window.location.href = "login.html";
+              return;
+            }
+
+            // boshqa xatolar
+            alert(`Panel error: status ${res.status}`);
+          } catch (err) {
+            console.error(err);
+            alert("Network error: backendga ulana olmadim");
+          }
+        });
       });
-    });
+    </script>
 
-    // default: login tab
-    switchTab('login');
-  });
+    <!-- MODIFIED: hide Admin nav link unless frontend admin session exists -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        try {
+          const adminLink = document.getElementById("adminLink");
+          if (!adminLink) return;
+          function updateAdminVisibility() {
+            adminLink.style.display =
+              localStorage.getItem("admin_session") === "1" ? "" : "none";
+          }
+          updateAdminVisibility();
+          window.addEventListener("storage", function (e) {
+            if (e.key === "admin_session") updateAdminVisibility();
+          });
+        } catch (err) {
+          console.warn("adminLink visibility script error", err);
+        }
+      });
+    </script>
 
-})();
-  </script>
-
-  <script src="base.js"></script>
-</body>
+    <script src="base.js"></script>
+  </body>
 </html>
