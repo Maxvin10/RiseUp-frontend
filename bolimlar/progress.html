@@ -42,6 +42,21 @@
   <body
     class="min-h-screen bg-slate-950 text-slate-50 font-sans antialiased selection:bg-sky-500/30 selection:text-white"
   >
+    <!-- GLOBAL LOADER (SPINNER) -->
+    <div
+      id="globalLoader"
+      class="fixed inset-0 z-[9999] hidden items-center justify-center bg-slate-950/80 backdrop-blur-sm"
+    >
+      <div class="flex flex-col items-center gap-4">
+        <div
+          class="h-14 w-14 rounded-full border-4 border-slate-700 border-t-sky-400 animate-spin"
+        ></div>
+        <p class="text-sm text-slate-300 font-semibold">
+          Maʼlumotlar yuklanmoqda...
+        </p>
+      </div>
+    </div>
+
     <!-- FON -->
     <div class="pointer-events-none fixed inset-0 -z-30 bg-slate-950"></div>
     <div class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
@@ -442,6 +457,23 @@
 
     <script>
       // =========================
+      // LOADER HELPERS (SPINNER)
+      // =========================
+      function showLoader() {
+        const l = document.getElementById("globalLoader");
+        if (!l) return;
+        l.classList.remove("hidden");
+        l.classList.add("flex");
+      }
+
+      function hideLoader() {
+        const l = document.getElementById("globalLoader");
+        if (!l) return;
+        l.classList.add("hidden");
+        l.classList.remove("flex");
+      }
+
+      // =========================
       // CONFIG
       // =========================
       const isLocal =
@@ -523,7 +555,7 @@
         throw new Error("COURSES_NOT_ARRAY");
       }
 
-      // ✅ PROGRESS LOADER (SENDA YO'Q EDI — SHU ASOSIY BUG!)
+      // ✅ PROGRESS LOADER
       async function loadProgressRaw() {
         const res = await authFetch(`${API_BASE}/lesson-progress/`, {
           method: "GET",
@@ -1062,6 +1094,7 @@
         };
 
         $("btnKorildi").onclick = async () => {
+          // (xohlasang bu yerga ham loader qo'yish mumkin)
           try {
             await saveProgress(dars.id, true);
 
@@ -1102,7 +1135,6 @@
         const h = location.hash || "#/";
         if (h === "#/" || h === "#") return viewKorsat("viewYonalishlar");
 
-        // ✅ universal: id ichida number/string/uuid bo'lsa ham ishlaydi
         const m1 = h.match(/^#\/yonalish\/([^/]+)$/i);
         if (m1) return darslarRender(m1[1]);
 
@@ -1144,9 +1176,11 @@
       }
 
       // =========================
-      // INIT
+      // INIT (SPINNER ULANADI)
       // =========================
       async function init() {
+        showLoader(); // ✅ API chaqirilayotgan paytda spinner ko'rinadi
+
         try {
           const [rawCourses, rawProgress] = await Promise.all([
             loadCoursesRaw(),
@@ -1171,6 +1205,8 @@
           }
           toast("❌ API muammo: courses/progress ishlamayapti");
           DATA = { directions: [] };
+        } finally {
+          hideLoader(); // ✅ success yoki error bo'lsa ham spinner o'chadi
         }
 
         headerSync();
